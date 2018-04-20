@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_item_horizontal_padding">16dp</dimen>
+    <dimen name="top_game_item_image_width">52dp</dimen>
+    <dimen name="top_game_item_image_length">72dp</dimen>
+    <dimen name="list_item_horizontal_margin">16dp</dimen>
+    <dimen name="top_game_item_secondary_text_size">12sp</dimen>
+    <dimen name="list_item_vertical_padding">8dp</dimen>
+</resources>

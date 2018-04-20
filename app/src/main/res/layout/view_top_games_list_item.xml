@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/list_item_horizontal_padding"
+    android:paddingRight="@dimen/list_item_horizontal_padding"
+    android:paddingTop="@dimen/list_item_vertical_padding"
+    android:paddingBottom="@dimen/list_item_vertical_padding">
+
+    <ImageView
+        android:id="@+id/iv_box_art"
+        android:layout_width="@dimen/top_game_item_image_width"
+        android:layout_height="@dimen/top_game_item_image_length"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/transparent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_game_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/list_item_horizontal_margin"
+        android:textAppearance="@android:style/TextAppearance.Material"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/iv_box_art"
+        tools:text="Counter-Strike: Global Offensive" />
+
+    <TextView
+        android:id="@+id/tv_viewer_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="@dimen/top_game_item_secondary_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_game_name"
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
+        tools:text="182,500 Viewers" />
+
+</android.support.constraint.ConstraintLayout>

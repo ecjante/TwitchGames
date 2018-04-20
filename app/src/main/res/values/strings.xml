@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Twitch Games</string>
+    <string name="api_error_top_games">Error loading Top Games</string>
+    <plurals name="viewer_count">
+        <item quantity="one">%s Viewer</item>
+        <item quantity="other">%s Viewers</item>
+    </plurals>
+</resources>

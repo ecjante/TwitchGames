@@ -17,20 +17,24 @@ public class App extends Application {
 
     @Inject ActivityInjector activityInjector;
 
-    private AppComponent appComponent;
+    protected AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .build();
+        appComponent = initComponent();
         appComponent.inject(this);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+    }
+
+    protected AppComponent initComponent() {
+        return DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
     }
 
     public ActivityInjector getActivityInjector() {

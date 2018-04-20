@@ -60,7 +60,7 @@ public class TopGamesController extends BaseController {
                                 errorText.setVisibility(View.GONE);
                             } else {
                                 errorText.setVisibility(View.VISIBLE);
-                                topGamesList.setItemViewCacheSize(View.GONE);
+                                topGamesList.setVisibility(View.GONE);
                                 errorText.setText(errorRes);
                             }
                 })

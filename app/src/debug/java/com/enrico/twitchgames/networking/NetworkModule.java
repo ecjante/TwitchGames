@@ -21,7 +21,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    static Call.Factory provideOkHttp(Context context) {
+    @Named("twitch_call_factory")
+    static Call.Factory provideTwitchOkHttp(Context context) {
         return new OkHttpClient.Builder()
                 .addInterceptor(i -> {
                     Request request = i.request()
@@ -37,5 +38,27 @@ public class NetworkModule {
     @Named("twitch_base_url")
     static String provideTwitchBaseUrl() {
         return "https://api.twitch.tv/kraken/";
+    }
+
+    @Provides
+    @Singleton
+    @Named("igdb_call_factory")
+    static Call.Factory provideIGDBOkHttp(Context context) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(i -> {
+                    Request request = i.request()
+                            .newBuilder()
+                            .addHeader("user-key", context.getString(R.string.igdb_api_key))
+                            .addHeader("Accept", "application/json")
+                            .build();
+                    return i.proceed(request);
+                })
+                .build();
+    }
+
+    @Provides
+    @Named("igdb_base_url")
+    static String provideIGDBBaseUrl() {
+        return "https://api-endpoint.igdb.com/";
     }
 }

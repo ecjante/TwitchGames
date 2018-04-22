@@ -1,6 +1,6 @@
 package com.enrico.twitchgames.base;
 
-import com.enrico.twitchgames.data.TestTwitchServiceModule;
+import com.enrico.twitchgames.data.TestGameServiceModule;
 import com.enrico.twitchgames.networking.ServiceModule;
 import com.enrico.twitchgames.topgames.TopGamesControllerTest;
 import com.enrico.twitchgames.ui.NavigationModule;
@@ -16,7 +16,7 @@ import dagger.Component;
 @Component(modules = {
         AppModule.class,
         TestActivityBindingModule.class,
-        TestTwitchServiceModule.class,
+        TestGameServiceModule.class,
         ServiceModule.class,
         NavigationModule.class,
 })

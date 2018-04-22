@@ -5,8 +5,6 @@ import com.enrico.twitchgames.data.TwitchTopGamesResponse;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 import com.enrico.twitchgames.test.TestUtils;
 
-import net.bytebuddy.implementation.bytecode.Throw;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;

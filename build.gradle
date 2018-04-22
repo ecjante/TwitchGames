@@ -30,6 +30,7 @@ ext {
     rxAndroidVersion = '2.0.2'
     rxRelayVersion = '2.0.0'
     conductorVersion = '2.1.4'
+    threeTenAbpVersion = '1.0.5'
     timberVersion = '4.6.0'
     butterknifeVersion = '8.8.1'
     glideVersion = '4.2.0'

@@ -1,6 +1,11 @@
 package com.enrico.twitchgames.test;
 
 import com.enrico.twitchgames.models.AdapterFactory;
+import com.enrico.twitchgames.models.igdb.IgdbEsrbAdapter;
+import com.enrico.twitchgames.models.igdb.IgdbPegiAdapter;
+import com.enrico.twitchgames.models.igdb.IgdbWebsiteAdapter;
+import com.enrico.twitchgames.models.igdb.ZonedDateTimeAdapter;
+import com.enrico.twitchgames.models.twitch.TwitchTopGamesLinkAdapter;
 import com.squareup.moshi.Moshi;
 
 import java.io.BufferedReader;
@@ -58,6 +63,11 @@ public class TestUtils {
     private static Moshi initializeMoshi() {
         Moshi.Builder builder = new Moshi.Builder();
         builder.add(AdapterFactory.create());
+        builder.add(new ZonedDateTimeAdapter());
+        builder.add(new TwitchTopGamesLinkAdapter());
+        builder.add(new IgdbPegiAdapter());
+        builder.add(new IgdbEsrbAdapter());
+        builder.add(new IgdbWebsiteAdapter());
         return builder.build();
     }
 }

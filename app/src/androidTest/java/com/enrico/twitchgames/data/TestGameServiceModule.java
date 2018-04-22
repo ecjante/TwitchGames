@@ -7,8 +7,11 @@ import dagger.Module;
  * Created by enrico.
  */
 @Module
-public abstract class TestTwitchServiceModule {
+public abstract class TestGameServiceModule {
 
     @Binds
     abstract TwitchService bindTwitchService(TestTwitchService twitchService);
+
+    @Binds
+    abstract IgdbService bindIgdbService(TestIgdbService igdbService);
 }

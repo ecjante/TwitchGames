@@ -1,6 +1,6 @@
 package com.enrico.twitchgames.base;
 
-import com.enrico.twitchgames.data.TwitchServiceModule;
+import com.enrico.twitchgames.data.GameServiceModule;
 import com.enrico.twitchgames.networking.ServiceModule;
 
 import javax.inject.Singleton;
@@ -15,7 +15,7 @@ import dagger.Component;
         AppModule.class,
         ActivityBindingModule.class,
         ServiceModule.class,
-        TwitchServiceModule.class,
+        GameServiceModule.class,
 })
 public interface AppComponent {
 

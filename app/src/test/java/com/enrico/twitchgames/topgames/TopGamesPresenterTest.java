@@ -1,5 +1,6 @@
 package com.enrico.twitchgames.topgames;
 
+import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.TwitchRequester;
 import com.enrico.twitchgames.data.TwitchTopGamesResponse;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.when;
  */
 public class TopGamesPresenterTest {
 
-    @Mock TwitchRequester twitchRequester;
+    @Mock GameRepository gameRepository;
     @Mock TopGamesViewModel viewModel;
     @Mock Consumer<Throwable> onErrorConsumer;
     @Mock Consumer<List<TwitchTopGame>> onSuccessConsumer;
@@ -49,7 +50,7 @@ public class TopGamesPresenterTest {
         List<TwitchTopGame> games = setUpSuccess();
         initializePresenter();
 
-        verify(twitchRequester).getTopGames();
+        verify(gameRepository).getTopGames();
         verify(onSuccessConsumer).accept(games);
         verifyZeroInteractions(onErrorConsumer);
     }
@@ -93,7 +94,7 @@ public class TopGamesPresenterTest {
         TwitchTopGamesResponse response = TestUtils.loadJson("mock/twitch/get_top_games.json", TwitchTopGamesResponse.class);
         List<TwitchTopGame> games = response.games();
 
-        when(twitchRequester.getTopGames()).thenReturn(Single.just(games));
+        when(gameRepository.getTopGames()).thenReturn(Single.just(games));
 
         return games;
     }
@@ -101,12 +102,12 @@ public class TopGamesPresenterTest {
     private Throwable setUpError() {
         Throwable error = new IOException();
 
-        when(twitchRequester.getTopGames()).thenReturn(Single.error(error));
+        when(gameRepository.getTopGames()).thenReturn(Single.error(error));
 
         return error;
     }
 
     private void initializePresenter() {
-        presenter = new TopGamesPresenter(viewModel, twitchRequester);
+        presenter = new TopGamesPresenter(viewModel, gameRepository);
     }
 }

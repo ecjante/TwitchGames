@@ -1,10 +1,12 @@
 *.iml
 .gradle
 /local.properties
-/.idea/*
+/.idea
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 
 /app/src/main/res/values/secrets.xml
+/app/src/test/resources/mock
+/app/src/androidTest/resources/mock

@@ -1,5 +1,8 @@
 package com.enrico.twitchgames.data;
 
+import com.enrico.twitchgames.data.responses.TwitchStreamsResponse;
+import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
+import com.enrico.twitchgames.models.twitch.TwitchStream;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 
 import java.util.List;
@@ -19,24 +22,44 @@ public class TwitchRequester {
 
     private final TwitchService service;
     private TwitchTopGamesResponse response;
+    private TwitchStreamsResponse streamsResponse;
 
     @Inject
     TwitchRequester(TwitchService service) {
         this.service = service;
     }
 
-    public Single<List<TwitchTopGame>> getTopGames() {
+    Single<List<TwitchTopGame>> getTopGames() {
         return service.getTopGames(DEFAULT_LIMIT, DEFAULT_OFFSET)
                 .doOnSuccess(response -> this.response = response)
-                .map(TwitchTopGamesResponse::games)
-                .subscribeOn(Schedulers.io());
+                .map(TwitchTopGamesResponse::games);
     }
 
-    public Single<List<TwitchTopGame>> getNextTopGames() {
-        int offset = response != null ? response.links().nextOffset() :  DEFAULT_OFFSET;
+    Single<List<TwitchTopGame>> getNextTopGames() {
+        int offset = response != null && response.links().nextOffset() != null
+                ? response.links().nextOffset()
+                :  DEFAULT_OFFSET;
         return service.getTopGames(DEFAULT_LIMIT, offset)
                 .doOnSuccess(response -> this.response = response)
-                .map(TwitchTopGamesResponse::games)
-                .subscribeOn(Schedulers.io());
+                .map(TwitchTopGamesResponse::games);
+    }
+
+    Single<List<TwitchStream>> getStreams(String game) {
+        return service.getStreams(game, DEFAULT_LIMIT, DEFAULT_OFFSET)
+                .doOnSuccess(response -> this.streamsResponse = response)
+                .map(TwitchStreamsResponse::streams);
+    }
+
+    Single<List<TwitchStream>> getNextStreams(String game) {
+        int offset = streamsResponse != null && streamsResponse.links().nextOffset() != null
+                ? streamsResponse.links().nextOffset()
+                : DEFAULT_OFFSET;
+        return service.getStreams(game, DEFAULT_LIMIT, offset)
+                .doOnSuccess(response -> this.streamsResponse = response)
+                .map(TwitchStreamsResponse::streams);
+    }
+
+    void clearStreamsResponse() {
+        streamsResponse = null;
     }
 }

@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">Twitch Games</string>
     <string name="api_error_top_games">Error loading Top Games</string>
+    <string name="api_error_igdb_game">Error loading game details</string>
+    <string name="api_error_streams">Error loading game streamers</string>
     <plurals name="viewer_count">
-        <item quantity="one">%s Viewer</item>
-        <item quantity="other">%s Viewers</item>
+        <item quantity="one">%s viewer</item>
+        <item quantity="other">%s viewers</item>
+    </plurals>
+    <plurals name="follower_count">
+        <item quantity="one">%s follower</item>
+        <item quantity="other">%s followers</item>
     </plurals>
 </resources>

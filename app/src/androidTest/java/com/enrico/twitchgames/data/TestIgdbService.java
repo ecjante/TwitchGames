@@ -29,7 +29,7 @@ public class TestIgdbService implements IgdbService {
     @Override
     public Single<List<IgdbGame>> getGame(String searchQuery) {
         if (!sendError) {
-            IgdbGame response = testUtils.loadJson("mock/igdb/get_igdb_game.json", IgdbGame.class);
+            IgdbGame response = testUtils.loadJson("mock/igdb/get_god_of_war_game.json", IgdbGame.class);
             List<IgdbGame> list = new ArrayList<>();
             list.add(response);
             return Single.just(list);

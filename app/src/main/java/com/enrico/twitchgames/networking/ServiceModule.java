@@ -1,11 +1,11 @@
 package com.enrico.twitchgames.networking;
 
 import com.enrico.twitchgames.models.AdapterFactory;
-import com.enrico.twitchgames.models.igdb.IgdbEsrbAdapter;
-import com.enrico.twitchgames.models.igdb.IgdbPegiAdapter;
-import com.enrico.twitchgames.models.igdb.IgdbWebsiteAdapter;
-import com.enrico.twitchgames.models.igdb.ZonedDateTimeAdapter;
-import com.enrico.twitchgames.models.twitch.TwitchTopGamesLinkAdapter;
+import com.enrico.twitchgames.models.jsonadapters.IgdbEsrbAdapter;
+import com.enrico.twitchgames.models.jsonadapters.IgdbPegiAdapter;
+import com.enrico.twitchgames.models.jsonadapters.IgdbWebsiteAdapter;
+import com.enrico.twitchgames.models.jsonadapters.TwitchPaginateLinksAdapter;
+import com.enrico.twitchgames.models.jsonadapters.ZonedDateTimeAdapter;
 import com.squareup.moshi.Moshi;
 
 import javax.inject.Named;
@@ -30,7 +30,7 @@ public abstract class ServiceModule {
         return new Moshi.Builder()
                 .add(AdapterFactory.create())
                 .add(new ZonedDateTimeAdapter())
-                .add(new TwitchTopGamesLinkAdapter())
+                .add(new TwitchPaginateLinksAdapter())
                 .add(new IgdbPegiAdapter())
                 .add(new IgdbEsrbAdapter())
                 .add(new IgdbWebsiteAdapter())

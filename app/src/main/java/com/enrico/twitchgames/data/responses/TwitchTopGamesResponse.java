@@ -1,7 +1,7 @@
-package com.enrico.twitchgames.data;
+package com.enrico.twitchgames.data.responses;
 
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
-import com.enrico.twitchgames.models.twitch.TwitchTopGamesLink;
+import com.enrico.twitchgames.models.twitch.TwitchPaginateLink;
 import com.google.auto.value.AutoValue;
 import com.squareup.moshi.Json;
 import com.squareup.moshi.JsonAdapter;
@@ -15,8 +15,7 @@ import java.util.List;
 @AutoValue
 public abstract class TwitchTopGamesResponse {
 
-    @Json(name = "_links")
-    public abstract TwitchTopGamesLink links();
+    @Json(name = "_links") public abstract TwitchPaginateLink links();
     @Json(name = "top")
     public abstract List<TwitchTopGame> games();
 

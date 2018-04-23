@@ -1,5 +1,6 @@
-package com.enrico.twitchgames.models.igdb;
+package com.enrico.twitchgames.models.jsonadapters;
 
+import com.enrico.twitchgames.models.igdb.IgdbWebsite;
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
 
@@ -8,10 +9,11 @@ import com.squareup.moshi.ToJson;
  */
 public class IgdbWebsiteAdapter {
 
-    @FromJson IgdbWebsite fromJson(IgdbWebsiteJson obj) {
+    @FromJson
+    IgdbWebsite fromJson(IgdbWebsiteJson obj) {
         return IgdbWebsite.builder()
-                .setCategory(toCategory(obj.category))
-                .setUrl(obj.url)
+                .category(toCategory(obj.category))
+                .url(obj.url)
                 .build();
     }
 

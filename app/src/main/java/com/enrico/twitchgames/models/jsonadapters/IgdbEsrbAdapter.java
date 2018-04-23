@@ -1,5 +1,6 @@
-package com.enrico.twitchgames.models.igdb;
+package com.enrico.twitchgames.models.jsonadapters;
 
+import com.enrico.twitchgames.models.igdb.IgdbEsrb;
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
 
@@ -8,9 +9,10 @@ import com.squareup.moshi.ToJson;
  */
 public class IgdbEsrbAdapter {
 
-    @FromJson IgdbEsrb fromJson(RatingJson obj) {
+    @FromJson
+    IgdbEsrb fromJson(RatingJson obj) {
         return IgdbEsrb.builder()
-                .setRating(toRating(obj.rating))
+                .rating(toRating(obj.rating))
                 .build();
     }
 
@@ -27,7 +29,8 @@ public class IgdbEsrbAdapter {
         }
     }
 
-    @ToJson RatingJson toJson(IgdbEsrb obj) {
+    @ToJson
+    RatingJson toJson(IgdbEsrb obj) {
         RatingJson igdb = new RatingJson();
         igdb.rating = fromRating(obj.rating());
         return igdb;

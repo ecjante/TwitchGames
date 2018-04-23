@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/begin_vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/end_vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+    <ImageView
+        android:id="@+id/iv_thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintEnd_toEndOf="@+id/end_vertical_guideline"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/begin_vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorPrimary" />
+
+    <ImageView
+        android:id="@+id/iv_channel_logo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio=""
+        app:layout_constraintStart_toStartOf="@+id/begin_vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+        app:srcCompat="@color/colorPrimaryLight" />
+
+    <ImageView
+        android:id="@+id/iv_live_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_viewer_count"
+        app:layout_constraintTop_toTopOf="@+id/tv_viewer_count"
+        app:layout_constraintStart_toStartOf="@+id/iv_thumbnail"
+        app:srcCompat="@drawable/live" />
+
+    <TextView
+        android:id="@+id/tv_viewer_count"
+        style="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
+        app:layout_constraintStart_toEndOf="@+id/iv_live_indicator"
+        tools:text="24,526 viewers" />
+
+    <TextView
+        android:id="@+id/tv_channel_name"
+        style="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/tv_channel_status"
+        app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
+        app:layout_constraintStart_toStartOf="@+id/tv_channel_status"
+        app:layout_constraintTop_toTopOf="@+id/iv_channel_logo"
+        tools:text="My Channel" />
+
+    <TextView
+        android:id="@+id/tv_channel_status"
+        style="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_channel_logo"
+        app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/iv_channel_logo"
+        app:layout_constraintTop_toTopOf="@+id/iv_channel_logo"
+        tools:text="I play dis game" />
+
+    <TextView
+        android:id="@+id/tv_follower_count"
+        style="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_channel_logo"
+        app:layout_constraintEnd_toStartOf="@+id/end_vertical_guideline"
+        app:layout_constraintStart_toStartOf="@+id/tv_channel_status"
+        app:layout_constraintTop_toBottomOf="@+id/tv_channel_status"
+        tools:text="52,054 followers" />
+
+</android.support.constraint.ConstraintLayout>

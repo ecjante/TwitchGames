@@ -1,7 +1,7 @@
 package com.enrico.twitchgames.topgames;
 
 import com.enrico.twitchgames.R;
-import com.enrico.twitchgames.data.TwitchTopGamesResponse;
+import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
 import com.enrico.twitchgames.test.TestUtils;
 
 import org.junit.Before;

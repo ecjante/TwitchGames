@@ -32,7 +32,7 @@ public class IgdbRequester {
         this.context = context;
     }
 
-    public Single<IgdbGame> getGameInfo(String query) {
+    Single<IgdbGame> getGameInfo(String query) {
         if (!query.equals(IRL)) {
             try {
                 StringBuilder sb = new StringBuilder();

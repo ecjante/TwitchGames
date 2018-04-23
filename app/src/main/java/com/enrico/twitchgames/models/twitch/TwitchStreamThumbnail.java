@@ -8,15 +8,15 @@ import com.squareup.moshi.Moshi;
  * Created by enrico.
  */
 @AutoValue
-public abstract class TwitchGameBox extends TwitchImage {
+public abstract class TwitchStreamThumbnail extends TwitchImage {
 
-    private static final String EXTRA_LARGE = "520x720";
-    private static final String LARGE = "272x380";
-    private static final String MEDIUM = "136x190";
-    private static final String SMALL = "52x72";
+    private static final String EXTRA_LARGE = "720x405";
+    private static final String LARGE = "640x360";
+    private static final String MEDIUM = "320x180";
+    private static final String SMALL = "80x45";
 
-    public static JsonAdapter<TwitchGameBox> jsonAdapter(Moshi moshi) {
-        return new AutoValue_TwitchGameBox.MoshiJsonAdapter(moshi);
+    public static JsonAdapter<TwitchStreamThumbnail> jsonAdapter(Moshi moshi) {
+        return new AutoValue_TwitchStreamThumbnail.MoshiJsonAdapter(moshi);
     }
 
     public String getExtraLarge() {

@@ -1,8 +1,10 @@
 package com.enrico.twitchgames.data;
 
+import com.enrico.twitchgames.data.responses.TwitchStreamsResponse;
+import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
+
 import io.reactivex.Single;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 /**
@@ -10,6 +12,9 @@ import retrofit2.http.Query;
  */
 public interface TwitchService {
 
-    @GET("games/top")
+    @GET("kraken/games/top")
     Single<TwitchTopGamesResponse> getTopGames(@Query("limit") int limit, @Query("offset") int offset);
+
+    @GET("kraken/streams?stream_type=live")
+    Single<TwitchStreamsResponse> getStreams(@Query("game") String game, @Query("limit") int limit, @Query("offset") int offset);
 }

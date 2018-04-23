@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.enrico.twitchgames.R;
+import com.enrico.twitchgames.models.twitch.TwitchGame;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 
 import java.text.NumberFormat;
@@ -88,28 +89,30 @@ public class TopGamesAdapter extends RecyclerView.Adapter<TopGamesAdapter.TopGam
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(v -> {
                 if (topGame != null) {
-                    listener.onTopGameClicked(topGame);
+                    listener.onTopGameClicked(topGame.game());
                 }
             });
         }
 
         public void bind(TwitchTopGame topGame) {
-            this.topGame = topGame;
-            Glide.with(boxArtImage.getContext())
-                    .load(topGame.game().box().getMedium())
-                    .into(boxArtImage);
-            gameNameText.setText(topGame.game().name());
-            viewerCountText.setText(
-                    viewerCountText.getContext().getResources().getQuantityString(
-                            R.plurals.viewer_count,
-                            topGame.viewers(),
-                            NumberFormat.getNumberInstance(Locale.getDefault()).format(topGame.viewers())
-                    )
-            );
+            if (this.topGame == null || !this.topGame.game().id().equals(topGame.game().id())) {
+                this.topGame = topGame;
+                Glide.with(boxArtImage.getContext())
+                        .load(topGame.game().box().getMedium())
+                        .into(boxArtImage);
+                gameNameText.setText(topGame.game().name());
+                viewerCountText.setText(
+                        viewerCountText.getContext().getResources().getQuantityString(
+                                R.plurals.viewer_count,
+                                topGame.viewers(),
+                                NumberFormat.getNumberInstance(Locale.getDefault()).format(topGame.viewers())
+                        )
+                );
+            }
         }
     }
 
     interface TopGameClickedListener {
-        void onTopGameClicked(TwitchTopGame topGame);
+        void onTopGameClicked(TwitchGame topGame);
     }
 }

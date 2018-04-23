@@ -1,6 +1,7 @@
 package com.enrico.twitchgames.data;
 
 import com.enrico.twitchgames.models.igdb.IgdbGame;
+import com.enrico.twitchgames.models.twitch.TwitchStream;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 
 import java.util.ArrayList;
@@ -10,11 +11,14 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import io.reactivex.Maybe;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by enrico.
@@ -24,27 +28,43 @@ public class GameRepository {
 
     private final Provider<TwitchRequester> twitchRequesterProvider;
     private final Provider<IgdbRequester> igdbRequesterProvider;
+    private final Scheduler scheduler;
 
     private final List<TwitchTopGame> cachedTwitchTopGames = new ArrayList<>();
     private final Map<Long, IgdbGame> cachedIgdbGame = new HashMap<>();
+    private final Map<Long, List<TwitchStream>> cachedTwitchStreams = new HashMap<>();
 
     private final long FETCH_TIME_THRESHOLD = TimeUnit.MINUTES.toMillis(30);
     private long lastTwitchTopGamesFetch;
+    private final Map<Long, Long> lastTwitchStreamsFetch = new HashMap<>();
 
     @Inject
-    GameRepository(Provider<TwitchRequester> twitchRequesterProvider, Provider<IgdbRequester> igdbRequesterProvider) {
+    GameRepository(
+            Provider<TwitchRequester> twitchRequesterProvider,
+            Provider<IgdbRequester> igdbRequesterProvider,
+            @Named("network_scheduler") Scheduler scheduler
+    ) {
         this.twitchRequesterProvider = twitchRequesterProvider;
         this.igdbRequesterProvider = igdbRequesterProvider;
+        this.scheduler = scheduler;
     }
 
     public Single<List<TwitchTopGame>> getTopGames() {
         return Maybe.concat(cachedTwitchTopGames(), apiTwitchTopGames())
-                .firstOrError();
+                .firstOrError()
+                .subscribeOn(scheduler);
     }
 
     public Single<IgdbGame> getGameInfo(long id, String query) {
         return Maybe.concat(cachedIgdbGame(id), apiIgdbGame(id, query))
-                .firstOrError();
+                .firstOrError()
+                .subscribeOn(scheduler);
+    }
+
+    public Single<List<TwitchStream>> getStreams(long id, String game) {
+        return Maybe.concat(cachedTwitchStreams(id), apiTwitchStreams(id, game))
+                .firstOrError()
+                .subscribeOn(scheduler);
     }
 
     private Maybe<List<TwitchTopGame>> cachedTwitchTopGames() {
@@ -83,7 +103,30 @@ public class GameRepository {
                 .toMaybe();
     }
 
+    private Maybe<List<TwitchStream>> cachedTwitchStreams(long id) {
+        return Maybe.create(e -> {
+            if (cachedTwitchStreams.containsKey(id) && !shouldFetchTwitchStreams(id)) {
+                e.onSuccess(cachedTwitchStreams.get(id));
+            }
+            e.onComplete();
+        });
+    }
+
+    private Maybe<List<TwitchStream>> apiTwitchStreams(long id, String game) {
+        return twitchRequesterProvider.get().getStreams(game)
+                .doOnSuccess(twitchStreams -> {
+                    lastTwitchStreamsFetch.put(id, System.currentTimeMillis());
+                    cachedTwitchStreams.put(id, twitchStreams);
+                })
+                .toMaybe();
+    }
+
     private boolean shouldFetchTwitchTopGames() {
         return (System.currentTimeMillis() - lastTwitchTopGamesFetch) > FETCH_TIME_THRESHOLD;
+    }
+
+    private boolean shouldFetchTwitchStreams(long id) {
+        return lastTwitchStreamsFetch.containsKey(id) &&
+                (System.currentTimeMillis() - lastTwitchStreamsFetch.get(id)) > FETCH_TIME_THRESHOLD;
     }
 }

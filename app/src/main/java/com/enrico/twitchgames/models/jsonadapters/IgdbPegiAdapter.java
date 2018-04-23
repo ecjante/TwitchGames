@@ -1,5 +1,6 @@
-package com.enrico.twitchgames.models.igdb;
+package com.enrico.twitchgames.models.jsonadapters;
 
+import com.enrico.twitchgames.models.igdb.IgdbPegi;
 import com.squareup.moshi.FromJson;
 import com.squareup.moshi.ToJson;
 
@@ -8,9 +9,10 @@ import com.squareup.moshi.ToJson;
  */
 public class IgdbPegiAdapter {
 
-    @FromJson IgdbPegi fromJson(RatingJson obj) {
+    @FromJson
+    IgdbPegi fromJson(RatingJson obj) {
         return IgdbPegi.builder()
-                .setRating(toRating(obj.rating))
+                .rating(toRating(obj.rating))
                 .build();
     }
 

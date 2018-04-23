@@ -5,6 +5,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
 /**
@@ -23,5 +25,11 @@ public abstract class GameServiceModule {
     @Singleton
     static IgdbService provideIGDBService(@Named("igdb_retrofit") Retrofit retrofit) {
         return retrofit.create(IgdbService.class);
+    }
+
+    @Provides
+    @Named("network_scheduler")
+    static Scheduler provideNetworkScheduler() {
+        return Schedulers.io();
     }
 }

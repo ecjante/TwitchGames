@@ -5,6 +5,7 @@ import android.app.Application;
 import com.enrico.twitchgames.BuildConfig;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.di.ActivityInjector;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import javax.inject.Inject;
 
@@ -29,6 +30,7 @@ public class App extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+        AndroidThreeTen.init(this);
     }
 
     protected AppComponent initComponent() {

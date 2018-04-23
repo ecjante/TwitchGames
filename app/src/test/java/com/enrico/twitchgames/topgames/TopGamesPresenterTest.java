@@ -1,10 +1,10 @@
 package com.enrico.twitchgames.topgames;
 
 import com.enrico.twitchgames.data.GameRepository;
-import com.enrico.twitchgames.data.TwitchRequester;
-import com.enrico.twitchgames.data.TwitchTopGamesResponse;
+import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 import com.enrico.twitchgames.test.TestUtils;
+import com.enrico.twitchgames.ui.ScreenNavigator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +30,7 @@ public class TopGamesPresenterTest {
 
     @Mock GameRepository gameRepository;
     @Mock TopGamesViewModel viewModel;
+    @Mock ScreenNavigator screenNavigator;
     @Mock Consumer<Throwable> onErrorConsumer;
     @Mock Consumer<List<TwitchTopGame>> onSuccessConsumer;
     @Mock Consumer<Boolean> loadingConsumer;
@@ -87,7 +88,13 @@ public class TopGamesPresenterTest {
 
     @Test
     public void onTopGameClicked() {
-        // TODO
+        TwitchTopGame topGame = TestUtils.loadJson("mock/twitch/get_top_games.json", TwitchTopGamesResponse.class)
+                .games().get(1);
+        setUpSuccess();
+        initializePresenter();
+        presenter.onTopGameClicked(topGame.game());
+
+        verify(screenNavigator).goToGameDetails(topGame.game().id(), topGame.game().name());
     }
 
     private List<TwitchTopGame> setUpSuccess() {
@@ -108,6 +115,6 @@ public class TopGamesPresenterTest {
     }
 
     private void initializePresenter() {
-        presenter = new TopGamesPresenter(viewModel, gameRepository);
+        presenter = new TopGamesPresenter(viewModel, gameRepository, screenNavigator);
     }
 }

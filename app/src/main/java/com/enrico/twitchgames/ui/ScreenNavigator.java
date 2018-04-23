@@ -12,5 +12,7 @@ public interface ScreenNavigator {
 
     boolean pop();
 
+    void goToGameDetails(long twitchGameId, String gameName);
+
     void clear();
 }

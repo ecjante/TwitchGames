@@ -30,7 +30,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/divider"
         app:layout_constraintStart_toStartOf="@+id/begin_vertical_guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:color/transparent" />
+        android:contentDescription="@string/a11y_game_cover_image"
+        app:srcCompat="@drawable/game_placeholder" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"

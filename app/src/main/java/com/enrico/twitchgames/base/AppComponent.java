@@ -15,7 +15,7 @@ import dagger.Component;
         AppModule.class,
         ActivityBindingModule.class,
         ServiceModule.class,
-        GameServiceModule.class,
+        GameServiceModule.class
 })
 public interface AppComponent {
 

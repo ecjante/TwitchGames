@@ -30,40 +30,35 @@ public class GameDetailsPresenter implements StreamsAdapter.StreamClickedListene
     ) {
         this.context = context;
         repository.getGameInfo(twitchGameId, gameName)
-                .doOnSuccess(viewModel.processIgdbGame())
                 .doOnError(viewModel.detailsError())
-                .flatMap(igdbGame -> repository.getStreams(twitchGameId, gameName)
-                        .doOnError(viewModel.streamsError()))
-                .subscribe(viewModel.processStreams(), throwable -> {
-                    // Handle logging in view model
+                .subscribe(viewModel.processIgdbGame(), throwable -> {
+
                 });
+        repository.getStreams(twitchGameId, gameName)
+                .doOnError(viewModel.streamsError())
+                .subscribe(viewModel.processStreams(), throwable -> {
+
+                });
+//        repository.getGameInfo(twitchGameId, gameName)
+//                .doOnSuccess(viewModel.processIgdbGame())
+//                .doOnError(viewModel.detailsError())
+//                .flatMap(igdbGame -> repository.getStreams(twitchGameId, gameName)
+//                        .doOnError(viewModel.streamsError()))
+//                .subscribe(viewModel.processStreams(), throwable -> {
+//                    // Handle logging in view model
+//                });
     }
 
     @Override
     public void onStreamClicked(TwitchStream stream) {
+        Uri uri;
         if (isPackageInstalled()) {
-            Uri uri = buildUri(stream);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            context.startActivity(intent);
+            uri = Uri.parse("twitch://stream/" + stream.channel().name());
         } else {
-            Uri url = buildUrl(stream);
-            Intent intent = new Intent(Intent.ACTION_VIEW, url);
-            context.startActivity(intent);
+            uri = Uri.parse("https://www.twitch.tv/" + stream.channel().name());
         }
-    }
-
-    private Uri buildUri(TwitchStream stream) {
-        return new Uri.Builder().scheme("twitch")
-                .authority("stream")
-                .path(stream.channel().name())
-                .build();
-    }
-
-    private Uri buildUrl(TwitchStream stream) {
-        return new Uri.Builder().scheme("https")
-                .authority("www.twitch.tv")
-                .path(stream.channel().name())
-                .build();
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(intent);
     }
 
     private boolean isPackageInstalled() {

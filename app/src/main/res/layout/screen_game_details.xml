@@ -24,22 +24,6 @@
                     android:id="@+id/header"
                     layout="@layout/screen_game_details_header" />
 
-                <ProgressBar
-                    android:id="@+id/loading_indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="56dp"
-                    android:layout_gravity="center_horizontal" />
-
-                <TextView
-                    android:id="@+id/tv_error"
-                    style="@style/TextAppearance.AppCompat.Small.Inverse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="56dp"
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="gone"/>
-
             </FrameLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>

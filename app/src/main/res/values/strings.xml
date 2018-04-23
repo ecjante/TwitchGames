@@ -5,6 +5,11 @@
     <string name="api_error_streams">Error loading live streams</string>
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
+    <string name="a11y_main_screenshot">Game screenshot image</string>
+    <string name="a11y_game_cover_image">Game cover image</string>
+    <string name="a11y_stream_thumbnail_image">Stream thumbnail image</string>
+    <string name="a11y_channel_logo_image">Channel logo image</string>
+    <string name="a11y_live_indicator">Stream is live</string>
     <plurals name="viewer_count">
         <item quantity="one">%s viewer</item>
         <item quantity="other">%s viewers</item>

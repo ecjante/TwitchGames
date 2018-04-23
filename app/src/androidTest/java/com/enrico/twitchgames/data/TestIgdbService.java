@@ -16,28 +16,26 @@ import io.reactivex.Single;
  * Created by enrico.
  */
 @Singleton
-public class TestIgdbService implements IgdbService {
+public class TestIgdbService extends TestService implements IgdbService {
 
-    private final TestUtils testUtils;
-    private boolean sendError;
+    public static final int FLAG_GET_GAME = 1;
 
     @Inject
     TestIgdbService(TestUtils testUtils) {
-        this.testUtils = testUtils;
+        super(testUtils);
     }
 
     @Override
     public Single<List<IgdbGame>> getGame(String searchQuery) {
-        if (!sendError) {
-            IgdbGame response = testUtils.loadJson("mock/igdb/get_god_of_war_game.json", IgdbGame.class);
+        if (noError(FLAG_GET_GAME)) {
+            IgdbGame response = testUtils.loadJson("mock/igdb/get_fortnite_game.json", IgdbGame.class);
             List<IgdbGame> list = new ArrayList<>();
             list.add(response);
+            if (isHolding(FLAG_GET_GAME)) {
+                return holdingSingle(list, FLAG_GET_GAME);
+            }
             return Single.just(list);
         }
         return Single.error(new IOException());
-    }
-
-    public void setSendError(boolean sendError) {
-        this.sendError = sendError;
     }
 }

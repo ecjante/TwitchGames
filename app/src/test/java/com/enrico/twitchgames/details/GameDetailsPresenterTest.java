@@ -1,5 +1,7 @@
 package com.enrico.twitchgames.details;
 
+import android.content.Context;
+
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.responses.TwitchStreamsResponse;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
@@ -30,6 +32,7 @@ public class GameDetailsPresenterTest {
 
     @Mock GameRepository gameRepository;
     @Mock GameDetailsViewModel viewModel;
+    @Mock Context context;
 
     @Mock Consumer<IgdbGame> gameConsumer;
     @Mock Consumer<List<TwitchStream>> streamsConsumer;
@@ -40,7 +43,7 @@ public class GameDetailsPresenterTest {
     private List<TwitchStream> streams = TestUtils.loadJson("mock/twitch/get_streams.json", TwitchStreamsResponse.class).streams();
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         when(viewModel.processIgdbGame()).thenReturn(gameConsumer);
@@ -87,6 +90,6 @@ public class GameDetailsPresenterTest {
     }
 
     private void initPresenter() {
-        new GameDetailsPresenter(GAME_ID, GAME_NAME, gameRepository, viewModel);
+        new GameDetailsPresenter(context, GAME_ID, GAME_NAME, gameRepository, viewModel);
     }
 }

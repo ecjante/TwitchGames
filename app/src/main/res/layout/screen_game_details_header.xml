@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorPrimaryLight" />
+        android:contentDescription="@string/a11y_main_screenshot"
+        app:srcCompat="@drawable/screenshot_placeholder" />
 
     <ImageView
         android:id="@+id/iv_game_cover"
@@ -26,7 +27,8 @@
         app:layout_constraintDimensionRatio="45:64"
         app:layout_constraintStart_toStartOf="@+id/vertical_start_guideline"
         app:layout_constraintTop_toBottomOf="@id/iv_main_screenshot"
-        app:srcCompat="@color/colorPrimaryDark" />
+        android:contentDescription="@string/a11y_game_cover_image"
+        app:srcCompat="@drawable/game_placeholder" />
 
     <android.support.constraint.Guideline
         android:id="@+id/vertical_start_guideline"
@@ -69,7 +71,6 @@
         style="@style/TextAppearance.AppCompat.Title.Inverse"
         app:layout_constraintBottom_toTopOf="@+id/tv_release_date"
         app:layout_constraintEnd_toStartOf="@+id/vertical_end_guideline"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tv_release_date"
         tools:text="God of War" />
 
@@ -85,7 +86,6 @@
         android:ellipsize="end"
         app:animation_duration="350"
         app:layout_constraintEnd_toStartOf="@+id/vertical_end_guideline"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/iv_game_cover"
         app:layout_constraintTop_toBottomOf="@+id/iv_main_screenshot"
         tools:text="It is a new beginning for Kratos. Living as a man, outside the shadow of the gods, he seeks solitude in the unfamiliar lands of Norse mythology. With new purpose and his son at his side, Kratos must fight for survival as powerful forces threaten to disrupt the new life he has created..." />
@@ -97,9 +97,30 @@
         android:text="@string/show_more"
         style="@style/TextAppearance.AppCompat.Small.Inverse"
         android:textColor="@color/colorAccent"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/vertical_end_guideline"
         app:layout_constraintTop_toBottomOf="@+id/tv_summary" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        style="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/game_details_horizontal_margin"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_end_guideline"
+        app:layout_constraintStart_toEndOf="@+id/iv_game_cover"
+        app:layout_constraintTop_toBottomOf="@+id/iv_main_screenshot" />
+
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_main_screenshot"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_end_guideline"
+        app:layout_constraintStart_toStartOf="@+id/vertical_start_guideline"
+        app:layout_constraintTop_toTopOf="@+id/iv_main_screenshot" />
 
 </android.support.constraint.ConstraintLayout>

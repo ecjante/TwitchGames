@@ -1,9 +1,13 @@
 package com.enrico.twitchgames.base;
 
+import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.TestGameServiceModule;
+import com.enrico.twitchgames.data.TestIgdbService;
+import com.enrico.twitchgames.data.TestTwitchService;
 import com.enrico.twitchgames.networking.ServiceModule;
 import com.enrico.twitchgames.topgames.TopGamesControllerTest;
-import com.enrico.twitchgames.ui.NavigationModule;
+import com.enrico.twitchgames.ui.TestNavigationModule;
+import com.enrico.twitchgames.ui.TestScreenNavigator;
 
 import javax.inject.Singleton;
 
@@ -18,8 +22,17 @@ import dagger.Component;
         TestActivityBindingModule.class,
         TestGameServiceModule.class,
         ServiceModule.class,
-        NavigationModule.class,
+        TestNavigationModule.class,
 })
 public interface TestAppComponent extends AppComponent {
+
     void inject(TopGamesControllerTest topGamesControllerTest);
+
+    TestScreenNavigator screenNavigator();
+
+    TestTwitchService twitchService();
+
+    TestIgdbService igdbService();
+
+    GameRepository gameRepository();
 }

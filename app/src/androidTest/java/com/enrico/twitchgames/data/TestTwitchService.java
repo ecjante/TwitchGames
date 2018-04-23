@@ -15,21 +15,23 @@ import io.reactivex.Single;
  * Created by enrico.
  */
 @Singleton
-public class TestTwitchService implements TwitchService {
+public class TestTwitchService extends TestService implements TwitchService {
 
-    private final TestUtils testUtils;
-    private boolean sendError;
+    public static final int FLAG_TOP_GAMES = 1;
+    public static final int FLAG_STREAMS = 2;
 
     @Inject
     TestTwitchService(TestUtils testUtils) {
-
-        this.testUtils = testUtils;
+        super(testUtils);
     }
 
     @Override
     public Single<TwitchTopGamesResponse> getTopGames(int limit, int offset) {
-        if (!sendError) {
+        if (noError(FLAG_TOP_GAMES)) {
             TwitchTopGamesResponse response = testUtils.loadJson("mock/twitch/get_top_games.json", TwitchTopGamesResponse.class);
+            if (isHolding(FLAG_TOP_GAMES)) {
+                return holdingSingle(response, FLAG_TOP_GAMES);
+            }
             return Single.just(response);
         }
         return Single.error(new IOException());
@@ -37,10 +39,13 @@ public class TestTwitchService implements TwitchService {
 
     @Override
     public Single<TwitchStreamsResponse> getStreams(String game, int limit, int offset) {
-        return null;
-    }
-
-    public void setSendError(boolean sendError) {
-        this.sendError = sendError;
+        if (noError(FLAG_STREAMS)) {
+            TwitchStreamsResponse response = testUtils.loadJson("mock/twitch/get_streams.json", TwitchStreamsResponse.class);
+            if (isHolding(FLAG_STREAMS)) {
+                return holdingSingle(response, FLAG_STREAMS);
+            }
+            return Single.just(response);
+        }
+        return Single.error(new IOException());
     }
 }

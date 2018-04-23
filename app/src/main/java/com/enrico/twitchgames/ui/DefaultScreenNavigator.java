@@ -12,7 +12,6 @@ import javax.inject.Inject;
 /**
  * Created by enrico.
  */
-@ActivityScope
 public class DefaultScreenNavigator implements ScreenNavigator {
 
     private Router router;

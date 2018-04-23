@@ -1,6 +1,8 @@
 package com.enrico.twitchgames.home;
 
 import com.bluelinelabs.conductor.Controller;
+import com.enrico.twitchgames.details.GameDetailsComponent;
+import com.enrico.twitchgames.details.GameDetailsController;
 import com.enrico.twitchgames.di.ControllerKey;
 import com.enrico.twitchgames.topgames.TopGamesComponent;
 import com.enrico.twitchgames.topgames.TopGamesController;
@@ -14,7 +16,8 @@ import dagger.multibindings.IntoMap;
  * Created by enrico.
  */
 @Module(subcomponents = {
-        TopGamesComponent.class
+        TopGamesComponent.class,
+        GameDetailsComponent.class
 })
 public abstract class TestScreenBindingModule {
 
@@ -22,4 +25,9 @@ public abstract class TestScreenBindingModule {
     @IntoMap
     @ControllerKey(TopGamesController.class)
     abstract AndroidInjector.Factory<? extends Controller> bindTopGamesInjector(TopGamesComponent.Builder builder);
+
+    @Binds
+    @IntoMap
+    @ControllerKey(GameDetailsController.class)
+    abstract AndroidInjector.Factory<? extends Controller> bindGameDetailsInjector(GameDetailsComponent.Builder builder);
 }

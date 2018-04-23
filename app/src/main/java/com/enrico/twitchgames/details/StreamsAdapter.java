@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.models.twitch.TwitchChannel;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
@@ -95,6 +96,7 @@ public class StreamsAdapter extends RecyclerView.Adapter<StreamsAdapter.StreamsV
                 this.stream = stream;
                 Glide.with(thumbnailImage.getContext())
                         .load(stream.preview().getLarge())
+                        .apply(new RequestOptions().placeholder(R.drawable.stream_placeholder))
                         .into(thumbnailImage);
                 viewerCountText.setText(
                         viewerCountText.getContext().getResources().getQuantityString(

@@ -30,7 +30,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/begin_vertical_guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorPrimary" />
+        android:contentDescription="@string/a11y_stream_thumbnail_image"
+        app:srcCompat="@drawable/stream_placeholder" />
 
     <ImageView
         android:id="@+id/iv_channel_logo"
@@ -42,6 +43,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/divider"
         app:layout_constraintStart_toStartOf="@+id/begin_vertical_guideline"
         app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+        android:contentDescription="@string/a11y_channel_logo_image"
         app:srcCompat="@color/colorPrimaryLight" />
 
     <ImageView
@@ -52,6 +54,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_viewer_count"
         app:layout_constraintTop_toTopOf="@+id/tv_viewer_count"
         app:layout_constraintStart_toStartOf="@+id/iv_thumbnail"
+        android:contentDescription="@string/a11y_live_indicator"
         app:srcCompat="@drawable/live" />
 
     <TextView

@@ -129,4 +129,10 @@ public class GameRepository {
         return lastTwitchStreamsFetch.containsKey(id) &&
                 (System.currentTimeMillis() - lastTwitchStreamsFetch.get(id)) > FETCH_TIME_THRESHOLD;
     }
+
+    public void clearCache() {
+        cachedTwitchTopGames.clear();
+        cachedIgdbGame.clear();
+        cachedTwitchStreams.clear();
+    }
 }

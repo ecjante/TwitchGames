@@ -4,10 +4,12 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.bluelinelabs.conductor.Controller;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.base.TestApp;
 import com.enrico.twitchgames.data.TestTwitchService;
 import com.enrico.twitchgames.home.MainActivity;
+import com.enrico.twitchgames.test.ControllerTest;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,11 +29,7 @@ import static org.hamcrest.CoreMatchers.allOf;
  * Created by enrico.
  */
 @RunWith(AndroidJUnit4.class)
-public class TopGamesControllerTest {
-
-    @Inject TestTwitchService twitchService;
-
-    @Rule public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class, true, false);
+public class TopGamesControllerTest extends ControllerTest {
 
     @Before
     public void setUp() {
@@ -40,8 +38,8 @@ public class TopGamesControllerTest {
 
     @Test
     public void loadGames() {
-        twitchService.setSendError(false);
-        activityTestRule.launchActivity(null);
+        twitchService.clearErrorFlags();
+        launch();
 
         onView(withId(R.id.loading_indicator))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -56,8 +54,8 @@ public class TopGamesControllerTest {
 
     @Test
     public void loadGamesError() {
-        twitchService.setSendError(true);
-        activityTestRule.launchActivity(null);
+        twitchService.setErrorFlags(TestTwitchService.FLAG_TOP_GAMES);
+        launch();
 
         onView(withId(R.id.loading_indicator))
                 .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -68,5 +66,10 @@ public class TopGamesControllerTest {
 
         onView(withId(R.id.tv_error))
                 .check(matches(allOf(withText(R.string.api_error_top_games), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))));
+    }
+
+    @Override
+    protected Controller controllerToLaunch() {
+        return new TopGamesController();
     }
 }

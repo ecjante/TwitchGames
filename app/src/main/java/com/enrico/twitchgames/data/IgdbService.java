@@ -13,6 +13,6 @@ import retrofit2.http.Query;
  */
 public interface IgdbService {
 
-    @GET("games/?fields=id,name,summary,platforms,screenshots,videos,cover,esrb,pegi,websites&limit=1")
+    @GET("games/?fields=id,name,summary,first_release_date,platforms,screenshots,videos,cover,esrb,pegi,websites&limit=1")
     Single<List<IgdbGame>> getGame(@Query("search") String searchQuery);
 }

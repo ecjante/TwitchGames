@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.models.twitch.TwitchGame;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
@@ -99,6 +100,7 @@ public class TopGamesAdapter extends RecyclerView.Adapter<TopGamesAdapter.TopGam
                 this.topGame = topGame;
                 Glide.with(boxArtImage.getContext())
                         .load(topGame.game().box().getMedium())
+                        .apply(new RequestOptions().placeholder(R.drawable.game_placeholder))
                         .into(boxArtImage);
                 gameNameText.setText(topGame.game().name());
                 viewerCountText.setText(

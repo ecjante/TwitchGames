@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bluelinelabs.conductor.Controller;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.base.BaseController;
 import com.enrico.twitchgames.customviews.ExpandableTextView;
@@ -34,8 +35,10 @@ public class GameDetailsController extends BaseController {
 
     static final String TWITCH_GAME_ID_KEY = "twitch_game_id";
     static final String GAME_NAME_KEY = "game_name";
+    private static String gameName;
 
     public static Controller newInstance(long twitchGameId, String gameName) {
+        GameDetailsController.gameName = gameName;
         Bundle bundle = new Bundle();
         bundle.putLong(TWITCH_GAME_ID_KEY, twitchGameId);
         bundle.putString(GAME_NAME_KEY, gameName);
@@ -45,7 +48,6 @@ public class GameDetailsController extends BaseController {
     @Inject GameDetailsViewModel viewModel;
     @Inject GameDetailsPresenter presenter;
 
-    @BindView(R.id.header) View headerView;
     @BindView(R.id.loading_indicator) View detailsLoadingView;
     @BindView(R.id.tv_error) TextView errorText;
     @BindView(R.id.iv_main_screenshot) ImageView mainScreenshotImage;
@@ -102,7 +104,6 @@ public class GameDetailsController extends BaseController {
                 .subscribe(details -> {
                     if (details.loading()) {
                         detailsLoadingView.setVisibility(View.VISIBLE);
-                        headerView.setVisibility(View.INVISIBLE);
                         errorText.setVisibility(View.GONE);
                         errorText.setText(null);
                     } else {
@@ -110,21 +111,23 @@ public class GameDetailsController extends BaseController {
                             errorText.setText(null);
                             Glide.with(mainScreenshotImage.getContext())
                                     .load(details.mainScreenShot())
+                                    .apply(new RequestOptions().placeholder(R.drawable.screenshot_placeholder))
                                     .into(mainScreenshotImage);
                             Glide.with(gameCoverImage.getContext())
                                     .load(details.cover())
+                                    .apply(new RequestOptions().placeholder(R.drawable.game_placeholder))
                                     .into(gameCoverImage);
                         } else {
                             //noinspection ConstantConditions
                             errorText.setText(details.errorRes());
                         }
                         detailsLoadingView.setVisibility(View.GONE);
-                        headerView.setVisibility(details.isSuccess() ? View.VISIBLE : View.INVISIBLE);
                         errorText.setVisibility(details.isSuccess() ? View.GONE : View.VISIBLE);
                         releaseDateText.setText(details.releaseDate());
-                        gameNameText.setText(details.name());
                         summaryText.setText(details.summary());
-                        showMoreOrLess.setVisibility(summaryIsEllipsized() ? View.VISIBLE : View.GONE);
+                        summaryText.setVisibility(details.isSuccess() ? View.VISIBLE : View.GONE);
+                        gameNameText.setText(details.name() != null ? details.name() : gameName);
+                        showMoreOrLess.setVisibility(details.isSuccess() && summaryIsEllipsized() ? View.VISIBLE : View.GONE);
                     }
             }),
             viewModel.streams()

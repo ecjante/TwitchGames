@@ -1,0 +1,124 @@
+{
+  "id": 19560,
+  "name": "God of War",
+  "summary": "\"It is a new beginning for Kratos. Living as a man, outside the shadow of the gods, he seeks solitude in the unfamiliar lands of Norse mythology. With new purpose and his son at his side, Kratos must fight for survival as powerful forces threaten to disrupt the new life he has created...\"",
+  "first_release_date": 1524182400000,
+  "platforms": [
+    48
+  ],
+  "screenshots": [
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/r7hpzsqic1bjwyzn1bnq.jpg",
+      "cloudinary_id": "r7hpzsqic1bjwyzn1bnq",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/wunlbofh23trw0u67gms.jpg",
+      "cloudinary_id": "wunlbofh23trw0u67gms",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/s2zdtxopibrfjbxvpj5h.jpg",
+      "cloudinary_id": "s2zdtxopibrfjbxvpj5h",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/w5eazrrf4wdxjl4idfya.jpg",
+      "cloudinary_id": "w5eazrrf4wdxjl4idfya",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/o4mg2wvhlcikaogvvzqe.jpg",
+      "cloudinary_id": "o4mg2wvhlcikaogvvzqe",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/nee23o7rtpaqbu8g7byx.jpg",
+      "cloudinary_id": "nee23o7rtpaqbu8g7byx",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/mzg7f3xx57sf8rt7tja8.jpg",
+      "cloudinary_id": "mzg7f3xx57sf8rt7tja8",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/gpt3d0gpue5mat4kkso6.jpg",
+      "cloudinary_id": "gpt3d0gpue5mat4kkso6",
+      "width": 3840,
+      "height": 2160
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/jvdoaxza3cawklvof1sl.jpg",
+      "cloudinary_id": "jvdoaxza3cawklvof1sl",
+      "width": 3840,
+      "height": 2160
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/qseegzssgetrybgbplrv.jpg",
+      "cloudinary_id": "qseegzssgetrybgbplrv",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/rm35ytrytuka9qkylqyk.jpg",
+      "cloudinary_id": "rm35ytrytuka9qkylqyk",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/ywrkjcrbeemmb51flsfj.jpg",
+      "cloudinary_id": "ywrkjcrbeemmb51flsfj",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "videos": [
+    {
+      "name": "TV Commercial",
+      "video_id": "GdJtyZRPsUM"
+    },
+    {
+      "name": "Story Trailer",
+      "video_id": "rxrbXP546OU"
+    },
+    {
+      "name": "PGW17 Trailer",
+      "video_id": "Q8-Si4M1b2U"
+    },
+    {
+      "name": "E3 2017 Gameplay Trailer",
+      "video_id": "iLr5BeiTha4"
+    }
+  ],
+  "cover": {
+    "url": "//images.igdb.com/igdb/image/upload/t_thumb/cintjlnx6o8qyqtcnajl.jpg",
+    "cloudinary_id": "cintjlnx6o8qyqtcnajl",
+    "width": 756,
+    "height": 1080
+  },
+  "esrb": {
+    "rating": 6
+  },
+  "websites": [
+    {
+      "category": 3,
+      "url": "https://en.wikipedia.org/wiki/God_of_War_(2018_video_game)"
+    },
+    {
+      "category": 1,
+      "url": "https://godofwar.playstation.com"
+    },
+    {
+      "category": 4,
+      "url": "https://www.facebook.com/godofwar"
+    }
+  ]
+}

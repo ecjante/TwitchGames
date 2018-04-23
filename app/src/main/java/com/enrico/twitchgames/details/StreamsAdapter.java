@@ -111,7 +111,7 @@ public class StreamsAdapter extends RecyclerView.Adapter<StreamsAdapter.StreamsV
                 channelStatusText.setText(channel.status());
                 followerCountText.setText(
                         followerCountText.getContext().getResources().getQuantityString(
-                                R.plurals.viewer_count,
+                                R.plurals.follower_count,
                                 channel.followers(),
                                 NumberFormat.getNumberInstance(Locale.getDefault()).format(channel.followers())
                         )

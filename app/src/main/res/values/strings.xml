@@ -2,7 +2,9 @@
     <string name="app_name">Twitch Games</string>
     <string name="api_error_top_games">Error loading Top Games</string>
     <string name="api_error_igdb_game">Error loading game details</string>
-    <string name="api_error_streams">Error loading game streamers</string>
+    <string name="api_error_streams">Error loading live streams</string>
+    <string name="show_more">Show more</string>
+    <string name="show_less">Show less</string>
     <plurals name="viewer_count">
         <item quantity="one">%s viewer</item>
         <item quantity="other">%s viewers</item>

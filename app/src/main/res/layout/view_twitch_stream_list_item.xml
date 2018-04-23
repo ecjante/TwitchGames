@@ -10,20 +10,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        app:layout_constraintGuide_begin="@dimen/list_item_horizontal_margin" />
 
     <android.support.constraint.Guideline
         android:id="@+id/end_vertical_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
+        app:layout_constraintGuide_end="@dimen/list_item_horizontal_margin" />
 
     <ImageView
         android:id="@+id/iv_thumbnail"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/list_item_vertical_margin"
         android:scaleType="fitCenter"
         app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="@+id/end_vertical_guideline"
@@ -34,13 +34,12 @@
 
     <ImageView
         android:id="@+id/iv_channel_logo"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/channel_logo_size"
+        android:layout_height="@dimen/channel_logo_size"
+        android:layout_marginBottom="@dimen/list_item_vertical_margin"
+        android:layout_marginTop="@dimen/list_item_vertical_margin"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio=""
+        app:layout_constraintBottom_toBottomOf="@+id/divider"
         app:layout_constraintStart_toStartOf="@+id/begin_vertical_guideline"
         app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
         app:srcCompat="@color/colorPrimaryLight" />
@@ -49,7 +48,7 @@
         android:id="@+id/iv_live_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/stream_list_item_margin"
         app:layout_constraintBottom_toBottomOf="@+id/tv_viewer_count"
         app:layout_constraintTop_toTopOf="@+id/tv_viewer_count"
         app:layout_constraintStart_toStartOf="@+id/iv_thumbnail"
@@ -60,9 +59,14 @@
         style="@style/TextAppearance.AppCompat.Small.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:textSize="12sp"
+        android:layout_marginBottom="@dimen/stream_list_item_margin"
+        android:layout_marginStart="@dimen/stream_list_item_margin"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/iv_thumbnail"
         app:layout_constraintStart_toEndOf="@+id/iv_live_indicator"
         tools:text="24,526 viewers" />
@@ -86,7 +90,7 @@
         style="@style/TextAppearance.AppCompat.Small.Inverse"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/stream_list_item_margin"
         android:ellipsize="end"
         android:singleLine="true"
         android:textStyle="bold"
@@ -102,7 +106,7 @@
         style="@style/TextAppearance.AppCompat.Small.Inverse"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="@dimen/stream_list_secondary_text_size"
         android:singleLine="true"
         android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@+id/iv_channel_logo"
@@ -110,5 +114,12 @@
         app:layout_constraintStart_toStartOf="@+id/tv_channel_status"
         app:layout_constraintTop_toBottomOf="@+id/tv_channel_status"
         tools:text="52,054 followers" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

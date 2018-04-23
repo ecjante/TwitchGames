@@ -20,10 +20,10 @@
     <ImageView
         android:id="@+id/iv_game_cover"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="@dimen/game_details_cover_height"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@id/iv_main_screenshot"
-        app:layout_constraintDimensionRatio="w,45:64"
+        app:layout_constraintDimensionRatio="45:64"
         app:layout_constraintStart_toStartOf="@+id/vertical_start_guideline"
         app:layout_constraintTop_toBottomOf="@id/iv_main_screenshot"
         app:srcCompat="@color/colorPrimaryDark" />
@@ -46,7 +46,7 @@
         android:id="@+id/tv_release_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="@dimen/vertical_margin"
         android:layout_marginStart="@dimen/game_details_horizontal_margin"
         android:shadowColor="@android:color/black"
         android:shadowDx="2"
@@ -61,7 +61,7 @@
         android:id="@+id/tv_game_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/vertical_margin"
         android:shadowColor="@android:color/black"
         android:shadowDx="2"
         android:shadowDy="2"
@@ -73,18 +73,33 @@
         app:layout_constraintStart_toStartOf="@+id/tv_release_date"
         tools:text="God of War" />
 
-    <TextView
+    <com.enrico.twitchgames.customviews.ExpandableTextView
         android:id="@+id/tv_summary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/game_details_horizontal_margin"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/vertical_margin"
         style="@style/TextAppearance.AppCompat.Small.Inverse"
-        android:textSize="12sp"
+        android:textSize="@dimen/secondary_text_size"
+        android:maxLines="4"
+        android:ellipsize="end"
+        app:animation_duration="350"
         app:layout_constraintEnd_toStartOf="@+id/vertical_end_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/iv_game_cover"
         app:layout_constraintTop_toBottomOf="@+id/iv_main_screenshot"
         tools:text="It is a new beginning for Kratos. Living as a man, outside the shadow of the gods, he seeks solitude in the unfamiliar lands of Norse mythology. With new purpose and his son at his side, Kratos must fight for survival as powerful forces threaten to disrupt the new life he has created..." />
+
+    <TextView
+        android:id="@+id/show_more_or_less"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_more"
+        style="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:textColor="@color/colorAccent"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_end_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/tv_summary" />
 
 </android.support.constraint.ConstraintLayout>

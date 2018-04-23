@@ -32,11 +32,11 @@ public class TopGamesController extends BaseController {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         topGamesList.setLayoutManager(layoutManager);
         topGamesList.setAdapter(new TopGamesAdapter(presenter));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                topGamesList.getContext(),
-                layoutManager.getOrientation()
-        );
-        topGamesList.addItemDecoration(dividerItemDecoration);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
+//                topGamesList.getContext(),
+//                layoutManager.getOrientation()
+//        );
+//        topGamesList.addItemDecoration(dividerItemDecoration);
     }
 
     @Override

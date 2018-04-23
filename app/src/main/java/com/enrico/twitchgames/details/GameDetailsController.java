@@ -1,11 +1,16 @@
 package com.enrico.twitchgames.details;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,6 +19,7 @@ import com.bluelinelabs.conductor.Controller;
 import com.bumptech.glide.Glide;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.base.BaseController;
+import com.enrico.twitchgames.customviews.ExpandableTextView;
 
 import javax.inject.Inject;
 
@@ -46,12 +52,12 @@ public class GameDetailsController extends BaseController {
     @BindView(R.id.iv_game_cover) ImageView gameCoverImage;
     @BindView(R.id.tv_release_date) TextView releaseDateText;
     @BindView(R.id.tv_game_name) TextView gameNameText;
-    @BindView(R.id.tv_summary) TextView summaryText;
+    @BindView(R.id.tv_summary) ExpandableTextView summaryText;
+    @BindView(R.id.show_more_or_less) TextView showMoreOrLess;
 
     @BindView(R.id.streams_list) RecyclerView streamsList;
     @BindView(R.id.streams_loading_indicator) View streamsLoadingView;
     @BindView(R.id.tv_streams_error) TextView streamsErrorText;
-
 
     public GameDetailsController(Bundle bundle) {
         super(bundle);
@@ -67,6 +73,25 @@ public class GameDetailsController extends BaseController {
                 layoutManager.getOrientation()
         );
         streamsList.addItemDecoration(dividerItemDecoration);
+
+        summaryText.setInterpolator(new AccelerateDecelerateInterpolator());
+        summaryText.setOnClickListener(v -> {
+            summaryText.toggle();
+        });
+        showMoreOrLess.setOnClickListener(v -> {
+            summaryText.toggle();
+        });
+        summaryText.addOnExpandListener(new ExpandableTextView.OnExpandListener() {
+            @Override
+            public void onExpand(@NonNull ExpandableTextView view) {
+                showMoreOrLess.setText(R.string.show_less);
+            }
+
+            @Override
+            public void onCollapse(@NonNull ExpandableTextView view) {
+                showMoreOrLess.setText(R.string.show_more);
+            }
+        });
     }
 
     @Override
@@ -99,6 +124,7 @@ public class GameDetailsController extends BaseController {
                         releaseDateText.setText(details.releaseDate());
                         gameNameText.setText(details.name());
                         summaryText.setText(details.summary());
+                        showMoreOrLess.setVisibility(summaryIsEllipsized() ? View.VISIBLE : View.GONE);
                     }
             }),
             viewModel.streams()
@@ -123,6 +149,18 @@ public class GameDetailsController extends BaseController {
                     }
             })
         };
+    }
+
+    private boolean summaryIsEllipsized() {
+        Layout layout = summaryText.getLayout();
+        if (layout != null) {
+            int lines = layout.getLineCount();
+            if (lines > 0) {
+                int ellipsisCount = layout.getEllipsisCount(lines - 1);
+                return ellipsisCount > 0;
+            }
+        }
+        return false;
     }
 
     @Override

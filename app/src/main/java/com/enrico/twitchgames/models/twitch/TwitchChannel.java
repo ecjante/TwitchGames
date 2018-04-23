@@ -12,6 +12,7 @@ import com.squareup.moshi.Moshi;
 public abstract class TwitchChannel {
 
     @Json(name = "_id") public abstract long id();
+    public abstract String name();
     @Json(name = "display_name") public abstract String displayName();
     public abstract String status();
     public abstract String logo();

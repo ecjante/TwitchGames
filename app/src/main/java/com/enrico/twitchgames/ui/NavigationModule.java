@@ -1,9 +1,10 @@
 package com.enrico.twitchgames.ui;
 
-import com.enrico.twitchgames.di.ActivityScope;
+import com.enrico.twitchgames.lifecycle.ActivityLifecycleTask;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.multibindings.IntoSet;
 
 /**
  * Created by enrico.
@@ -12,6 +13,9 @@ import dagger.Module;
 public abstract class NavigationModule {
 
     @Binds
-    @ActivityScope
     abstract ScreenNavigator provideScreenNavigator(DefaultScreenNavigator screenNavigator);
+
+    @Binds
+    @IntoSet
+    abstract ActivityLifecycleTask bindScreenNavigatorTask(DefaultScreenNavigator screenNavigator);
 }

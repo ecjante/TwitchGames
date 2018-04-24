@@ -2,6 +2,7 @@ package com.enrico.twitchgames.topgames;
 
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
+import com.enrico.twitchgames.lifecycle.DisposableManager;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 import com.enrico.twitchgames.test.TestUtils;
 import com.enrico.twitchgames.ui.ScreenNavigator;
@@ -115,6 +116,6 @@ public class TopGamesPresenterTest {
     }
 
     private void initializePresenter() {
-        presenter = new TopGamesPresenter(viewModel, gameRepository, screenNavigator);
+        presenter = new TopGamesPresenter(viewModel, gameRepository, screenNavigator, Mockito.mock(DisposableManager.class));
     }
 }

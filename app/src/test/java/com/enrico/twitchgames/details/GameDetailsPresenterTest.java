@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.responses.TwitchStreamsResponse;
+import com.enrico.twitchgames.lifecycle.DisposableManager;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
 import com.enrico.twitchgames.test.TestUtils;
@@ -12,6 +13,7 @@ import com.squareup.moshi.Types;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
@@ -95,6 +97,6 @@ public class GameDetailsPresenterTest {
     }
 
     private void initPresenter() {
-        new GameDetailsPresenter(context, GAME_ID, GAME_NAME, gameRepository, viewModel);
+        new GameDetailsPresenter(context, GAME_ID, GAME_NAME, gameRepository, viewModel, Mockito.mock(DisposableManager.class));
     }
 }

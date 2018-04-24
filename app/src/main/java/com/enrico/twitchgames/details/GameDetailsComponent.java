@@ -1,5 +1,7 @@
 package com.enrico.twitchgames.details;
 
+import com.enrico.twitchgames.base.ScreenModule;
+import com.enrico.twitchgames.di.ScreenComponent;
 import com.enrico.twitchgames.di.ScreenScope;
 
 import javax.inject.Named;
@@ -12,8 +14,11 @@ import dagger.android.AndroidInjector;
  * Created by enrico.
  */
 @ScreenScope
-@Subcomponent
-public interface GameDetailsComponent extends AndroidInjector<GameDetailsController> {
+@Subcomponent(modules = {
+        ScreenModule.class,
+        GameDetailsScreenModule.class,
+})
+public interface GameDetailsComponent extends ScreenComponent<GameDetailsController> {
 
     @Subcomponent.Builder
     abstract class Builder extends AndroidInjector.Builder<GameDetailsController> {

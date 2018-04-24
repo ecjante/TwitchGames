@@ -14,9 +14,12 @@ import com.bluelinelabs.conductor.Router;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.di.Injector;
 import com.enrico.twitchgames.di.ScreenInjector;
+import com.enrico.twitchgames.lifecycle.ActivityLifecycleTask;
 import com.enrico.twitchgames.ui.ActivityViewInterceptor;
+import com.enrico.twitchgames.ui.RouterProvider;
 import com.enrico.twitchgames.ui.ScreenNavigator;
 
+import java.util.Set;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -24,13 +27,14 @@ import javax.inject.Inject;
 /**
  * Created by enrico.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements RouterProvider {
 
     private static String INSTANCE_ID_KEY = "instance_id";
 
     @Inject ScreenInjector screenInjector;
     @Inject ScreenNavigator screenNavigator;
     @Inject ActivityViewInterceptor activityViewInterceptor;
+    @Inject Set<ActivityLifecycleTask> activityLifecycleTasks;
 
     private String instanceId;
     private Router router;
@@ -50,9 +54,43 @@ public abstract class BaseActivity extends AppCompatActivity {
             throw new NullPointerException("Activity must have a view with id: screen_container");
 
         router = Conductor.attachRouter(this, screenContainer, savedInstanceState);
-        screenNavigator.initWithRouter(router, initialScreen());
         monitorBackStack();
+        for (ActivityLifecycleTask task : activityLifecycleTasks) {
+            task.onCreate(this);
+        }
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        for (ActivityLifecycleTask task : activityLifecycleTasks) {
+            task.onStart(this);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for (ActivityLifecycleTask task : activityLifecycleTasks) {
+            task.onResume(this);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        for (ActivityLifecycleTask task : activityLifecycleTasks) {
+            task.onPause(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        for (ActivityLifecycleTask task : activityLifecycleTasks) {
+            task.onStop(this);
+        }
     }
 
     @Override
@@ -68,10 +106,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public Router getRouter() {
+        return router;
+    }
+
     @LayoutRes
     protected abstract int layoutRes();
 
-    protected abstract Controller initialScreen();
+    public abstract Controller initialScreen();
 
     public String getInstanceId() {
         return instanceId;
@@ -80,11 +123,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        screenNavigator.clear();
         if (isFinishing()) {
             Injector.clearComponent(this);
         }
         activityViewInterceptor.clear();
+        for (ActivityLifecycleTask task : activityLifecycleTasks) {
+            task.onDestroy(this);
+        }
     }
 
     public ScreenInjector getScreenInjector() {

@@ -1,68 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent" >
+    <include layout="@layout/app_bar" />
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed" >
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <include
-                    android:id="@+id/header"
-                    layout="@layout/screen_game_details_header" />
-
-            </FrameLayout>
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:title="Live Streams"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse"
-            app:layout_collapseMode="pin" />
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/streams_list"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/anchor"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        app:layout_anchor="@+id/streams_list"/>
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent" >
 
-    <ProgressBar
-        android:id="@+id/streams_loading_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@+id/anchor"
-        app:layout_anchorGravity="center|bottom"/>
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed" >
 
-    <TextView
-        android:id="@+id/tv_streams_error"
-        style="@style/TextAppearance.AppCompat.Small.Inverse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_anchor="@+id/anchor"
-        app:layout_anchorGravity="center|bottom"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <include
+                        android:id="@+id/header"
+                        layout="@layout/screen_game_details_header" />
+
+                </FrameLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:title="Live Streams"
+                app:titleTextAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/streams_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/anchor"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_anchor="@+id/streams_list"/>
+
+        <ProgressBar
+            android:id="@+id/streams_loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@+id/anchor"
+            app:layout_anchorGravity="center|bottom"/>
+
+        <TextView
+            android:id="@+id/tv_streams_error"
+            style="@style/TextAppearance.AppCompat.Small.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_anchor="@+id/anchor"
+            app:layout_anchorGravity="center|bottom"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -6,7 +6,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import com.enrico.twitchgames.data.GameRepository;
+import com.enrico.twitchgames.di.ForScreen;
 import com.enrico.twitchgames.di.ScreenScope;
+import com.enrico.twitchgames.lifecycle.DisposableManager;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
 
 import javax.inject.Inject;
@@ -22,23 +24,25 @@ public class GameDetailsPresenter implements StreamsAdapter.StreamClickedListene
 
     @Inject
     GameDetailsPresenter(
-        Context context,
-        @Named("twitch_game_id") long twitchGameId,
-        @Named("game_name") String gameName,
-        GameRepository repository,
-        GameDetailsViewModel viewModel
-    ) {
+            Context context,
+            @Named("twitch_game_id") long twitchGameId,
+            @Named("game_name") String gameName,
+            GameRepository repository,
+            GameDetailsViewModel viewModel,
+            @ForScreen DisposableManager disposableManager) {
         this.context = context;
-        repository.getGameInfo(twitchGameId, gameName)
-                .doOnError(viewModel.detailsError())
-                .subscribe(viewModel.processIgdbGame(), throwable -> {
+        disposableManager.add(
+                repository.getGameInfo(twitchGameId, gameName)
+                        .doOnError(viewModel.detailsError())
+                        .subscribe(viewModel.processIgdbGame(), throwable -> {
 
-                });
-        repository.getStreams(twitchGameId, gameName)
-                .doOnError(viewModel.streamsError())
-                .subscribe(viewModel.processStreams(), throwable -> {
+                        }),
+                repository.getStreams(twitchGameId, gameName)
+                        .doOnError(viewModel.streamsError())
+                        .subscribe(viewModel.processStreams(), throwable -> {
 
-                });
+                        })
+        );
 //        repository.getGameInfo(twitchGameId, gameName)
 //                .doOnSuccess(viewModel.processIgdbGame())
 //                .doOnError(viewModel.detailsError())

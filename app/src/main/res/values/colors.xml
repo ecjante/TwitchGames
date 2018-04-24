@@ -6,4 +6,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackground">#201c2b</color>
     <color name="live_color">#ff0000</color>
+    <color name="toolbar_text_color">#FFFFFF</color>
 </resources>

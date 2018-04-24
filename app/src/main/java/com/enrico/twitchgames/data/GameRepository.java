@@ -96,7 +96,7 @@ public class GameRepository {
     }
 
     private Maybe<IgdbGame> apiIgdbGame(long id, String query) {
-        return igdbRequesterProvider.get().getGameInfo(query)
+        return igdbRequesterProvider.get().getGameInfo(id, query)
                 .doOnSuccess(igdbGame -> {
                     cachedIgdbGames.put(id, igdbGame);
                 })

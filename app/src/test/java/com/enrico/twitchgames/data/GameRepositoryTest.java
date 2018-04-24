@@ -19,6 +19,7 @@ import javax.inject.Provider;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -79,14 +80,14 @@ public class GameRepositoryTest {
         TwitchTopGame twitchGodOfWarGame = twitchTopGamesResponse.games().get(0);
 
         // Return God of war to add to cache
-        when(igdbRequester.getGameInfo(twitchGodOfWarGame.game().name())).thenReturn(Single.just(godOfWarGame));
+        when(igdbRequester.getGameInfo(twitchGodOfWarGame.game().id(), twitchGodOfWarGame.game().name())).thenReturn(Single.just(godOfWarGame));
 
         // Just assert God of War was returned
         repository.getGameInfo(twitchGodOfWarGame.game().id(), twitchGodOfWarGame.game().name())
                 .test().assertValue(godOfWarGame);
 
         // Change the game to fortnite when getting game info
-        when(igdbRequester.getGameInfo(anyString())).thenReturn(Single.just(fortniteGame));
+        when(igdbRequester.getGameInfo(anyLong(), anyString())).thenReturn(Single.just(fortniteGame));
 
         // Make sure the God of war is grabbed from cache
         repository.getGameInfo(twitchGodOfWarGame.game().id(), twitchGodOfWarGame.game().name())

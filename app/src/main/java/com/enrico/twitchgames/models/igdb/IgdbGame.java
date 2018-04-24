@@ -20,9 +20,9 @@ public abstract class IgdbGame {
 
     public abstract Long id();
     public abstract String name();
-    public abstract String summary();
+    @Nullable public abstract String summary();
     @Json(name = "first_release_date")
-    public abstract ZonedDateTime firstReleaseDate();
+    @Nullable public abstract ZonedDateTime firstReleaseDate();
     public abstract List<Integer> platforms();
     public abstract List<IgdbGameScreenshot> screenshots();
     public abstract List<IgdbGameVideo> videos();

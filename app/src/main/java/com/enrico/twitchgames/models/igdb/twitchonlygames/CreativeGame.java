@@ -1,4 +1,12 @@
-package com.enrico.twitchgames.models.igdb;
+package com.enrico.twitchgames.models.igdb.twitchonlygames;
+
+import com.enrico.twitchgames.models.igdb.IgdbEsrb;
+import com.enrico.twitchgames.models.igdb.IgdbGame;
+import com.enrico.twitchgames.models.igdb.IgdbGameCover;
+import com.enrico.twitchgames.models.igdb.IgdbGameScreenshot;
+import com.enrico.twitchgames.models.igdb.IgdbGameVideo;
+import com.enrico.twitchgames.models.igdb.IgdbPegi;
+import com.enrico.twitchgames.models.igdb.IgdbWebsite;
 
 import org.threeten.bp.ZonedDateTime;
 
@@ -8,20 +16,20 @@ import java.util.List;
 /**
  * Created by enrico.
  */
-public class IRLGame extends IgdbGame {
+public class CreativeGame extends IgdbGame {
     @Override
     public Long id() {
-        return null;
+        return 488191L;
     }
 
     @Override
     public String name() {
-        return "IRL";
+        return "Creative";
     }
 
     @Override
     public String summary() {
-        return "Share your Thoughts, Opinions and Everyday Life";
+        return "Broadcasters can share the process of making their creations on Twitch Creative.";
     }
 
     @Override
@@ -54,7 +62,7 @@ public class IRLGame extends IgdbGame {
 
             @Override
             public String big() {
-                return "https://static-cdn.jtvnw.net/ttv-boxart/IRL-272x380.jpg";
+                return "https://static-cdn.jtvnw.net/ttv-boxart/Creative-272x380.jpg";
             }
 
             @Override

@@ -2,16 +2,13 @@ package com.enrico.twitchgames.data;
 
 import android.content.Context;
 
-import com.enrico.twitchgames.models.igdb.IRLGame;
+import com.enrico.twitchgames.models.igdb.twitchonlygames.CreativeGame;
+import com.enrico.twitchgames.models.igdb.twitchonlygames.IRLGame;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
+import com.enrico.twitchgames.models.igdb.NoInfoGame;
 import com.squareup.moshi.Moshi;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import io.reactivex.Single;
 
@@ -20,6 +17,8 @@ import io.reactivex.Single;
  */
 public class IgdbRequester {
 
+    private static final long IRL_ID = 494717;
+    private static final long CREATIVE_ID = 488191;
     private static final String IRL = "IRL";
 
     private final IgdbService service;
@@ -33,14 +32,20 @@ public class IgdbRequester {
         this.context = context;
     }
 
-    Single<IgdbGame> getGameInfo(String query) {
-        if (!query.equals(IRL)) {
-            return service.getGame(query)
-                    .filter(list -> !list.isEmpty())
-                    .map(list -> list.get(0))
-                    .toSingle();
-        } else {
+    Single<IgdbGame> getGameInfo(long id, String query) {
+        if (id == IRL_ID) {
             return Single.just(new IRLGame());
+        } else if (id == CREATIVE_ID) {
+            return Single.just(new CreativeGame());
+        } else {
+            return service.getGame(query)
+                    .map(list -> {
+                        if (list.isEmpty()) {
+                            return new NoInfoGame();
+                        } else {
+                            return list.get(0);
+                        }
+                    });
         }
     }
 }

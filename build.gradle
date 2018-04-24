@@ -36,6 +36,7 @@ ext {
     butterknifeVersion = '8.8.1'
     glideVersion = '4.2.0'
     mockitoVerson = '2.18.0'
+    testRunnerVersion = '1.0.1'
     espressoVersion = '3.0.1'
 }
 

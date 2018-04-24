@@ -46,6 +46,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
     implementation "com.jakewharton.rxrelay2:rxrelay:$rxRelayVersion"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
 
     implementation "com.bluelinelabs:conductor:$conductorVersion"
 
@@ -69,3 +70,19 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
 }
+
+def mockCopySpec = copySpec {
+    from rootProject.file('app/')
+    include 'mock/'
+}
+
+task copyMock(type: Copy) {
+    ['src/debug/assets', 'src/test/resources', 'src/androidTest/resources'].each { dest ->
+        copy {
+            with mockCopySpec
+            into dest
+        }
+    }
+}
+
+build.finalizedBy(copyMock)

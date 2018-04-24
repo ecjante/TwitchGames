@@ -57,7 +57,10 @@ public class GameDetailsViewModel {
                             .mainScreenShot(screenshot)
                             .cover(cover)
                             .name(igdbGame.name())
-                            .releaseDate(igdbGame.firstReleaseDate().format(DATE_TIME_FORMATTER))
+                            .releaseDate(igdbGame.firstReleaseDate() != null ?
+                                    igdbGame.firstReleaseDate().format(DATE_TIME_FORMATTER) :
+                                    null
+                            )
                             .summary(igdbGame.summary())
                             .build()
             );

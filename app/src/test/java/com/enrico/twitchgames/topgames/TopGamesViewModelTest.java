@@ -35,7 +35,7 @@ public class TopGamesViewModelTest {
 
     @Test
     public void topGames() throws Exception {
-        TwitchTopGamesResponse response = TestUtils.loadJson("mock/twitch/get_top_games.json", TwitchTopGamesResponse.class);
+        TwitchTopGamesResponse response = TestUtils.loadJson("mock/twitch/games/top/get_top_games.json", TwitchTopGamesResponse.class);
 
         viewModel.topGamesUpdated().accept(response.games());
 

@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1905,
+    "name": "Fortnite",
+    "summary": "Fortnite is the living, action building game from the developer formerly known as Epic MegaGames. You and your friends will lead a group of Heroes to reclaim and rebuild a homeland that has been left empty by mysterious darkness only known as \"the Storm\". \n \nBand together online to build extravagant forts, find or build insane weapons and traps and protect your towns from the strange monsters that emerge during the Storm. In an action experience from the only company smart enough to attach chainsaws to guns, get out there to push back the Storm and save the world. And don't forget to loot all the things.",
+    "first_release_date": 1500940800000,
+    "platforms": [
+      45,
+      6,
+      39,
+      14,
+      48,
+      49
+    ],
+    "screenshots": [
+      {
+        "url": "//images.igdb.com/igdb/image/upload/t_thumb/wklmdcc9vn93257yjg1c.jpg",
+        "cloudinary_id": "wklmdcc9vn93257yjg1c",
+        "width": 960,
+        "height": 540
+      },
+      {
+        "url": "//images.igdb.com/igdb/image/upload/t_thumb/xxta3pauqxscx89ou887.jpg",
+        "cloudinary_id": "xxta3pauqxscx89ou887",
+        "width": 960,
+        "height": 540
+      },
+      {
+        "url": "//images.igdb.com/igdb/image/upload/t_thumb/yrhcvy88atrfuhfshj2b.jpg",
+        "cloudinary_id": "yrhcvy88atrfuhfshj2b",
+        "width": 960,
+        "height": 540
+      },
+      {
+        "url": "//images.igdb.com/igdb/image/upload/t_thumb/vqphwdpqcsk0yvo8sbhu.jpg",
+        "cloudinary_id": "vqphwdpqcsk0yvo8sbhu",
+        "width": 960,
+        "height": 540
+      },
+      {
+        "url": "//images.igdb.com/igdb/image/upload/t_thumb/fev4okgev4xmxdogdwdf.jpg",
+        "cloudinary_id": "fev4okgev4xmxdogdwdf",
+        "width": 960,
+        "height": 540
+      }
+    ],
+    "videos": [
+      {
+        "name": "Battle Royale Announcement Trailer",
+        "video_id": "Gq2GZCc1K2k"
+      },
+      {
+        "name": "Launch Trailer",
+        "video_id": "qG-8ry32yvc"
+      },
+      {
+        "name": "E3 2017 Gameplay Trailer",
+        "video_id": "ldr0bg3S6MY"
+      },
+      {
+        "name": "Trailer",
+        "video_id": "2GSfjeYVpkQ"
+      }
+    ],
+    "cover": {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/j7lazlgtms7siqn7fn5y.jpg",
+      "cloudinary_id": "j7lazlgtms7siqn7fn5y",
+      "width": 756,
+      "height": 1080
+    },
+    "esrb": {
+      "rating": 5
+    },
+    "pegi": {
+      "rating": 3
+    },
+    "websites": [
+      {
+        "category": 10,
+        "url": "https://itunes.apple.com/us/app/fortnite/id1261357853?mt=8&uo=4"
+      },
+      {
+        "category": 9,
+        "url": "https://www.youtube.com/epicfortnite"
+      },
+      {
+        "category": 8,
+        "url": "https://www.instagram.com/fortnite"
+      },
+      {
+        "category": 6,
+        "url": "https://www.twitch.tv/fortnitegame"
+      },
+      {
+        "category": 4,
+        "url": "https://www.facebook.com/FortniteGame"
+      },
+      {
+        "category": 3,
+        "url": "https://en.wikipedia.org/wiki/Fortnite"
+      },
+      {
+        "category": 1,
+        "url": "http://fortnitegame.com"
+      },
+      {
+        "category": 5,
+        "url": "https://twitter.com/FortniteGame"
+      }
+    ]
+  }
+]

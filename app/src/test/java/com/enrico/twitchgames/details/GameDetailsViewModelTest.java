@@ -22,9 +22,13 @@ public class GameDetailsViewModelTest {
 
     private GameDetailsViewModel viewModel;
 
-    private IgdbGame game = TestUtils.loadJson("mock/igdb/get_fortnite_game.json", IgdbGame.class);
+    private List<IgdbGame> games = TestUtils.loadJson(
+            "mock/igdb/games/fortnite.json",
+            Types.newParameterizedType(List.class, IgdbGame.class)
+    );
+    private IgdbGame game = games.get(0);
     private List<TwitchStream> streams =
-            TestUtils.loadJson("mock/twitch/get_streams.json", TwitchStreamsResponse.class)
+            TestUtils.loadJson("mock/twitch/streams/get_streams.json", TwitchStreamsResponse.class)
             .streams();
 
     @Before

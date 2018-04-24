@@ -88,7 +88,7 @@ public class TopGamesPresenterTest {
 
     @Test
     public void onTopGameClicked() {
-        TwitchTopGame topGame = TestUtils.loadJson("mock/twitch/get_top_games.json", TwitchTopGamesResponse.class)
+        TwitchTopGame topGame = TestUtils.loadJson("mock/twitch/games/top/get_top_games.json", TwitchTopGamesResponse.class)
                 .games().get(1);
         setUpSuccess();
         initializePresenter();
@@ -98,7 +98,7 @@ public class TopGamesPresenterTest {
     }
 
     private List<TwitchTopGame> setUpSuccess() {
-        TwitchTopGamesResponse response = TestUtils.loadJson("mock/twitch/get_top_games.json", TwitchTopGamesResponse.class);
+        TwitchTopGamesResponse response = TestUtils.loadJson("mock/twitch/games/top/get_top_games.json", TwitchTopGamesResponse.class);
         List<TwitchTopGame> games = response.games();
 
         when(gameRepository.getTopGames()).thenReturn(Single.just(games));

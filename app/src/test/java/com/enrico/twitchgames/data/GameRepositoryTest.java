@@ -4,6 +4,7 @@ import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 import com.enrico.twitchgames.test.TestUtils;
+import com.squareup.moshi.Types;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,11 +44,19 @@ public class GameRepositoryTest {
         when(twitchRequesterProvider.get()).thenReturn(twitchRequester);
         when(igdbRequesterProvider.get()).thenReturn(igdbRequester);
 
-        twitchTopGamesResponse = TestUtils.loadJson("mock/twitch/get_top_games.json", TwitchTopGamesResponse.class);
+        twitchTopGamesResponse = TestUtils.loadJson("mock/twitch/games/top/get_top_games.json", TwitchTopGamesResponse.class);
         when(twitchRequester.getTopGames()).thenReturn(Single.just(twitchTopGamesResponse.games()));
 
-        godOfWarGame = TestUtils.loadJson("mock/igdb/get_god_of_war_game.json", IgdbGame.class);
-        fortniteGame = TestUtils.loadJson("mock/igdb/get_fortnite_game.json", IgdbGame.class);
+        List<IgdbGame> godOfWarResponse = TestUtils.loadJson(
+                "mock/igdb/games/god_of_war.json",
+                Types.newParameterizedType(List.class, IgdbGame.class)
+        );
+        godOfWarGame = godOfWarResponse.get(0);
+        List<IgdbGame> fortniteResponse = TestUtils.loadJson(
+                "mock/igdb/games/fortnite.json",
+                Types.newParameterizedType(List.class, IgdbGame.class)
+        );
+        fortniteGame = fortniteResponse.get(0);
 
         repository = new GameRepository(twitchRequesterProvider, igdbRequesterProvider, Schedulers.trampoline());
     }

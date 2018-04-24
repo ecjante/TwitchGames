@@ -2,6 +2,7 @@ package com.enrico.twitchgames.data;
 
 import com.enrico.twitchgames.models.igdb.IgdbGame;
 import com.enrico.twitchgames.test.TestUtils;
+import com.squareup.moshi.Types;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,13 +29,14 @@ public class TestIgdbService extends TestService implements IgdbService {
     @Override
     public Single<List<IgdbGame>> getGame(String searchQuery) {
         if (noError(FLAG_GET_GAME)) {
-            IgdbGame response = testUtils.loadJson("mock/igdb/get_fortnite_game.json", IgdbGame.class);
-            List<IgdbGame> list = new ArrayList<>();
-            list.add(response);
+            List<IgdbGame> response = testUtils.loadJson(
+                    "mock/igdb/games/fortnite.json",
+                    Types.newParameterizedType(List.class, IgdbGame.class)
+            );
             if (isHolding(FLAG_GET_GAME)) {
-                return holdingSingle(list, FLAG_GET_GAME);
+                return holdingSingle(response, FLAG_GET_GAME);
             }
-            return Single.just(list);
+            return Single.just(response);
         }
         return Single.error(new IOException());
     }

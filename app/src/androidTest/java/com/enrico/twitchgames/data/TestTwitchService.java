@@ -28,7 +28,7 @@ public class TestTwitchService extends TestService implements TwitchService {
     @Override
     public Single<TwitchTopGamesResponse> getTopGames(int limit, int offset) {
         if (noError(FLAG_TOP_GAMES)) {
-            TwitchTopGamesResponse response = testUtils.loadJson("mock/twitch/get_top_games.json", TwitchTopGamesResponse.class);
+            TwitchTopGamesResponse response = testUtils.loadJson("mock/twitch/games/top/get_top_games.json", TwitchTopGamesResponse.class);
             if (isHolding(FLAG_TOP_GAMES)) {
                 return holdingSingle(response, FLAG_TOP_GAMES);
             }
@@ -40,7 +40,7 @@ public class TestTwitchService extends TestService implements TwitchService {
     @Override
     public Single<TwitchStreamsResponse> getStreams(String game, int limit, int offset) {
         if (noError(FLAG_STREAMS)) {
-            TwitchStreamsResponse response = testUtils.loadJson("mock/twitch/get_streams.json", TwitchStreamsResponse.class);
+            TwitchStreamsResponse response = testUtils.loadJson("mock/twitch/streams/get_streams.json", TwitchStreamsResponse.class);
             if (isHolding(FLAG_STREAMS)) {
                 return holdingSingle(response, FLAG_STREAMS);
             }

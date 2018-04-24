@@ -2,6 +2,7 @@ package com.enrico.twitchgames.models.igdb;
 
 import org.threeten.bp.ZonedDateTime;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,17 +31,17 @@ public class IRLGame extends IgdbGame {
 
     @Override
     public List<Integer> platforms() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<IgdbGameScreenshot> screenshots() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<IgdbGameVideo> videos() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -58,7 +59,7 @@ public class IRLGame extends IgdbGame {
 
             @Override
             public String small() {
-                return null;
+                return big();
             }
         };
     }
@@ -75,6 +76,6 @@ public class IRLGame extends IgdbGame {
 
     @Override
     public List<IgdbWebsite> websites() {
-        return null;
+        return Collections.emptyList();
     }
 }

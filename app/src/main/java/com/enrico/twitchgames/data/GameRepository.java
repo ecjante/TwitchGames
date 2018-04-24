@@ -18,7 +18,7 @@ import javax.inject.Singleton;
 import io.reactivex.Maybe;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by enrico.
@@ -31,7 +31,7 @@ public class GameRepository {
     private final Scheduler scheduler;
 
     private final List<TwitchTopGame> cachedTwitchTopGames = new ArrayList<>();
-    private final Map<Long, IgdbGame> cachedIgdbGame = new HashMap<>();
+    private final Map<Long, IgdbGame> cachedIgdbGames = new HashMap<>();
     private final Map<Long, List<TwitchStream>> cachedTwitchStreams = new HashMap<>();
 
     private final long FETCH_TIME_THRESHOLD = TimeUnit.MINUTES.toMillis(30);
@@ -88,8 +88,8 @@ public class GameRepository {
 
     private Maybe<IgdbGame> cachedIgdbGame(long id) {
         return Maybe.create(e -> {
-           if (cachedIgdbGame.containsKey(id)) {
-               e.onSuccess(cachedIgdbGame.get(id));
+           if (cachedIgdbGames.containsKey(id)) {
+               e.onSuccess(cachedIgdbGames.get(id));
            }
             e.onComplete();
         });
@@ -98,8 +98,9 @@ public class GameRepository {
     private Maybe<IgdbGame> apiIgdbGame(long id, String query) {
         return igdbRequesterProvider.get().getGameInfo(query)
                 .doOnSuccess(igdbGame -> {
-                    cachedIgdbGame.put(id, igdbGame);
+                    cachedIgdbGames.put(id, igdbGame);
                 })
+                .doOnError(Timber::e)
                 .toMaybe();
     }
 
@@ -132,7 +133,11 @@ public class GameRepository {
 
     public void clearCache() {
         cachedTwitchTopGames.clear();
-        cachedIgdbGame.clear();
+        cachedIgdbGames.clear();
         cachedTwitchStreams.clear();
+    }
+
+    public void clearIgdbCache() {
+        cachedIgdbGames.clear();
     }
 }

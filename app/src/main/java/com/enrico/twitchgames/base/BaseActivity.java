@@ -14,6 +14,7 @@ import com.bluelinelabs.conductor.Router;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.di.Injector;
 import com.enrico.twitchgames.di.ScreenInjector;
+import com.enrico.twitchgames.ui.ActivityViewInterceptor;
 import com.enrico.twitchgames.ui.ScreenNavigator;
 
 import java.util.UUID;
@@ -29,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Inject ScreenInjector screenInjector;
     @Inject ScreenNavigator screenNavigator;
+    @Inject ActivityViewInterceptor activityViewInterceptor;
 
     private String instanceId;
     private Router router;
@@ -41,7 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             instanceId = UUID.randomUUID().toString();
         }
         Injector.inject(this);
-        setContentView(layoutRes());
+        activityViewInterceptor.setContentView(this, layoutRes());
 
         ViewGroup screenContainer = findViewById(R.id.screen_container);
         if (screenContainer == null)
@@ -82,6 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (isFinishing()) {
             Injector.clearComponent(this);
         }
+        activityViewInterceptor.clear();
     }
 
     public ScreenInjector getScreenInjector() {

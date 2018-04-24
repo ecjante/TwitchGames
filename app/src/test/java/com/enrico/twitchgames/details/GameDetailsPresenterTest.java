@@ -7,6 +7,7 @@ import com.enrico.twitchgames.data.responses.TwitchStreamsResponse;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
 import com.enrico.twitchgames.test.TestUtils;
+import com.squareup.moshi.Types;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,8 +40,12 @@ public class GameDetailsPresenterTest {
     @Mock Consumer<Throwable> detailErrorConsumer;
     @Mock Consumer<Throwable> streamsErrorConsumer;
 
-    private IgdbGame game = TestUtils.loadJson("mock/igdb/get_fortnite_game.json", IgdbGame.class);
-    private List<TwitchStream> streams = TestUtils.loadJson("mock/twitch/get_streams.json", TwitchStreamsResponse.class).streams();
+    private List<IgdbGame> games = TestUtils.loadJson(
+            "mock/igdb/games/fortnite.json",
+            Types.newParameterizedType(List.class, IgdbGame.class)
+    );
+    private IgdbGame game = games.get(0);
+    private List<TwitchStream> streams = TestUtils.loadJson("mock/twitch/streams/get_streams.json", TwitchStreamsResponse.class).streams();
 
     @Before
     public void setUp() throws Exception {

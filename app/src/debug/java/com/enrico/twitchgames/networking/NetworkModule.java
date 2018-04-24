@@ -37,14 +37,15 @@ public class NetworkModule {
     @Provides
     @Named("twitch_base_url")
     static String provideTwitchBaseUrl() {
-        return "https://api.twitch.tv/";
+        return "https://api.twitch.tv/kraken/";
     }
 
     @Provides
     @Singleton
     @Named("igdb_call_factory")
-    static Call.Factory provideIGDBOkHttp(Context context) {
+    static Call.Factory provideIGDBOkHttp(Context context, IgdbMockInterceptor igdbMockInterceptor) {
         return new OkHttpClient.Builder()
+                .addInterceptor(igdbMockInterceptor)
                 .addInterceptor(i -> {
                     Request request = i.request()
                             .newBuilder()

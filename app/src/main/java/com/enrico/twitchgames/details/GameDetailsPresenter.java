@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 
+import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.di.ForScreen;
 import com.enrico.twitchgames.di.ScreenScope;
@@ -14,11 +15,13 @@ import com.enrico.twitchgames.models.twitch.TwitchStream;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
 /**
  * Created by enrico.
  */
 @ScreenScope
-public class GameDetailsPresenter implements StreamsAdapter.StreamClickedListener {
+public class GameDetailsPresenter {
 
     private final Context context;
 
@@ -29,7 +32,8 @@ public class GameDetailsPresenter implements StreamsAdapter.StreamClickedListene
             @Named("game_name") String gameName,
             GameRepository repository,
             GameDetailsViewModel viewModel,
-            @ForScreen DisposableManager disposableManager) {
+            @ForScreen DisposableManager disposableManager,
+            RecyclerDataSource dataSource) {
         this.context = context;
         disposableManager.add(
                 repository.getGameInfo(twitchGameId, gameName)
@@ -39,21 +43,14 @@ public class GameDetailsPresenter implements StreamsAdapter.StreamClickedListene
                         }),
                 repository.getStreams(twitchGameId, gameName)
                         .doOnError(viewModel.streamsError())
-                        .subscribe(viewModel.processStreams(), throwable -> {
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(dataSource::setData)
+                        .subscribe(viewModel.streamsLoaded(), throwable -> {
 
                         })
         );
-//        repository.getGameInfo(twitchGameId, gameName)
-//                .doOnSuccess(viewModel.processIgdbGame())
-//                .doOnError(viewModel.detailsError())
-//                .flatMap(igdbGame -> repository.getStreams(twitchGameId, gameName)
-//                        .doOnError(viewModel.streamsError()))
-//                .subscribe(viewModel.processStreams(), throwable -> {
-//                    // Handle logging in view model
-//                });
     }
 
-    @Override
     public void onStreamClicked(TwitchStream stream) {
         Uri uri;
         if (isPackageInstalled()) {

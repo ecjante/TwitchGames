@@ -67,11 +67,10 @@ public class GameDetailsViewModel {
         };
     }
 
-    Consumer<List<TwitchStream>> processStreams() {
-        return streams -> streamsStateRelay.accept(
+    Consumer<Object> streamsLoaded() {
+        return __ -> streamsStateRelay.accept(
                 StreamsState.builder()
                         .loading(false)
-                        .streams(streams)
                         .build()
         );
     }

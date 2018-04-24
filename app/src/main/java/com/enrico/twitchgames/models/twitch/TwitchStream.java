@@ -1,5 +1,6 @@
 package com.enrico.twitchgames.models.twitch;
 
+import com.enrico.poweradapter.item.RecyclerItem;
 import com.google.auto.value.AutoValue;
 import com.squareup.moshi.Json;
 import com.squareup.moshi.JsonAdapter;
@@ -11,7 +12,7 @@ import org.threeten.bp.ZonedDateTime;
  * Created by enrico.
  */
 @AutoValue
-public abstract class TwitchStream {
+public abstract class TwitchStream implements RecyclerItem {
 
     private static final String TEMPLATE = "{width}x{height}";
     private static final String EXTRA_LARGE = "720x405";
@@ -25,6 +26,16 @@ public abstract class TwitchStream {
     @Json(name = "created_at") public abstract ZonedDateTime createdAt();
     public abstract TwitchStreamThumbnail preview();
     public abstract TwitchChannel channel();
+
+    @Override
+    public long getId() {
+        return id();
+    }
+
+    @Override
+    public String renderKey() {
+        return "TwitchStream";
+    }
 
     public static JsonAdapter<TwitchStream> jsonAdapter(Moshi moshi) {
         return new AutoValue_TwitchStream.MoshiJsonAdapter(moshi);

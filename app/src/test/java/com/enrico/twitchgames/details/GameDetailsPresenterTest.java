@@ -2,6 +2,7 @@ package com.enrico.twitchgames.details;
 
 import android.content.Context;
 
+import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.responses.TwitchStreamsResponse;
 import com.enrico.twitchgames.lifecycle.DisposableManager;
@@ -20,7 +21,9 @@ import java.io.IOException;
 import java.util.List;
 
 import io.reactivex.Single;
+import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,6 +33,10 @@ import static org.mockito.Mockito.when;
  */
 public class GameDetailsPresenterTest {
 
+    static {
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> Schedulers.trampoline());
+    }
+
     private static final long GAME_ID = 33214;
     private static final String GAME_NAME = "Fortnite";
 
@@ -38,9 +45,11 @@ public class GameDetailsPresenterTest {
     @Mock Context context;
 
     @Mock Consumer<IgdbGame> gameConsumer;
-    @Mock Consumer<List<TwitchStream>> streamsConsumer;
+    @Mock Consumer<Object> streamsConsumer;
     @Mock Consumer<Throwable> detailErrorConsumer;
     @Mock Consumer<Throwable> streamsErrorConsumer;
+
+    @Mock RecyclerDataSource dataSource;
 
     private List<IgdbGame> games = TestUtils.loadJson(
             "mock/igdb/games/fortnite.json",
@@ -54,7 +63,7 @@ public class GameDetailsPresenterTest {
         MockitoAnnotations.initMocks(this);
 
         when(viewModel.processIgdbGame()).thenReturn(gameConsumer);
-        when(viewModel.processStreams()).thenReturn(streamsConsumer);
+        when(viewModel.streamsLoaded()).thenReturn(streamsConsumer);
         when(viewModel.detailsError()).thenReturn(detailErrorConsumer);
         when(viewModel.streamsError()).thenReturn(streamsErrorConsumer);
 
@@ -82,7 +91,7 @@ public class GameDetailsPresenterTest {
     public void gameStreamers() throws Exception {
         initPresenter();
 
-        verify(streamsConsumer).accept(streams);
+        verify(dataSource).setData(streams);
     }
 
     @Test
@@ -97,6 +106,6 @@ public class GameDetailsPresenterTest {
     }
 
     private void initPresenter() {
-        new GameDetailsPresenter(context, GAME_ID, GAME_NAME, gameRepository, viewModel, Mockito.mock(DisposableManager.class));
+        new GameDetailsPresenter(context, GAME_ID, GAME_NAME, gameRepository, viewModel, Mockito.mock(DisposableManager.class), dataSource);
     }
 }

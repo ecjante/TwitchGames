@@ -16,9 +16,6 @@ abstract class StreamsState {
     abstract boolean loading();
 
     @Nullable
-    abstract List<TwitchStream> streams();
-
-    @Nullable
     abstract Integer errorRes();
 
     static Builder builder() {
@@ -32,7 +29,6 @@ abstract class StreamsState {
     @AutoValue.Builder
     abstract static class Builder {
         abstract Builder loading(boolean loading);
-        abstract Builder streams(List<TwitchStream> streams);
         abstract Builder errorRes(Integer errorRes);
         abstract StreamsState build();
     }

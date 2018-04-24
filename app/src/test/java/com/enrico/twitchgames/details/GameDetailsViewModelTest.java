@@ -13,8 +13,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by enrico.
  */
@@ -27,9 +25,6 @@ public class GameDetailsViewModelTest {
             Types.newParameterizedType(List.class, IgdbGame.class)
     );
     private IgdbGame game = games.get(0);
-    private List<TwitchStream> streams =
-            TestUtils.loadJson("mock/twitch/streams/get_streams.json", TwitchStreamsResponse.class)
-            .streams();
 
     @Before
     public void setUp() throws Exception {
@@ -66,12 +61,11 @@ public class GameDetailsViewModelTest {
 
     @Test
     public void streams() throws Exception {
-        viewModel.processStreams().accept(streams);
+        viewModel.streamsLoaded().accept(new Object());
 
         viewModel.streams().test().assertValue(
                 StreamsState.builder()
                         .loading(false)
-                        .streams(streams)
                         .build()
         );
     }

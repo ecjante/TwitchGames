@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.bluelinelabs.conductor.Controller;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.enrico.poweradapter.adapter.RecyclerAdapter;
+import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.base.BaseController;
 import com.enrico.twitchgames.customviews.ExpandableTextView;
@@ -47,6 +49,7 @@ public class GameDetailsController extends BaseController {
 
     @Inject GameDetailsViewModel viewModel;
     @Inject GameDetailsPresenter presenter;
+    @Inject RecyclerDataSource dataSource;
 
     @BindView(R.id.loading_indicator) View detailsLoadingView;
     @BindView(R.id.tv_error) TextView errorText;
@@ -69,12 +72,7 @@ public class GameDetailsController extends BaseController {
     protected void onViewBound(View view) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         streamsList.setLayoutManager(layoutManager);
-        streamsList.setAdapter(new StreamsAdapter(presenter));
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-                streamsList.getContext(),
-                layoutManager.getOrientation()
-        );
-        streamsList.addItemDecoration(dividerItemDecoration);
+        streamsList.setAdapter(new RecyclerAdapter(dataSource));
 
         summaryText.setInterpolator(new AccelerateDecelerateInterpolator());
         summaryText.setOnClickListener(v -> {
@@ -144,7 +142,6 @@ public class GameDetailsController extends BaseController {
                         streamsErrorText.setVisibility(streamsDetails.isSuccess() ? View.GONE : View.VISIBLE);
                         if (streamsDetails.isSuccess()) {
                             streamsErrorText.setText(null);
-                            ((StreamsAdapter) streamsList.getAdapter()).setData(streamsDetails.streams());
                         } else {
                             //noinspection ConstantConditions
                             streamsErrorText.setText(streamsDetails.errorRes());

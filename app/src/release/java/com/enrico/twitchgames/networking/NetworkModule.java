@@ -1,5 +1,9 @@
 package com.enrico.twitchgames.networking;
 
+import android.content.Context;
+
+import com.enrico.twitchgames.R;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -7,6 +11,7 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
  * Created by enrico.
@@ -32,7 +37,7 @@ public class NetworkModule {
     @Provides
     @Named("twitch_base_url")
     static String provideTwitchBaseUrl() {
-        return "https://api.twitch.tv/";
+        return "https://api.twitch.tv/kraken/";
     }
 
     @Provides

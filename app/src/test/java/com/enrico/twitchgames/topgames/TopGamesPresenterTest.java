@@ -1,5 +1,6 @@
 package com.enrico.twitchgames.topgames;
 
+import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
 import com.enrico.twitchgames.lifecycle.DisposableManager;
@@ -17,8 +18,11 @@ import org.mockito.MockitoAnnotations;
 import java.io.IOException;
 import java.util.List;
 
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -29,12 +33,16 @@ import static org.mockito.Mockito.when;
  */
 public class TopGamesPresenterTest {
 
+    static {
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> Schedulers.trampoline());
+    }
+
     @Mock GameRepository gameRepository;
     @Mock TopGamesViewModel viewModel;
     @Mock ScreenNavigator screenNavigator;
     @Mock Consumer<Throwable> onErrorConsumer;
-    @Mock Consumer<List<TwitchTopGame>> onSuccessConsumer;
     @Mock Consumer<Boolean> loadingConsumer;
+    @Mock RecyclerDataSource dataSource;
 
     private TopGamesPresenter presenter;
 
@@ -44,7 +52,7 @@ public class TopGamesPresenterTest {
 
         when(viewModel.loadingUpdated()).thenReturn(loadingConsumer);
         when(viewModel.onError()).thenReturn(onErrorConsumer);
-        when(viewModel.topGamesUpdated()).thenReturn(onSuccessConsumer);
+        when(viewModel.topGamesUpdated()).thenReturn(() -> {});
     }
 
     @Test
@@ -53,7 +61,7 @@ public class TopGamesPresenterTest {
         initializePresenter();
 
         verify(gameRepository).getTopGames();
-        verify(onSuccessConsumer).accept(games);
+        verify(dataSource).setData(games);
         verifyZeroInteractions(onErrorConsumer);
     }
 
@@ -63,7 +71,7 @@ public class TopGamesPresenterTest {
         initializePresenter();
 
         verify(onErrorConsumer).accept(error);
-        verifyZeroInteractions(onSuccessConsumer);
+        verifyZeroInteractions(dataSource);
     }
 
     @Test
@@ -116,6 +124,6 @@ public class TopGamesPresenterTest {
     }
 
     private void initializePresenter() {
-        presenter = new TopGamesPresenter(viewModel, gameRepository, screenNavigator, Mockito.mock(DisposableManager.class));
+        presenter = new TopGamesPresenter(viewModel, gameRepository, screenNavigator, Mockito.mock(DisposableManager.class), dataSource);
     }
 }

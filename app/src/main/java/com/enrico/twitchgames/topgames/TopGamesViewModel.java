@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -19,7 +20,6 @@ import timber.log.Timber;
 @ScreenScope
 class TopGamesViewModel {
 
-    private final BehaviorRelay<List<TwitchTopGame>> topGamesRelay = BehaviorRelay.create();
     private final BehaviorRelay<Integer> errorRelay = BehaviorRelay.create();
     private final BehaviorRelay<Boolean> loadingRelay = BehaviorRelay.create();
 
@@ -32,9 +32,6 @@ class TopGamesViewModel {
         return loadingRelay;
     }
 
-    Observable<List<TwitchTopGame>> topGames() {
-        return topGamesRelay;
-    }
 
     Observable<Integer> error() {
         return errorRelay;
@@ -44,9 +41,8 @@ class TopGamesViewModel {
         return loadingRelay;
     }
 
-    Consumer<List<TwitchTopGame>> topGamesUpdated() {
-        errorRelay.accept(-1);
-        return topGamesRelay;
+    Action topGamesUpdated() {
+        return () -> errorRelay.accept(-1);
     }
 
     Consumer<Throwable> onError() {

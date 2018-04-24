@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.enrico.poweradapter.adapter.RecyclerAdapter;
+import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.base.BaseController;
 
@@ -22,6 +24,7 @@ public class TopGamesController extends BaseController {
 
     @Inject TopGamesPresenter presenter;
     @Inject TopGamesViewModel viewModel;
+    @Inject RecyclerDataSource dataSource;
 
     @BindView(R.id.top_games_list) RecyclerView topGamesList;
     @BindView(R.id.loading_indicator) View loadingView;
@@ -31,12 +34,7 @@ public class TopGamesController extends BaseController {
     protected void onViewBound(View view) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         topGamesList.setLayoutManager(layoutManager);
-        topGamesList.setAdapter(new TopGamesAdapter(presenter));
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
-//                topGamesList.getContext(),
-//                layoutManager.getOrientation()
-//        );
-//        topGamesList.addItemDecoration(dividerItemDecoration);
+        topGamesList.setAdapter(new RecyclerAdapter(dataSource));
     }
 
     @Override
@@ -49,9 +47,9 @@ public class TopGamesController extends BaseController {
                             topGamesList.setVisibility(loading ? View.GONE : View.VISIBLE);
                             errorText.setVisibility(loading ? View.GONE : errorText.getVisibility());
                 }),
-                viewModel.topGames()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe((((TopGamesAdapter) topGamesList.getAdapter()))::setData),
+//                viewModel.topGames()
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe((((TopGamesAdapter) topGamesList.getAdapter()))::setData),
                 viewModel.error()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(errorRes -> {

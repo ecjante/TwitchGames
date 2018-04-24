@@ -34,20 +34,11 @@ public class TopGamesViewModelTest {
     }
 
     @Test
-    public void topGames() throws Exception {
-        TwitchTopGamesResponse response = TestUtils.loadJson("mock/twitch/games/top/get_top_games.json", TwitchTopGamesResponse.class);
-
-        viewModel.topGamesUpdated().accept(response.games());
-
-        viewModel.topGames().test().assertValue(response.games());
-    }
-
-    @Test
     public void error() throws Exception {
         TestObserver<Integer> errorObserver = viewModel.error().test();
 
         viewModel.onError().accept(new IOException());
-        viewModel.topGamesUpdated().accept(Collections.emptyList());
+        viewModel.topGamesUpdated().run();
 
         errorObserver.assertValues(R.string.api_error_top_games, -1);
     }

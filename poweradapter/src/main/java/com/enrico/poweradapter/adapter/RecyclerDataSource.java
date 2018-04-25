@@ -46,6 +46,18 @@ public class RecyclerDataSource {
         }
     }
 
+    @MainThread
+    public void addData(List<? extends RecyclerItem> newData) {
+        if (!newData.isEmpty()) {
+            int positionInserted = data.size();
+            data.addAll(newData);
+            RecyclerView.Adapter adapter = adapterReference.get();
+            if (adapter != null) {
+                adapter.notifyItemRangeInserted(positionInserted, newData.size());
+            }
+        }
+    }
+
     ItemRenderer<RecyclerItem> rendererForType(int viewType) {
         //noinspection unchecked
         return ((ItemRenderer<RecyclerItem>) renderers.get(viewTypeToRendererKey.get(viewType)));

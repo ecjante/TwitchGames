@@ -11,6 +11,9 @@
     <string name="a11y_channel_logo_image">Channel logo image</string>
     <string name="a11y_live_indicator">Stream is live</string>
     <string name="screen_title_top_games">Top Games</string>
+    <string name="twitch_app_uri">twitch://stream/</string>
+    <string name="twitch_browser_uri">https://www.twitch.tv/</string>
+    <string name="twitch_package">tv.twitch.android.app</string>
     <plurals name="viewer_count">
         <item quantity="one">%s viewer</item>
         <item quantity="other">%s viewers</item>

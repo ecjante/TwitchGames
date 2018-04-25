@@ -1,10 +1,12 @@
 package com.enrico.twitchgames.ui;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import com.bluelinelabs.conductor.Controller;
 import com.bluelinelabs.conductor.Router;
 import com.enrico.twitchgames.lifecycle.ActivityLifecycleTask;
+import com.enrico.twitchgames.models.twitch.TwitchStream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,8 +21,8 @@ public class TestScreenNavigator extends ActivityLifecycleTask implements Screen
     private Controller overrideController;
 
     @Inject
-    TestScreenNavigator() {
-        this.defaultScreenNavigator = new DefaultScreenNavigator();
+    TestScreenNavigator(Context context) {
+        this.defaultScreenNavigator = new DefaultScreenNavigator(context);
     }
 
     /**
@@ -48,8 +50,18 @@ public class TestScreenNavigator extends ActivityLifecycleTask implements Screen
     }
 
     @Override
-    public void goToGameDetails(long twitchGameId, String gameName) {
-        defaultScreenNavigator.goToGameDetails(twitchGameId, gameName);
+    public void goToGameDetails(long twitchGameId, String gameName, String gameBoxTemplate) {
+        defaultScreenNavigator.goToGameDetails(twitchGameId, gameName, gameBoxTemplate);
+    }
+
+    @Override
+    public void openStream(TwitchStream stream) {
+        defaultScreenNavigator.openStream(stream);
+    }
+
+    @Override
+    public void playVideo(String id) {
+        defaultScreenNavigator.playVideo(id);
     }
 
     @Override

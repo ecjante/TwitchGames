@@ -163,7 +163,7 @@ public class GameDetailsController extends BaseController {
                                     .apply(new RequestOptions().placeholder(R.drawable.screenshot_placeholder))
                                     .into(mainScreenshotImage);
                             Glide.with(gameCoverImage.getContext())
-                                    .load(details.cover())
+                                    .load(details.cover() != null ? details.cover() : twitchGame.box().getLarge())
                                     .apply(new RequestOptions().placeholder(R.drawable.game_placeholder))
                                     .into(gameCoverImage);
                         } else {
@@ -175,7 +175,7 @@ public class GameDetailsController extends BaseController {
                         releaseDateText.setText(details.releaseDate());
                         summaryText.setText(details.summary());
                         summaryText.setVisibility(details.isSuccess() ? View.VISIBLE : View.GONE);
-                        gameNameText.setText(details.name() != null ? details.name() : gameName);
+                        gameNameText.setText(details.name() != null ? details.name() : twitchGame.name());
                         showMoreOrLess.setVisibility(details.isSuccess() && summaryIsEllipsized() ? View.VISIBLE : View.GONE);
                     }
             }),

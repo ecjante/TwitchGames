@@ -52,6 +52,14 @@ class TopGamesPresenter {
         );
     }
 
+    public void loadNextTopGames() {
+        disposableManager.add(
+                gameRepository.getNextTopGames()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(dataSource::addData, viewModel.onError())
+        );
+    }
+
     void onTopGameClicked(TwitchGame game) {
         screenNavigator.goToGameDetails(game.id(), game.name(), game.box().template());
     }

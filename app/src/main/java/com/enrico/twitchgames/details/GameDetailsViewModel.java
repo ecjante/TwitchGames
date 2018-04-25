@@ -3,9 +3,13 @@ package com.enrico.twitchgames.details;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.di.ScreenScope;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
+import com.enrico.twitchgames.models.igdb.IgdbGameScreenshot;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import org.threeten.bp.format.DateTimeFormatter;
+
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -41,11 +45,12 @@ public class GameDetailsViewModel {
     Consumer<IgdbGame> processIgdbGame() {
         return igdbGame -> {
             String screenshot = null;
-            if (igdbGame.screenshots().size() > 0) {
-                screenshot = igdbGame.screenshots().get(0).big();
+            if (igdbGame.getScreenshots().size() > 0) {
+                screenshot = igdbGame.getScreenshots().get(0).big();
             }
             String cover = null;
             if (igdbGame.cover() != null) {
+                //noinspection ConstantConditions
                 cover = igdbGame.cover().big();
             }
             detailStateRelay.accept(
@@ -59,6 +64,8 @@ public class GameDetailsViewModel {
                                     null
                             )
                             .summary(igdbGame.summary())
+                            .screenshots(igdbGame.getMediumScreenshotUrls())
+                            .videos(igdbGame.getVideoUrls())
                             .build()
             );
         };

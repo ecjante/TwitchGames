@@ -4,6 +4,9 @@ import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by enrico.
  */
@@ -28,10 +31,18 @@ abstract class GameDetailState {
     abstract String summary();
 
     @Nullable
+    public abstract List<String> screenshots();
+
+    @Nullable
+    public abstract List<String> videos();
+
+    @Nullable
     abstract Integer errorRes();
 
     static Builder builder() {
-        return new AutoValue_GameDetailState.Builder();
+        return new AutoValue_GameDetailState.Builder()
+                .screenshots(Collections.emptyList())
+                .videos(Collections.emptyList());
     }
 
     boolean isSuccess() {
@@ -46,6 +57,8 @@ abstract class GameDetailState {
         abstract Builder name(String name);
         abstract Builder releaseDate(String releaseDate);
         abstract Builder summary(String summary);
+        abstract Builder screenshots(List<String> screenshots);
+        abstract Builder videos(List<String> videos);
         abstract Builder errorRes(Integer errorRes);
         abstract GameDetailState build();
     }

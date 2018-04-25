@@ -11,6 +11,7 @@ import com.enrico.twitchgames.di.ForScreen;
 import com.enrico.twitchgames.di.ScreenScope;
 import com.enrico.twitchgames.lifecycle.DisposableManager;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
+import com.enrico.twitchgames.ui.ScreenNavigator;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,18 +24,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 @ScreenScope
 public class GameDetailsPresenter {
 
-    private final Context context;
+    private final ScreenNavigator screenNavigator;
 
     @Inject
     GameDetailsPresenter(
-            Context context,
             @Named("twitch_game_id") long twitchGameId,
             @Named("game_name") String gameName,
             GameRepository repository,
             GameDetailsViewModel viewModel,
+            ScreenNavigator screenNavigator,
             @ForScreen DisposableManager disposableManager,
             RecyclerDataSource dataSource) {
-        this.context = context;
+        this.screenNavigator = screenNavigator;
         disposableManager.add(
                 repository.getGameInfo(twitchGameId, gameName)
                         .doOnError(viewModel.detailsError())
@@ -52,23 +53,6 @@ public class GameDetailsPresenter {
     }
 
     public void onStreamClicked(TwitchStream stream) {
-        Uri uri;
-        if (isPackageInstalled()) {
-            uri = Uri.parse("twitch://stream/" + stream.channel().name());
-        } else {
-            uri = Uri.parse("https://www.twitch.tv/" + stream.channel().name());
-        }
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        context.startActivity(intent);
-    }
-
-    private boolean isPackageInstalled() {
-        PackageManager pm = context.getPackageManager();
-        try {
-            pm.getPackageInfo("tv.twitch.android.app", PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
+        screenNavigator.openStream(stream);
     }
 }

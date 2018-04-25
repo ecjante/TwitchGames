@@ -36,12 +36,7 @@ public class IRLGame extends IgdbGame {
     public ZonedDateTime firstReleaseDate() {
         return null;
     }
-
-    @Override
-    public List<Integer> platforms() {
-        return Collections.emptyList();
-    }
-
+    
     @Override
     public List<IgdbGameScreenshot> screenshots() {
         return Collections.emptyList();

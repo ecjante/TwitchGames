@@ -55,6 +55,12 @@ public class GameRepository {
                 .subscribeOn(scheduler);
     }
 
+    public Single<List<TwitchTopGame>> getNextTopGames() {
+        return apiTwitchNextTopGames()
+                .subscribeOn(scheduler)
+                .toSingle();
+    }
+
     public Single<IgdbGame> getGameInfo(long id, String query) {
         return Maybe.concat(cachedIgdbGame(id), apiIgdbGame(id, query))
                 .firstOrError()
@@ -83,6 +89,12 @@ public class GameRepository {
                     cachedTwitchTopGames.addAll(twitchTopGames);
                     lastTwitchTopGamesFetch = System.currentTimeMillis();
                 })
+                .toMaybe();
+    }
+
+    private Maybe<List<TwitchTopGame>> apiTwitchNextTopGames() {
+        return twitchRequesterProvider.get().getNextTopGames()
+                .doOnSuccess(cachedTwitchTopGames::addAll)
                 .toMaybe();
     }
 

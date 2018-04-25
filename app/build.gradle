@@ -23,26 +23,27 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation "com.android.support:support-v4:$supportLibraryVersion"
     implementation "com.android.support:design:$supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
-    implementation project(":poweradapter")
+    implementation project(':poweradapter')
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+
     implementation "com.squareup.moshi:moshi:$moshiVersion"
     annotationProcessor "com.ryanharter.auto.value:auto-value-moshi:$autoValueMoshiVersion"
     compileOnly "com.ryanharter.auto.value:auto-value-moshi-annotations:$autoValueMoshiVersion"
-
     compileOnly "com.google.auto.value:auto-value:$autoValueVersion"
     annotationProcessor "com.google.auto.value:auto-value:$autoValueVersion"
 
@@ -66,11 +67,13 @@ dependencies {
     implementation "android.arch.persistence.room:rxjava2:$archComponentsVersion"
     annotationProcessor "android.arch.persistence.room:compiler:$archComponentsVersion"
 
-    testImplementation ("org.threeten:threetenbp:$threeTenAbpVersion"){
-        exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+
+    testImplementation("org.threeten:threetenbp:$threeTenAbpVersion") {
+        exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
     }
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    testImplementation "junit:junit:4.12"
+    testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$mockitoVerson"
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"

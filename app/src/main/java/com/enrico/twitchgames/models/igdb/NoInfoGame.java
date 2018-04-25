@@ -30,11 +30,6 @@ public class NoInfoGame extends IgdbGame {
     }
 
     @Override
-    public List<Integer> platforms() {
-        return Collections.emptyList();
-    }
-
-    @Override
     public List<IgdbGameScreenshot> screenshots() {
         return Collections.emptyList();
     }

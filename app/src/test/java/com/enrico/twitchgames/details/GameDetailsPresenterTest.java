@@ -9,6 +9,7 @@ import com.enrico.twitchgames.lifecycle.DisposableManager;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
 import com.enrico.twitchgames.test.TestUtils;
+import com.enrico.twitchgames.ui.ScreenNavigator;
 import com.squareup.moshi.Types;
 
 import org.junit.Before;
@@ -40,9 +41,9 @@ public class GameDetailsPresenterTest {
     private static final long GAME_ID = 33214;
     private static final String GAME_NAME = "Fortnite";
 
+    @Mock ScreenNavigator screenNavigator;
     @Mock GameRepository gameRepository;
     @Mock GameDetailsViewModel viewModel;
-    @Mock Context context;
 
     @Mock Consumer<IgdbGame> gameConsumer;
     @Mock Consumer<Object> streamsConsumer;
@@ -57,6 +58,7 @@ public class GameDetailsPresenterTest {
     );
     private IgdbGame game = games.get(0);
     private List<TwitchStream> streams = TestUtils.loadJson("mock/twitch/streams/get_streams.json", TwitchStreamsResponse.class).streams();
+    private GameDetailsPresenter presenter;
 
     @Before
     public void setUp() throws Exception {
@@ -105,7 +107,17 @@ public class GameDetailsPresenterTest {
         verify(gameConsumer).accept(game);
     }
 
+    @Test
+    public void onStreamClicked() {
+        TwitchStream twitchStream = TestUtils.loadJson("mock/twitch/streams/get_streams.json", TwitchStreamsResponse.class)
+                .streams().get(0);
+        initPresenter();
+        presenter.onStreamClicked(twitchStream);
+
+        verify(screenNavigator).openStream(twitchStream);
+    }
+
     private void initPresenter() {
-        new GameDetailsPresenter(context, GAME_ID, GAME_NAME, gameRepository, viewModel, Mockito.mock(DisposableManager.class), dataSource);
+        presenter = new GameDetailsPresenter(GAME_ID, GAME_NAME, gameRepository, viewModel, screenNavigator, Mockito.mock(DisposableManager.class), dataSource);
     }
 }

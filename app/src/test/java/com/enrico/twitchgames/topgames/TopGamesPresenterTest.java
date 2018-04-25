@@ -4,6 +4,7 @@ import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
 import com.enrico.twitchgames.lifecycle.DisposableManager;
+import com.enrico.twitchgames.models.twitch.TwitchGame;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 import com.enrico.twitchgames.test.TestUtils;
 import com.enrico.twitchgames.ui.ScreenNavigator;
@@ -103,7 +104,8 @@ public class TopGamesPresenterTest {
         initializePresenter();
         presenter.onTopGameClicked(topGame.game());
 
-        verify(screenNavigator).goToGameDetails(topGame.game().id(), topGame.game().name());
+        TwitchGame game = topGame.game();
+        verify(screenNavigator).goToGameDetails(game.id(), game.name(), game.box().template());
     }
 
     private List<TwitchTopGame> setUpSuccess() {

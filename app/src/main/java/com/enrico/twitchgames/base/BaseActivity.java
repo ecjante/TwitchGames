@@ -18,6 +18,7 @@ import com.enrico.twitchgames.lifecycle.ActivityLifecycleTask;
 import com.enrico.twitchgames.ui.ActivityViewInterceptor;
 import com.enrico.twitchgames.ui.RouterProvider;
 import com.enrico.twitchgames.ui.ScreenNavigator;
+import com.google.android.youtube.player.YouTubeBaseActivity;
 
 import java.util.Set;
 import java.util.UUID;

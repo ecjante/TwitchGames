@@ -3,12 +3,9 @@ package com.enrico.twitchgames.details;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.di.ScreenScope;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
-import com.enrico.twitchgames.models.twitch.TwitchStream;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import org.threeten.bp.format.DateTimeFormatter;
-
-import java.util.List;
 
 import javax.inject.Inject;
 

@@ -1,18 +1,16 @@
 package com.enrico.twitchgames.details;
 
-import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bluelinelabs.conductor.Controller;
@@ -23,10 +21,15 @@ import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.base.BaseController;
 import com.enrico.twitchgames.customviews.ExpandableTextView;
+import com.enrico.twitchgames.database.favorites.FavoriteTwitchGameService;
+import com.enrico.twitchgames.models.twitch.TwitchGame;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
@@ -37,19 +40,24 @@ public class GameDetailsController extends BaseController {
 
     static final String TWITCH_GAME_ID_KEY = "twitch_game_id";
     static final String GAME_NAME_KEY = "game_name";
-    private static String gameName;
+    static final String GAME_BOX_TEMPLATE_KEY = "game_box_template";
 
-    public static Controller newInstance(long twitchGameId, String gameName) {
-        GameDetailsController.gameName = gameName;
+    public static Controller newInstance(long twitchGameId, String gameName, String gameBoxTemplate) {
         Bundle bundle = new Bundle();
         bundle.putLong(TWITCH_GAME_ID_KEY, twitchGameId);
         bundle.putString(GAME_NAME_KEY, gameName);
+        bundle.putString(GAME_BOX_TEMPLATE_KEY, gameBoxTemplate);
         return new GameDetailsController(bundle);
     }
 
+
+    @Inject @Named("twitch_game_id") long twitchGameId;
+    @Inject @Named("game_name") String gameName;
+    @Inject @Named("game_box_template") String gameBoxTemplate;
     @Inject GameDetailsViewModel viewModel;
     @Inject GameDetailsPresenter presenter;
     @Inject RecyclerDataSource dataSource;
+    @Inject FavoriteTwitchGameService favoriteTwitchGameService;
 
     @BindView(R.id.loading_indicator) View detailsLoadingView;
     @BindView(R.id.tv_error) TextView errorText;
@@ -64,10 +72,23 @@ public class GameDetailsController extends BaseController {
     @BindView(R.id.streams_loading_indicator) View streamsLoadingView;
     @BindView(R.id.tv_streams_error) TextView streamsErrorText;
 
+    @BindView(R.id.ib_favorite) ImageButton favoriteButton;
+
+    private Disposable favoriteDisposable;
+    private TwitchGame twitchGame;
+
     public GameDetailsController(Bundle bundle) {
         super(bundle);
     }
 
+    @Override
+    protected void onContextAvailable(@NonNull Context context) {
+        super.onContextAvailable(context);
+
+        twitchGame = TwitchGame.buildGame(twitchGameId, gameName, gameBoxTemplate);
+    }
+
+    @SuppressLint("CheckResult")
     @Override
     protected void onViewBound(View view) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
@@ -92,6 +113,36 @@ public class GameDetailsController extends BaseController {
                 showMoreOrLess.setText(R.string.show_more);
             }
         });
+
+        RxView.attachEvents(favoriteButton)
+                .subscribe(event -> {
+                    if (event.view().isAttachedToWindow()) {
+                        listenForFavoriteChanges();
+                    } else {
+                        if (favoriteDisposable != null) {
+                            favoriteDisposable.dispose();
+                            favoriteDisposable = null;
+                        }
+                    }
+                });
+    }
+
+    @OnClick(R.id.ib_favorite)
+    void toggleFavorite() {
+        if (twitchGame != null) {
+            favoriteTwitchGameService.toggleFavoriteTwitchGame(twitchGame);
+        }
+    }
+
+    private void listenForFavoriteChanges() {
+        favoriteDisposable = favoriteTwitchGameService.favoritedTwitchGameIds()
+                .map(favoriteIds -> favoriteIds.contains(twitchGameId))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isFavorite -> {
+                    if (favoriteButton != null) {
+                        favoriteButton.setImageResource(isFavorite ? R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+                    }
+                });
     }
 
     @Override

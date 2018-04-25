@@ -4,6 +4,7 @@ import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.TestGameServiceModule;
 import com.enrico.twitchgames.data.TestIgdbService;
 import com.enrico.twitchgames.data.TestTwitchService;
+import com.enrico.twitchgames.database.DatabaseModule;
 import com.enrico.twitchgames.networking.ServiceModule;
 import com.enrico.twitchgames.topgames.TopGamesControllerTest;
 import com.enrico.twitchgames.ui.TestActivityViewInterceptorModule;
@@ -25,6 +26,7 @@ import dagger.Component;
         ServiceModule.class,
         TestNavigationModule.class,
         TestActivityViewInterceptorModule.class,
+        DatabaseModule.class,
 })
 public interface TestAppComponent extends AppComponent {
 

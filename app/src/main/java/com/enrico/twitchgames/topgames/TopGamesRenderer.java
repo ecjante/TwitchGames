@@ -1,9 +1,11 @@
 package com.enrico.twitchgames.topgames;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,7 +13,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.enrico.poweradapter.item.ItemRenderer;
 import com.enrico.twitchgames.R;
+import com.enrico.twitchgames.database.favorites.FavoriteTwitchGameService;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -21,6 +25,9 @@ import javax.inject.Provider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by enrico.
@@ -28,10 +35,14 @@ import butterknife.ButterKnife;
 public class TopGamesRenderer implements ItemRenderer<TwitchTopGame> {
 
     private final Provider<TopGamesPresenter> presenterProvider;
+    private final FavoriteTwitchGameService favoriteTwitchGameService;
 
     @Inject
-    TopGamesRenderer(Provider<TopGamesPresenter> presenterProvider) {
+    TopGamesRenderer(
+            Provider<TopGamesPresenter> presenterProvider,
+            FavoriteTwitchGameService favoriteTwitchGameService) {
         this.presenterProvider = presenterProvider;
+        this.favoriteTwitchGameService = favoriteTwitchGameService;
     }
 
     @Override
@@ -43,7 +54,7 @@ public class TopGamesRenderer implements ItemRenderer<TwitchTopGame> {
     public View createView(@NonNull ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(layoutRes(), parent, false);
-        view.setTag(new ViewBinder(view, presenterProvider.get()));
+        view.setTag(new ViewBinder(view, presenterProvider.get(), favoriteTwitchGameService));
         return view;
     }
 
@@ -54,20 +65,55 @@ public class TopGamesRenderer implements ItemRenderer<TwitchTopGame> {
 
     static class ViewBinder {
 
-        private TwitchTopGame topGame;
-        @BindView(R.id.iv_box_art)
-        ImageView boxArtImage;
-        @BindView(R.id.tv_game_name)
-        TextView gameNameText;
+        @BindView(R.id.iv_box_art) ImageView boxArtImage;
+        @BindView(R.id.tv_game_name) TextView gameNameText;
         @BindView(R.id.tv_viewer_count) TextView viewerCountText;
+        @BindView(R.id.ib_favorite) ImageButton favoriteButton;
 
-        ViewBinder(View itemView, TopGamesPresenter presenter) {
+        private final FavoriteTwitchGameService favoriteTwitchGameService;
+
+        private TwitchTopGame topGame;
+        private Disposable favoriteDisposable;
+
+        @SuppressLint("CheckResult")
+        ViewBinder(View itemView, TopGamesPresenter presenter, FavoriteTwitchGameService favoriteTwitchGameService) {
+            this.favoriteTwitchGameService = favoriteTwitchGameService;
             ButterKnife.bind(this, itemView);
+
             itemView.setOnClickListener(v -> {
                 if (topGame != null) {
                     presenter.onTopGameClicked(topGame.game());
                 }
             });
+
+            RxView.attachEvents(favoriteButton)
+                    .subscribe(event -> {
+                        if (event.view().isAttachedToWindow()) {
+                            listenForFavoriteChanges();
+                        } else {
+                            if (favoriteDisposable != null) {
+                                favoriteDisposable.dispose();
+                                favoriteDisposable = null;
+                            }
+                        }
+                    });
+        }
+
+        @OnClick(R.id.ib_favorite)
+        void toggleFavorite() {
+            if (topGame != null) {
+                favoriteTwitchGameService.toggleFavoriteTwitchGame(topGame.game());
+            }
+        }
+
+        private void listenForFavoriteChanges() {
+            favoriteDisposable = favoriteTwitchGameService.favoritedTwitchGameIds()
+                    .filter(__ -> topGame != null)
+                    .map(favoriteIds -> favoriteIds.contains(topGame.getId()))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(isFavorite -> {
+                        favoriteButton.setImageResource(isFavorite ? R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+                    });
         }
 
         void bind(TwitchTopGame topGame) {

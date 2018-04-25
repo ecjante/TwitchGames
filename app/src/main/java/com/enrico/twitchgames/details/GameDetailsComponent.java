@@ -29,10 +29,15 @@ public interface GameDetailsComponent extends ScreenComponent<GameDetailsControl
         @BindsInstance
         public abstract void bindGameName(@Named("game_name") String gameName);
 
+        @BindsInstance
+        public abstract void bindGameBoxTemplate(@Named("game_box_template") String gameBoxTemplate);
+
         @Override
         public void seedInstance(GameDetailsController instance) {
             bindTwitchGameId(instance.getArgs().getLong(GameDetailsController.TWITCH_GAME_ID_KEY));
             bindGameName(instance.getArgs().getString(GameDetailsController.GAME_NAME_KEY));
+            bindGameBoxTemplate(instance.getArgs().getString(GameDetailsController.GAME_BOX_TEMPLATE_KEY));
+
         }
     }
 }

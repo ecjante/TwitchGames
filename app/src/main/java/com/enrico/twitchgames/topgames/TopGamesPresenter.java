@@ -53,6 +53,6 @@ class TopGamesPresenter {
     }
 
     void onTopGameClicked(TwitchGame game) {
-        screenNavigator.goToGameDetails(game.id(), game.name());
+        screenNavigator.goToGameDetails(game.id(), game.name(), game.box().template());
     }
 }

@@ -37,7 +37,7 @@ public class NetworkModule {
     @Provides
     @Named("twitch_base_url")
     static String provideTwitchBaseUrl() {
-        return "https://api.twitch.tv/kraken/";
+        return "https://api.twitch.tv/";
     }
 
     @Provides

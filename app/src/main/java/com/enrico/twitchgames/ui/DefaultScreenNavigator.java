@@ -45,10 +45,10 @@ public class DefaultScreenNavigator extends ActivityLifecycleTask implements Scr
     }
 
     @Override
-    public void goToGameDetails(long twitchGameId, String gameName) {
+    public void goToGameDetails(long twitchGameId, String gameName, String gameBoxTemplate) {
         if (router != null) {
             router.pushController(
-                    RouterTransaction.with(GameDetailsController.newInstance(twitchGameId, gameName))
+                    RouterTransaction.with(GameDetailsController.newInstance(twitchGameId, gameName, gameBoxTemplate))
                             .pushChangeHandler(new FadeChangeHandler())
                             .popChangeHandler(new FadeChangeHandler())
 

@@ -19,6 +19,16 @@ public abstract class TwitchGameBox extends TwitchImage {
         return new AutoValue_TwitchGameBox.MoshiJsonAdapter(moshi);
     }
 
+    public static Builder builder() {
+        return new AutoValue_TwitchGameBox.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Builder template(String Template);
+        public abstract TwitchGameBox build();
+    }
+
     public String getExtraLarge() {
         return buildUrl(EXTRA_LARGE);
     }

@@ -131,6 +131,6 @@ public class GameDetailsControllerTest extends ControllerTest {
 
     @Override
     protected Controller controllerToLaunch() {
-        return GameDetailsController.newInstance(33214, "Fortnite");
+        return GameDetailsController.newInstance(33214, "Fortnite", "https://static-cdn.jtvnw.net/ttv-boxart/Fortnite-{width}x{height}.jpg");
     }
 }

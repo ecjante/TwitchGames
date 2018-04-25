@@ -49,8 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/list_item_horizontal_margin"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/ib_favorite"
         app:layout_constraintStart_toEndOf="@+id/iv_box_art"
         tools:text="Counter-Strike: Global Offensive" />
 
@@ -60,8 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/top_game_item_secondary_text_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/ib_favorite"
         app:layout_constraintStart_toStartOf="@+id/tv_game_name"
         app:layout_constraintTop_toBottomOf="@+id/guideline"
         tools:text="182,500 Viewers" />
@@ -72,5 +70,18 @@
         android:layout_height="1dp"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/ib_favorite"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginEnd="4dp"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/icon_padding"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:srcCompat="@drawable/ic_favorite_border" />
 
 </android.support.constraint.ConstraintLayout>

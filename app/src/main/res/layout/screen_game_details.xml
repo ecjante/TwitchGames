@@ -5,7 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/app_bar" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:titleTextColor="@color/toolbar_text_color">
+
+            <ImageButton
+                android:id="@+id/ib_favorite"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/icon_padding"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_favorite_border" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -36,7 +59,6 @@
             </android.support.design.widget.CollapsingToolbarLayout>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 app:title="Live Streams"

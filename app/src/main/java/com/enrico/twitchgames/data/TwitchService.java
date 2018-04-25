@@ -12,9 +12,9 @@ import retrofit2.http.Query;
  */
 public interface TwitchService {
 
-    @GET("games/top")
+    @GET("kraken/games/top")
     Single<TwitchTopGamesResponse> getTopGames(@Query("limit") int limit, @Query("offset") int offset);
 
-    @GET("streams?stream_type=live")
+    @GET("kraken/streams?stream_type=live")
     Single<TwitchStreamsResponse> getStreams(@Query("game") String game, @Query("limit") int limit, @Query("offset") int offset);
 }

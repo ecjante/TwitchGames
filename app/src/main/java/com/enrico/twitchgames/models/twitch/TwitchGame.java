@@ -22,4 +22,25 @@ public abstract class TwitchGame {
     public static JsonAdapter<TwitchGame> jsonAdapter(Moshi moshi) {
         return new AutoValue_TwitchGame.MoshiJsonAdapter(moshi);
     }
+
+    public static Builder builder() {
+        return new AutoValue_TwitchGame.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Builder id(Long id);
+        public abstract Builder box(TwitchGameBox box);
+        public abstract Builder name(String name);
+        public abstract Builder popularity(Integer popularity);
+        public abstract TwitchGame build();
+    }
+
+    public static TwitchGame buildGame(Long id, String name, String boxTemplate) {
+        return TwitchGame.builder()
+                .id(id)
+                .name(name)
+                .box(TwitchGameBox.builder().template(boxTemplate).build())
+                .build();
+    }
 }

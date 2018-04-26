@@ -30,7 +30,7 @@ ext {
     rxAndroidVersion = '2.0.2'
     rxRelayVersion = '2.0.0'
     rxBindingVersion = '2.0.0'
-    conductorVersion = '2.1.4'
+    conductorVersion = '2.1.5-SNAPSHOT'
     threeTenAbpVersion = '1.0.5'
     timberVersion = '4.6.0'
     butterknifeVersion = '8.8.1'
@@ -45,6 +45,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 }
 

@@ -14,4 +14,6 @@ public interface ScreenNavigator {
     void openStream(TwitchStream stream);
 
     void playVideo(String id);
+
+    void openScreenshot(String url);
 }

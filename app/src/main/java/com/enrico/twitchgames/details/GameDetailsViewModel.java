@@ -3,13 +3,11 @@ package com.enrico.twitchgames.details;
 import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.di.ScreenScope;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
-import com.enrico.twitchgames.models.igdb.IgdbGameScreenshot;
 import com.jakewharton.rxrelay2.BehaviorRelay;
 
 import org.threeten.bp.format.DateTimeFormatter;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -64,8 +62,8 @@ public class GameDetailsViewModel {
                                     null
                             )
                             .summary(igdbGame.summary())
-                            .screenshots(igdbGame.getMediumScreenshotUrls())
-                            .videos(igdbGame.getVideoUrls())
+                            .screenshots(!igdbGame.getScreenshots().isEmpty())
+                            .videos(!igdbGame.getVideos().isEmpty())
                             .build()
             );
         };

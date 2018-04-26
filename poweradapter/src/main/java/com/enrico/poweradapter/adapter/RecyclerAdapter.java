@@ -11,10 +11,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private final RecyclerDataSource dataSource;
 
-    public RecyclerAdapter(RecyclerDataSource dataSource) {
+    public RecyclerAdapter(RecyclerDataSource dataSource, boolean hasStableIds) {
         this.dataSource = dataSource;
         dataSource.attachToAdapter(this);
-        setHasStableIds(true);
+        setHasStableIds(hasStableIds);
     }
 
     @Override
@@ -39,6 +39,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     @Override
     public long getItemId(int position) {
-        return dataSource.getItem(position).getId();
+        if (hasStableIds()) {
+            return dataSource.getItem(position).getId();
+        } else {
+            return super.getItemId(position);
+        }
     }
 }

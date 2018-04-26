@@ -4,6 +4,8 @@ import com.bluelinelabs.conductor.Controller;
 import com.enrico.twitchgames.details.GameDetailsComponent;
 import com.enrico.twitchgames.details.GameDetailsController;
 import com.enrico.twitchgames.di.ControllerKey;
+import com.enrico.twitchgames.screenshot.ScreenshotComponent;
+import com.enrico.twitchgames.screenshot.ScreenshotController;
 import com.enrico.twitchgames.topgames.TopGamesComponent;
 import com.enrico.twitchgames.topgames.TopGamesController;
 
@@ -18,7 +20,8 @@ import dagger.multibindings.IntoMap;
  */
 @Module(subcomponents = {
         TopGamesComponent.class,
-        GameDetailsComponent.class
+        GameDetailsComponent.class,
+        ScreenshotComponent.class,
 })
 public abstract class MainScreenBindingModule {
 
@@ -31,4 +34,9 @@ public abstract class MainScreenBindingModule {
     @IntoMap
     @ControllerKey(GameDetailsController.class)
     abstract AndroidInjector.Factory<? extends Controller> bindGameDetailsInjector(GameDetailsComponent.Builder builder);
+
+    @Binds
+    @IntoMap
+    @ControllerKey(ScreenshotController.class)
+    abstract AndroidInjector.Factory<? extends Controller> bindScreenshotInjector(ScreenshotComponent.Builder builder);
 }

@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="vertical_margin">16dp</dimen>
+    <dimen name="horizontal_margin">16dp</dimen>
+
     <dimen name="top_game_item_image_width">52dp</dimen>
     <dimen name="top_game_item_image_length">72dp</dimen>
-    <dimen name="list_item_horizontal_margin">16dp</dimen>
     <dimen name="list_item_vertical_margin">8dp</dimen>
     <dimen name="top_game_item_secondary_text_size">12sp</dimen>
-    <dimen name="game_details_horizontal_margin">16dp</dimen>
     <dimen name="channel_logo_size">48dp</dimen>
     <dimen name="stream_list_item_margin">8dp</dimen>
     <dimen name="stream_list_secondary_text_size">12sp</dimen>
     <dimen name="game_details_cover_height">150dp</dimen>
     <dimen name="game_details_split_margin">4dp</dimen>
-    <dimen name="vertical_margin">8dp</dimen>
+    <dimen name="header_vertical_margin">8dp</dimen>
     <dimen name="secondary_text_size">12sp</dimen>
     <dimen name="icon_padding">12dp</dimen>
     <dimen name="icon_size">48dp</dimen>
+    <dimen name="screenshot_horizontal_margin">8dp</dimen>
+    <dimen name="toolbar_height">48dp</dimen>
+    <dimen name="details_horizontal_recycler_view_height">100dp</dimen>
+    <dimen name="details_horizontal_recycler_view_end_padding">8dp</dimen>
 </resources>

@@ -2,6 +2,7 @@ package com.enrico.twitchgames.ui;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.bluelinelabs.conductor.Controller;
 import com.bluelinelabs.conductor.Router;
@@ -62,6 +63,11 @@ public class TestScreenNavigator extends ActivityLifecycleTask implements Screen
     @Override
     public void playVideo(String id) {
         defaultScreenNavigator.playVideo(id);
+    }
+
+    @Override
+    public void openScreenshot(String url) {
+        defaultScreenNavigator.openScreenshot(url);
     }
 
     @Override

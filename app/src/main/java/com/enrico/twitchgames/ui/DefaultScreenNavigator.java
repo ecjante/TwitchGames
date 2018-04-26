@@ -1,6 +1,5 @@
 package com.enrico.twitchgames.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +15,12 @@ import com.enrico.twitchgames.details.GameDetailsController;
 import com.enrico.twitchgames.di.ActivityScope;
 import com.enrico.twitchgames.lifecycle.ActivityLifecycleTask;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
+import com.enrico.twitchgames.screenshot.ScreenshotController;
+import com.enrico.twitchgames.ui.changehandlers.ArcFadeMoveChangeHandlerCompat;
 import com.enrico.twitchgames.youtube.QuickPlayActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -92,6 +96,20 @@ public class DefaultScreenNavigator extends ActivityLifecycleTask implements Scr
         Intent intent = new Intent(context, QuickPlayActivity.class);
         intent.putExtra(QuickPlayActivity.YOUTUBE_ID_KEY, id);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void openScreenshot(String url) {
+        if (router != null) {
+            String sharedName = context.getString(R.string.screenshot_image);
+            List<String> names = new ArrayList<>();
+            names.add(sharedName);
+            router.pushController(
+                    RouterTransaction.with(ScreenshotController.newInstance(url))
+                            .pushChangeHandler(new ArcFadeMoveChangeHandlerCompat(sharedName))
+                            .popChangeHandler(new ArcFadeMoveChangeHandlerCompat(sharedName))
+            );
+        }
     }
 
     @Override

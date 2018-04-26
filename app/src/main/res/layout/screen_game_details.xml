@@ -46,21 +46,34 @@
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed" >
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
                     <include
                         android:id="@+id/header"
                         layout="@layout/screen_game_details_header" />
 
-                </FrameLayout>
+                    <include android:id="@+id/screenshots"
+                        layout="@layout/screen_game_details_screenshots" />
+
+                    <include android:id="@+id/videos"
+                        layout="@layout/screen_game_details_videos" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/vertical_margin"
+                        android:background="@color/colorPrimaryDark" />
+
+                </LinearLayout>
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/toolbar_height"
                 app:title="Live Streams"
                 app:titleTextAppearance="@style/TextAppearance.AppCompat.Subhead.Inverse"
                 app:layout_collapseMode="pin" />
@@ -76,7 +89,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/anchor"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/toolbar_height"
             app:layout_anchor="@+id/streams_list"/>
 
         <ProgressBar

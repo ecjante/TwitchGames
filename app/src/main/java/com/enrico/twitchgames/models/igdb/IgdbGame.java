@@ -73,10 +73,10 @@ public abstract class IgdbGame {
         return stringScreenshots;
     }
 
-    public List<String> getVideoUrls() {
+    public List<String> getVideoIds() {
         List<String> stringVideos = new ArrayList<>();
         for (IgdbGameVideo video : getVideos()) {
-            stringVideos.add(video.getUrl());
+            stringVideos.add(video.videoId());
         }
         return stringVideos;
     }

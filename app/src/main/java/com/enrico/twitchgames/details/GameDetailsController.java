@@ -56,7 +56,9 @@ public class GameDetailsController extends BaseController {
     @Inject @Named("game_box_template") String gameBoxTemplate;
     @Inject GameDetailsViewModel viewModel;
     @Inject GameDetailsPresenter presenter;
-    @Inject RecyclerDataSource dataSource;
+    @Inject @Named("streams_datasource") RecyclerDataSource streamsDataSource;
+    @Inject @Named("screenshots_datasource") RecyclerDataSource screenshotsDataSource;
+    @Inject @Named("videos_datasource") RecyclerDataSource videosDataSource;
     @Inject FavoriteTwitchGameService favoriteTwitchGameService;
 
     @BindView(R.id.loading_indicator) View detailsLoadingView;
@@ -68,11 +70,18 @@ public class GameDetailsController extends BaseController {
     @BindView(R.id.tv_summary) ExpandableTextView summaryText;
     @BindView(R.id.show_more_or_less) TextView showMoreOrLess;
 
+    @BindView(R.id.screenshots) View screenshots;
+    @BindView(R.id.screenshot_list) RecyclerView screenshotList;
+
+    @BindView(R.id.videos) View videos;
+    @BindView(R.id.video_list) RecyclerView videoList;
+
     @BindView(R.id.streams_list) RecyclerView streamsList;
     @BindView(R.id.streams_loading_indicator) View streamsLoadingView;
     @BindView(R.id.tv_streams_error) TextView streamsErrorText;
 
     @BindView(R.id.ib_favorite) ImageButton favoriteButton;
+
 
     private Disposable favoriteDisposable;
     private TwitchGame twitchGame;
@@ -91,9 +100,15 @@ public class GameDetailsController extends BaseController {
     @SuppressLint("CheckResult")
     @Override
     protected void onViewBound(View view) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
-        streamsList.setLayoutManager(layoutManager);
-        streamsList.setAdapter(new RecyclerAdapter(dataSource));
+        screenshotList.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        screenshotList.setAdapter(new RecyclerAdapter(screenshotsDataSource, false));
+
+        videoList.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        videoList.setAdapter(new RecyclerAdapter(videosDataSource, false));
+
+        LinearLayoutManager streamsLayoutManager = new LinearLayoutManager(view.getContext());
+        streamsList.setLayoutManager(streamsLayoutManager);
+        streamsList.setAdapter(new RecyclerAdapter(streamsDataSource, true));
 
         summaryText.setInterpolator(new AccelerateDecelerateInterpolator());
         summaryText.setOnClickListener(v -> {
@@ -177,6 +192,8 @@ public class GameDetailsController extends BaseController {
                         summaryText.setVisibility(details.isSuccess() ? View.VISIBLE : View.GONE);
                         gameNameText.setText(details.name() != null ? details.name() : twitchGame.name());
                         showMoreOrLess.setVisibility(details.isSuccess() && summaryIsEllipsized() ? View.VISIBLE : View.GONE);
+                        screenshots.setVisibility(details.hasScreenshots() ? View.VISIBLE : View.GONE);
+                        videos.setVisibility(details.hasVideos() ? View.VISIBLE : View.GONE);
                     }
             }),
             viewModel.streams()

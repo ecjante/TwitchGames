@@ -26,12 +26,12 @@ import butterknife.ButterKnife;
 /**
  * Created by enrico.
  */
-public class StreamRender implements ItemRenderer<TwitchStream> {
+public class StreamRenderer implements ItemRenderer<TwitchStream> {
 
     private final Provider<GameDetailsPresenter> presenterProvider;
 
     @Inject
-    StreamRender(Provider<GameDetailsPresenter> presenterProvider) {
+    StreamRenderer(Provider<GameDetailsPresenter> presenterProvider) {
         this.presenterProvider = presenterProvider;
     }
 
@@ -56,10 +56,8 @@ public class StreamRender implements ItemRenderer<TwitchStream> {
     static class ViewBinder {
 
         private TwitchStream stream;
-        @BindView(R.id.iv_thumbnail)
-        ImageView thumbnailImage;
-        @BindView(R.id.tv_viewer_count)
-        TextView viewerCountText;
+        @BindView(R.id.iv_thumbnail) ImageView thumbnailImage;
+        @BindView(R.id.tv_viewer_count) TextView viewerCountText;
         @BindView(R.id.iv_channel_logo) ImageView channelLogoImage;
         @BindView(R.id.tv_channel_name) TextView channelNameText;
         @BindView(R.id.tv_channel_status) TextView channelStatusText;

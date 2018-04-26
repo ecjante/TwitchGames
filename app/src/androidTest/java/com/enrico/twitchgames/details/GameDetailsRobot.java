@@ -8,10 +8,13 @@ import android.net.Uri;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.matcher.IntentMatchers;
+import android.support.test.espresso.intent.matcher.UriMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.enrico.twitchgames.R;
+import com.enrico.twitchgames.test.RecyclerViewTestUtils;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -20,10 +23,14 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.toPackage;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.enrico.twitchgames.test.RecyclerViewTestUtils.withRecyclerView;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 /**
  * Created by enrico.
@@ -101,55 +108,15 @@ class GameDetailsRobot {
         return this;
     }
 
-    GameDetailsRobot verifyHeaderVisibility(ViewMatchers.Visibility visibility) {
-        onView(withId(R.id.header)).check(matches(withEffectiveVisibility(visibility)));
+    GameDetailsRobot verifyScreenshotShown() {
+        onView(withRecyclerView(R.id.screenshot_list).atPosition(0))
+                .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
         return this;
     }
 
-    GameDetailsRobot verifyStreamClicked(Activity activity) {
-        Intent browserIntent = new Intent();
-        Uri browserUri = Uri.parse(TEST_BROWSER_URI);
-        browserIntent.setData(browserUri);
-        Instrumentation.ActivityResult browserResult = new Instrumentation.ActivityResult(Activity.RESULT_OK, browserIntent);
-
-        Intent twitchIntent = new Intent();
-        Uri twitchUri = Uri.parse(TEST_TWITCH_URI);
-        twitchIntent.setData(Uri.parse(TEST_TWITCH_URI));
-        Instrumentation.ActivityResult twitchResult = new Instrumentation.ActivityResult(Activity.RESULT_OK, twitchIntent);
-
-        intending(allOf(
-                hasData(browserUri),
-                hasAction(Intent.ACTION_VIEW)
-        )).respondWith(browserResult);
-
-        intending(allOf(
-                hasData(twitchUri),
-                hasAction(Intent.ACTION_VIEW)
-        )).respondWith(twitchResult);
-
-        onView(withId(R.id.streams_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        PackageManager pm = activity.getPackageManager();
-        boolean packagedInstalled;
-        try {
-            pm.getPackageInfo(TWITCH_PACKAGE, PackageManager.GET_ACTIVITIES);
-            packagedInstalled = true;
-        } catch (PackageManager.NameNotFoundException e) {
-            packagedInstalled = false;
-        }
-        if (packagedInstalled) {
-            Intents.intended(allOf(
-                    hasAction(Matchers.equalTo(Intent.ACTION_VIEW)),
-                    IntentMatchers.hasData(Matchers.equalTo(twitchUri)),
-                    IntentMatchers.toPackage(TWITCH_PACKAGE)));
-        } else {
-            Intents.intended(allOf(
-                    hasAction(Matchers.equalTo(Intent.ACTION_VIEW)),
-                    IntentMatchers.hasData(Matchers.equalTo(browserUri)),
-                    IntentMatchers.toPackage(CHROME_PACKAGE)));
-        }
-
+    GameDetailsRobot verifyVideosShown() {
+        onView(withRecyclerView(R.id.video_list).atPosition(0))
+                .check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
         return this;
     }
 }

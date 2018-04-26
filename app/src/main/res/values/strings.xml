@@ -14,6 +14,11 @@
     <string name="twitch_app_uri">twitch://stream/</string>
     <string name="twitch_browser_uri">https://www.twitch.tv/</string>
     <string name="twitch_package">tv.twitch.android.app</string>
+    <string name="screenshot_image">screenshot_image</string>
+    <string name="screenshots_label">Screenshots</string>
+    <string name="video_label">Videos</string>
+    <string name="video_image">video_image</string>
+    <string name="screenshot_image_large">screenshot_image_large</string>
     <plurals name="viewer_count">
         <item quantity="one">%s viewer</item>
         <item quantity="other">%s viewers</item>

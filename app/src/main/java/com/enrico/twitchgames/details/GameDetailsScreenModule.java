@@ -9,6 +9,8 @@ import com.enrico.twitchgames.lifecycle.ScreenLifecycleTask;
 
 import java.util.Map;
 
+import javax.inject.Named;
+
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -28,11 +30,35 @@ public abstract class GameDetailsScreenModule {
     @Binds
     @IntoMap
     @RenderKey("TwitchStream")
-    abstract ItemRenderer<? extends RecyclerItem> bindTopGameRenderer(StreamRender streamRenderer);
+    abstract ItemRenderer<? extends RecyclerItem> bindTopGameRenderer(StreamRenderer streamRenderer);
+
+    @Binds
+    @IntoMap
+    @RenderKey("IgdbGameScreenshot")
+    abstract ItemRenderer<? extends RecyclerItem> bindIgdbGameScreenshotRenderer(IgdbGameScreenshotRenderer igdbGameScreenshotRenderer);
+    @Binds
+    @IntoMap
+    @RenderKey("IgdbGameVideo")
+    abstract ItemRenderer<? extends RecyclerItem> bindIgdbGameVideoRenderer(IgdbGameVideoRenderer igdbGameVideoRenderer);
 
     @Provides
     @ScreenScope
-    static RecyclerDataSource provideRecyclerDataSource(Map<String, ItemRenderer<? extends RecyclerItem>> renderers) {
+    @Named("streams_datasource")
+    static RecyclerDataSource provideStreamsRecyclerDataSource(Map<String, ItemRenderer<? extends RecyclerItem>> renderers) {
+        return new RecyclerDataSource(renderers);
+    }
+
+    @Provides
+    @ScreenScope
+    @Named("screenshots_datasource")
+    static RecyclerDataSource provideScreenshotsRecyclerDataSource(Map<String, ItemRenderer<? extends RecyclerItem>> renderers) {
+        return new RecyclerDataSource(renderers);
+    }
+
+    @Provides
+    @ScreenScope
+    @Named("videos_datasource")
+    static RecyclerDataSource provideVideoRecyclerDataSource(Map<String, ItemRenderer<? extends RecyclerItem>> renderers) {
         return new RecyclerDataSource(renderers);
     }
 }

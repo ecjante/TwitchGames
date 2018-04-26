@@ -1,7 +1,5 @@
 package com.enrico.twitchgames.details;
 
-import android.content.Context;
-
 import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.data.responses.TwitchStreamsResponse;
@@ -26,6 +24,8 @@ import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +50,9 @@ public class GameDetailsPresenterTest {
     @Mock Consumer<Throwable> detailErrorConsumer;
     @Mock Consumer<Throwable> streamsErrorConsumer;
 
-    @Mock RecyclerDataSource dataSource;
+    @Mock RecyclerDataSource streamsDataSource;
+    @Mock RecyclerDataSource screenshotsDataSource;
+    @Mock RecyclerDataSource videosDataSource;
 
     private List<IgdbGame> games = TestUtils.loadJson(
             "mock/igdb/games/fortnite.json",
@@ -93,7 +95,7 @@ public class GameDetailsPresenterTest {
     public void gameStreamers() throws Exception {
         initPresenter();
 
-        verify(dataSource).setData(streams);
+        verify(streamsDataSource).setData(streams);
     }
 
     @Test
@@ -117,7 +119,33 @@ public class GameDetailsPresenterTest {
         verify(screenNavigator).openStream(twitchStream);
     }
 
+    @Test
+    public void onScreenshotClicked() {
+        initPresenter();
+        presenter.onScreenshotClicked(anyString());
+
+        verify(screenNavigator).openScreenshot(anyString());
+    }
+
+    @Test
+    public void onVideoClicked() {
+        initPresenter();
+        presenter.onVideoClicked(anyString());
+
+        verify(screenNavigator).playVideo(anyString());
+    }
+
     private void initPresenter() {
-        presenter = new GameDetailsPresenter(GAME_ID, GAME_NAME, gameRepository, viewModel, screenNavigator, Mockito.mock(DisposableManager.class), dataSource);
+        presenter = new GameDetailsPresenter(
+                GAME_ID,
+                GAME_NAME,
+                gameRepository,
+                viewModel,
+                screenNavigator,
+                Mockito.mock(DisposableManager.class),
+                streamsDataSource,
+                screenshotsDataSource,
+                videosDataSource
+        );
     }
 }

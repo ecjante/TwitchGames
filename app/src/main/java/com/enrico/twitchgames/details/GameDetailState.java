@@ -31,18 +31,16 @@ abstract class GameDetailState {
     abstract String summary();
 
     @Nullable
-    public abstract List<String> screenshots();
+    abstract Boolean screenshots();
 
     @Nullable
-    public abstract List<String> videos();
+    abstract Boolean videos();
 
     @Nullable
     abstract Integer errorRes();
 
     static Builder builder() {
-        return new AutoValue_GameDetailState.Builder()
-                .screenshots(Collections.emptyList())
-                .videos(Collections.emptyList());
+        return new AutoValue_GameDetailState.Builder();
     }
 
     boolean isSuccess() {
@@ -57,9 +55,19 @@ abstract class GameDetailState {
         abstract Builder name(String name);
         abstract Builder releaseDate(String releaseDate);
         abstract Builder summary(String summary);
-        abstract Builder screenshots(List<String> screenshots);
-        abstract Builder videos(List<String> videos);
+        abstract Builder screenshots(Boolean screenshots);
+        abstract Builder videos(Boolean videos);
         abstract Builder errorRes(Integer errorRes);
         abstract GameDetailState build();
+    }
+
+    public boolean hasScreenshots() {
+        //noinspection ConstantConditions
+        return screenshots() != null ? screenshots() : false;
+    }
+
+    public boolean hasVideos() {
+        //noinspection ConstantConditions
+        return videos() != null ? videos() : false;
     }
 }

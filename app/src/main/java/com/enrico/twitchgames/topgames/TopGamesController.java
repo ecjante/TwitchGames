@@ -38,7 +38,7 @@ public class TopGamesController extends BaseController {
     protected void onViewBound(View view) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         topGamesList.setLayoutManager(layoutManager);
-        topGamesList.setAdapter(new RecyclerAdapter(dataSource));
+        topGamesList.setAdapter(new RecyclerAdapter(dataSource, true));
 
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
 

@@ -1,10 +1,5 @@
 package com.enrico.twitchgames.details;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-
 import com.enrico.poweradapter.adapter.RecyclerDataSource;
 import com.enrico.twitchgames.data.GameRepository;
 import com.enrico.twitchgames.di.ForScreen;
@@ -34,18 +29,24 @@ public class GameDetailsPresenter {
             GameDetailsViewModel viewModel,
             ScreenNavigator screenNavigator,
             @ForScreen DisposableManager disposableManager,
-            RecyclerDataSource dataSource) {
+            @Named("streams_datasource") RecyclerDataSource streamsDataSource,
+            @Named("screenshots_datasource") RecyclerDataSource screenshotsDataSource,
+            @Named("videos_datasource") RecyclerDataSource videosDataSource) {
         this.screenNavigator = screenNavigator;
         disposableManager.add(
                 repository.getGameInfo(twitchGameId, gameName)
                         .doOnError(viewModel.detailsError())
+                        .doOnSuccess(game -> {
+                            screenshotsDataSource.setData(game.getScreenshots());
+                            videosDataSource.setData(game.getVideos());
+                        })
                         .subscribe(viewModel.processIgdbGame(), throwable -> {
 
                         }),
                 repository.getStreams(twitchGameId, gameName)
                         .doOnError(viewModel.streamsError())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess(dataSource::setData)
+                        .doOnSuccess(streamsDataSource::setData)
                         .subscribe(viewModel.streamsLoaded(), throwable -> {
 
                         })
@@ -54,5 +55,13 @@ public class GameDetailsPresenter {
 
     public void onStreamClicked(TwitchStream stream) {
         screenNavigator.openStream(stream);
+    }
+
+    public void onScreenshotClicked(String url) {
+        screenNavigator.openScreenshot(url);
+    }
+
+    public void onVideoClicked(String videoId) {
+        screenNavigator.playVideo(videoId);
     }
 }

@@ -1,5 +1,7 @@
 package com.enrico.twitchgames.models.igdb.twitchonlygames;
 
+import android.support.annotation.Nullable;
+
 import com.enrico.twitchgames.models.igdb.IgdbEsrb;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
 import com.enrico.twitchgames.models.igdb.IgdbGameCover;
@@ -19,6 +21,12 @@ import java.util.List;
 public class IRLGame extends IgdbGame {
     @Override
     public Long id() {
+        return 494717L;
+    }
+
+    @Nullable
+    @Override
+    public Long twitchId() {
         return 494717L;
     }
 
@@ -56,13 +64,13 @@ public class IRLGame extends IgdbGame {
             }
 
             @Override
-            public String big() {
+            public String getLarge() {
                 return "https://static-cdn.jtvnw.net/ttv-boxart/IRL-272x380.jpg";
             }
 
             @Override
-            public String small() {
-                return big();
+            public String getSmall() {
+                return getLarge();
             }
         };
     }
@@ -80,5 +88,10 @@ public class IRLGame extends IgdbGame {
     @Override
     public List<IgdbWebsite> websites() {
         return Collections.emptyList();
+    }
+
+    @Override
+    protected Builder toBuilder() {
+        return null;
     }
 }

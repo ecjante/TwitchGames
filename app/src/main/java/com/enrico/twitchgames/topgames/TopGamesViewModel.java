@@ -22,6 +22,7 @@ class TopGamesViewModel {
 
     private final BehaviorRelay<Integer> errorRelay = BehaviorRelay.create();
     private final BehaviorRelay<Boolean> loadingRelay = BehaviorRelay.create();
+    private final BehaviorRelay<Boolean> moreLoadingRelay = BehaviorRelay.create();
 
     @Inject
     TopGamesViewModel() {
@@ -32,6 +33,10 @@ class TopGamesViewModel {
         return loadingRelay;
     }
 
+    Observable<Boolean> moreLoading() {
+        return moreLoadingRelay;
+    }
+
 
     Observable<Integer> error() {
         return errorRelay;
@@ -39,6 +44,10 @@ class TopGamesViewModel {
 
     Consumer<Boolean> loadingUpdated() {
         return loadingRelay;
+    }
+
+    Consumer<Boolean> moreLoadingUpdated() {
+        return moreLoadingRelay;
     }
 
     Action topGamesUpdated() {

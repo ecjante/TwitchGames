@@ -10,11 +10,6 @@ import com.squareup.moshi.Moshi;
 @AutoValue
 public abstract class TwitchGameBox extends TwitchImage {
 
-    private static final String EXTRA_LARGE = "520x720";
-    private static final String LARGE = "272x380";
-    private static final String MEDIUM = "136x190";
-    private static final String SMALL = "52x72";
-
     public static JsonAdapter<TwitchGameBox> jsonAdapter(Moshi moshi) {
         return new AutoValue_TwitchGameBox.MoshiJsonAdapter(moshi);
     }
@@ -29,16 +24,23 @@ public abstract class TwitchGameBox extends TwitchImage {
         public abstract TwitchGameBox build();
     }
 
-    public String getExtraLarge() {
-        return buildUrl(EXTRA_LARGE);
+    @Override
+    protected String extraLarge() {
+        return "520x720";
     }
-    public String getLarge() {
-        return buildUrl(LARGE);
+
+    @Override
+    protected String large() {
+        return "272x380";
     }
-    public String getMedium() {
-        return buildUrl(MEDIUM);
+
+    @Override
+    protected String medium() {
+        return "136x190";
     }
-    public String getSmall() {
-        return buildUrl(SMALL);
+
+    @Override
+    protected String small() {
+        return "52x72";
     }
 }

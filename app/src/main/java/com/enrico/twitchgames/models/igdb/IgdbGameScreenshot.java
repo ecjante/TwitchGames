@@ -11,9 +11,6 @@ import com.squareup.moshi.Moshi;
 @AutoValue
 public abstract class IgdbGameScreenshot extends IgdbImage implements RecyclerItem {
 
-    private static final String MEDIUM = "t_screenshot_med/";
-    private static final String BIG = "t_screenshot_big/";
-
     public static JsonAdapter<IgdbGameScreenshot> jsonAdapter(Moshi moshi) {
         return new AutoValue_IgdbGameScreenshot.MoshiJsonAdapter(moshi);
     }
@@ -28,11 +25,23 @@ public abstract class IgdbGameScreenshot extends IgdbImage implements RecyclerIt
         return 0;
     }
 
-    public String medium() {
-        return buildScreenshot(MEDIUM);
+    @Override
+    protected String small() {
+        return "t_screenshot_med/";
     }
 
-    public String big() {
-        return buildScreenshot(BIG);
+    @Override
+    protected String large() {
+        return "t_screenshot_big/";
+    }
+
+    public static Builder builder() {
+        return new AutoValue_IgdbGameScreenshot.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Builder cloudinaryId(String cloudinaryId);
+        public abstract IgdbGameScreenshot build();
     }
 }

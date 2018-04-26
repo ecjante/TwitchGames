@@ -18,10 +18,6 @@ public abstract class IgdbGameVideo implements RecyclerItem {
     @Json(name = "video_id")
     public abstract String videoId();
 
-    public static JsonAdapter<IgdbGameVideo> jsonAdapter(Moshi moshi) {
-        return new AutoValue_IgdbGameVideo.MoshiJsonAdapter(moshi);
-    }
-
     @Override
     public long getId() {
         return 0;
@@ -32,9 +28,18 @@ public abstract class IgdbGameVideo implements RecyclerItem {
         return "IgdbGameVideo";
     }
 
-    public String getUrl() {
-        StringBuilder sb = new StringBuilder(URL_PREFIX);
-        sb.append(videoId());
-        return sb.toString();
+    public static JsonAdapter<IgdbGameVideo> jsonAdapter(Moshi moshi) {
+        return new AutoValue_IgdbGameVideo.MoshiJsonAdapter(moshi);
+    }
+
+    public static Builder builder() {
+        return new AutoValue_IgdbGameVideo.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Builder name(String name);
+        public abstract Builder videoId(String videoId);
+        public abstract IgdbGameVideo build();
     }
 }

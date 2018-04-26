@@ -2,6 +2,7 @@ package com.enrico.twitchgames.models.igdb;
 
 import android.support.annotation.Nullable;
 
+import com.enrico.twitchgames.database.igdb.DbIgdbGame;
 import com.google.auto.value.AutoValue;
 import com.squareup.moshi.Json;
 import com.squareup.moshi.JsonAdapter;
@@ -20,7 +21,9 @@ import java.util.List;
 @AutoValue
 public abstract class IgdbGame {
 
-    public abstract Long id();
+    @Nullable public abstract Long id();
+
+    @Nullable public abstract Long twitchId();
 
     public abstract String name();
 
@@ -41,10 +44,6 @@ public abstract class IgdbGame {
 
     @Nullable public abstract List<IgdbWebsite> websites();
 
-    public static JsonAdapter<IgdbGame> jsonAdapter(Moshi moshi) {
-        return new AutoValue_IgdbGame.MoshiJsonAdapter(moshi);
-    }
-
     public List<IgdbGameScreenshot> getScreenshots() {
         return screenshots() != null ? screenshots() : Collections.emptyList();
     }
@@ -57,27 +56,49 @@ public abstract class IgdbGame {
         return websites() != null ? websites() : Collections.emptyList();
     }
 
-    public List<String> getMediumScreenshotUrls() {
-        List<String> stringScreenshots = new ArrayList<>();
-        for (IgdbGameScreenshot screenshot : getScreenshots()) {
-            stringScreenshots.add(screenshot.medium());
-        }
-        return stringScreenshots;
+    public static IgdbGame fromDb(DbIgdbGame game) {
+        return builder()
+                .id(game.getIgdbId())
+                .twitchId(game.getId())
+                .name(game.getName())
+                .summary(game.getSummary())
+                .firstReleaseDate(game.getFirstReleaseDate())
+                .screenshots(game.getScreenshots())
+                .videos(game.getVideos())
+                .cover(game.getCover())
+                .esrb(game.getEsrb())
+                .pegi(game.getPegi())
+                .websites(game.getWebsites())
+                .build();
     }
 
-    public List<String> getBigScreenshotUrls() {
-        List<String> stringScreenshots = new ArrayList<>();
-        for (IgdbGameScreenshot screenshot : getScreenshots()) {
-            stringScreenshots.add(screenshot.big());
-        }
-        return stringScreenshots;
+    public static JsonAdapter<IgdbGame> jsonAdapter(Moshi moshi) {
+        return new AutoValue_IgdbGame.MoshiJsonAdapter(moshi);
     }
 
-    public List<String> getVideoIds() {
-        List<String> stringVideos = new ArrayList<>();
-        for (IgdbGameVideo video : getVideos()) {
-            stringVideos.add(video.videoId());
-        }
-        return stringVideos;
+    protected abstract Builder toBuilder();
+
+    public IgdbGame withTwitchId(Long id) {
+        return toBuilder().twitchId(id).build();
+    }
+
+    public static Builder builder() {
+        return new AutoValue_IgdbGame.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Builder id(Long id);
+        public abstract Builder twitchId(Long twitchId);
+        public abstract Builder name(String name);
+        public abstract Builder summary(String summary);
+        public abstract Builder firstReleaseDate(ZonedDateTime firstReleaseDate);
+        public abstract Builder screenshots(List<IgdbGameScreenshot> screenshots);
+        public abstract Builder videos(List<IgdbGameVideo> videos);
+        public abstract Builder cover(IgdbGameCover cover);
+        public abstract Builder esrb(IgdbEsrb esrb);
+        public abstract Builder pegi(IgdbPegi pegi);
+        public abstract Builder websites(List<IgdbWebsite> websites);
+        public abstract IgdbGame build();
     }
 }

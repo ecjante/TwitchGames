@@ -13,11 +13,25 @@ public abstract class IgdbImage {
     @Json(name = "cloudinary_id")
     public abstract String cloudinaryId();
 
-    String buildScreenshot(String size) {
+    private String buildScreenshot(String size) {
         StringBuilder sb = new StringBuilder(URL_PREFIX);
         sb.append(size);
         sb.append(cloudinaryId());
         sb.append(URL_IMAGE_EXTENSION);
         return sb.toString();
+    }
+
+    protected String small() {
+        return "";
+    }
+    protected String large() {
+        return "";
+    }
+
+    public String getSmall() {
+        return buildScreenshot(small());
+    }
+    public String getLarge() {
+        return buildScreenshot(large());
     }
 }

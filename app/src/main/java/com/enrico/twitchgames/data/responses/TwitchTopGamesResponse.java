@@ -1,5 +1,7 @@
 package com.enrico.twitchgames.data.responses;
 
+import android.support.annotation.Nullable;
+
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 import com.enrico.twitchgames.models.twitch.TwitchPaginateLink;
 import com.google.auto.value.AutoValue;
@@ -15,7 +17,8 @@ import java.util.List;
 @AutoValue
 public abstract class TwitchTopGamesResponse {
 
-    @Json(name = "_links") public abstract TwitchPaginateLink links();
+    @Json(name = "_links") @Nullable
+    public abstract TwitchPaginateLink links();
     @Json(name = "top")
     public abstract List<TwitchTopGame> games();
 

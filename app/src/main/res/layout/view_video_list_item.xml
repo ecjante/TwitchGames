@@ -16,4 +16,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/screenshot_placeholder" />
 
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="@id/iv_video"
+        app:layout_constraintEnd_toEndOf="@id/iv_video"
+        app:layout_constraintTop_toTopOf="@id/iv_video"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="@android:color/white"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="2"/>
+
 </android.support.constraint.ConstraintLayout>

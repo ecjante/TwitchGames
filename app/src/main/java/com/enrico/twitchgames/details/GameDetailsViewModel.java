@@ -44,12 +44,12 @@ public class GameDetailsViewModel {
         return igdbGame -> {
             String screenshot = null;
             if (igdbGame.getScreenshots().size() > 0) {
-                screenshot = igdbGame.getScreenshots().get(0).big();
+                screenshot = igdbGame.getScreenshots().get(0).getLarge();
             }
             String cover = null;
             if (igdbGame.cover() != null) {
                 //noinspection ConstantConditions
-                cover = igdbGame.cover().big();
+                cover = igdbGame.cover().getLarge();
             }
             detailStateRelay.accept(
                     GameDetailState.builder()

@@ -124,13 +124,17 @@ public class TopGamesRenderer implements ItemRenderer<TwitchTopGame> {
                         .apply(new RequestOptions().placeholder(R.drawable.game_placeholder))
                         .into(boxArtImage);
                 gameNameText.setText(topGame.game().name());
-                viewerCountText.setText(
-                        viewerCountText.getContext().getResources().getQuantityString(
-                                R.plurals.viewer_count,
-                                topGame.viewers(),
-                                NumberFormat.getNumberInstance(Locale.getDefault()).format(topGame.viewers())
-                        )
-                );
+                viewerCountText.setVisibility(View.GONE);
+                if (topGame.viewers() != null) {
+                    viewerCountText.setVisibility(View.VISIBLE);
+                    viewerCountText.setText(
+                            viewerCountText.getContext().getResources().getQuantityString(
+                                    R.plurals.viewer_count,
+                                    topGame.viewers(),
+                                    NumberFormat.getNumberInstance(Locale.getDefault()).format(topGame.viewers())
+                            )
+                    );
+                }
             }
         }
     }

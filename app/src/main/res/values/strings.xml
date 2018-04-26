@@ -19,6 +19,7 @@
     <string name="video_label">Videos</string>
     <string name="video_image">video_image</string>
     <string name="screenshot_image_large">screenshot_image_large</string>
+    <string name="screen_title_favorite_games">Favorite Games</string>
     <plurals name="viewer_count">
         <item quantity="one">%s viewer</item>
         <item quantity="other">%s viewers</item>

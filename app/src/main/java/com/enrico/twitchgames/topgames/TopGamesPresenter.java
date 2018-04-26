@@ -10,6 +10,8 @@ import com.enrico.twitchgames.models.twitch.TwitchGame;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 import com.enrico.twitchgames.ui.ScreenNavigator;
 
+import java.util.Collections;
+
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -41,7 +43,7 @@ class TopGamesPresenter {
         loadTopGames();
     }
 
-    private void loadTopGames() {
+    public void loadTopGames() {
         disposableManager.add(
                 gameRepository.getTopGames()
                         .doOnSubscribe(__ -> viewModel.loadingUpdated().accept(true))
@@ -55,8 +57,22 @@ class TopGamesPresenter {
     public void loadNextTopGames() {
         disposableManager.add(
                 gameRepository.getNextTopGames()
+                        .doOnSubscribe(__ -> viewModel.moreLoadingUpdated().accept(true))
+                        .doOnEvent((d, t) -> viewModel.moreLoadingUpdated().accept(false))
+                        .doOnSuccess(__ -> viewModel.topGamesUpdated().run())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(dataSource::addData, viewModel.onError())
+        );
+    }
+
+    public void loadFavoriteGames() {
+        disposableManager.add(
+                gameRepository.getFavoriteGames()
+                        .doOnSubscribe(__ -> viewModel.loadingUpdated().accept(true))
+                        .doOnEvent((d, t) -> viewModel.loadingUpdated().accept(false))
+                        .doOnSuccess(__ -> viewModel.topGamesUpdated().run())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(dataSource::setData, throwable -> dataSource.setData(Collections.emptyList()))
         );
     }
 

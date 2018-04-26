@@ -15,7 +15,18 @@
             android:id="@+id/top_games_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="64dp"
             android:clipToPadding="false" />
+
+        <ProgressBar
+            android:id="@+id/more_loading_indicator"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:indeterminate="true"
+            android:visibility="gone"/>
 
         <ProgressBar
             android:id="@+id/loading_indicator"

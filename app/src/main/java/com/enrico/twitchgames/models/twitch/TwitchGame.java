@@ -2,6 +2,7 @@ package com.enrico.twitchgames.models.twitch;
 
 import android.support.annotation.Nullable;
 
+import com.enrico.twitchgames.database.favorites.FavoriteTwitchGame;
 import com.google.auto.value.AutoValue;
 import com.squareup.moshi.Json;
 import com.squareup.moshi.JsonAdapter;

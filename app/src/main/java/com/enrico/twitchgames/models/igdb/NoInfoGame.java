@@ -1,5 +1,7 @@
 package com.enrico.twitchgames.models.igdb;
 
+import android.support.annotation.Nullable;
+
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collections;
@@ -9,9 +11,22 @@ import java.util.List;
  * Created by enrico.
  */
 public class NoInfoGame extends IgdbGame {
+
+    private final long id;
+
+    public NoInfoGame(long id) {
+        this.id = id;
+    }
+
     @Override
     public Long id() {
         return null;
+    }
+
+    @Nullable
+    @Override
+    public Long twitchId() {
+        return id;
     }
 
     @Override
@@ -57,5 +72,10 @@ public class NoInfoGame extends IgdbGame {
     @Override
     public List<IgdbWebsite> websites() {
         return Collections.emptyList();
+    }
+
+    @Override
+    protected Builder toBuilder() {
+        return null;
     }
 }

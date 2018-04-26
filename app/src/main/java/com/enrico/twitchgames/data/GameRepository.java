@@ -1,13 +1,19 @@
 package com.enrico.twitchgames.data;
 
+import com.enrico.twitchgames.database.favorites.FavoriteTwitchGameService;
+import com.enrico.twitchgames.database.igdb.DbIgdbGameService;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
+import com.enrico.twitchgames.models.igdb.twitchonlygames.CreativeGame;
+import com.enrico.twitchgames.models.igdb.twitchonlygames.IRLGame;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -26,8 +32,13 @@ import timber.log.Timber;
 @Singleton
 public class GameRepository {
 
+    private static final long IRL_ID = 494717;
+    private static final long CREATIVE_ID = 488191;
+
     private final Provider<TwitchRequester> twitchRequesterProvider;
     private final Provider<IgdbRequester> igdbRequesterProvider;
+    private final Provider<DbIgdbGameService> dbIgdbGameServiceProvider;
+    private final Provider<FavoriteTwitchGameService> favoriteTwitchGameServiceProvider;
     private final Scheduler scheduler;
 
     private final List<TwitchTopGame> cachedTwitchTopGames = new ArrayList<>();
@@ -42,10 +53,14 @@ public class GameRepository {
     GameRepository(
             Provider<TwitchRequester> twitchRequesterProvider,
             Provider<IgdbRequester> igdbRequesterProvider,
+            Provider<DbIgdbGameService> dbIgdbGameServiceProvider,
+            Provider<FavoriteTwitchGameService> favoriteTwitchGameServiceProvider,
             @Named("network_scheduler") Scheduler scheduler
     ) {
         this.twitchRequesterProvider = twitchRequesterProvider;
         this.igdbRequesterProvider = igdbRequesterProvider;
+        this.dbIgdbGameServiceProvider = dbIgdbGameServiceProvider;
+        this.favoriteTwitchGameServiceProvider = favoriteTwitchGameServiceProvider;
         this.scheduler = scheduler;
     }
 
@@ -61,8 +76,13 @@ public class GameRepository {
                 .toSingle();
     }
 
+    public Single<List<TwitchTopGame>> getFavoriteGames() {
+        return favoriteTwitchGameServiceProvider.get().favoritedTwitchGames()
+                .subscribeOn(scheduler);
+    }
+
     public Single<IgdbGame> getGameInfo(long id, String query) {
-        return Maybe.concat(cachedIgdbGame(id), apiIgdbGame(id, query))
+        return Maybe.concat(cachedIgdbGame(id), dbIgdbGame(id), apiIgdbGame(id, query))
                 .firstOrError()
                 .subscribeOn(scheduler);
     }
@@ -100,16 +120,32 @@ public class GameRepository {
 
     private Maybe<IgdbGame> cachedIgdbGame(long id) {
         return Maybe.create(e -> {
-           if (cachedIgdbGames.containsKey(id)) {
-               e.onSuccess(cachedIgdbGames.get(id));
-           }
+            if (id == IRL_ID) {
+                Timber.i("Return IRL game");
+                e.onSuccess(new IRLGame());
+            } else if (id == CREATIVE_ID) {
+                Timber.i("Return Creative game");
+                e.onSuccess(new CreativeGame());
+            } else if (cachedIgdbGames.containsKey(id)) {
+                e.onSuccess(cachedIgdbGames.get(id));
+            }
             e.onComplete();
         });
+    }
+
+    private Maybe<IgdbGame> dbIgdbGame(long id) {
+        return dbIgdbGameServiceProvider.get().getIgdbGame(id)
+                .doOnSuccess(igdbGame -> {
+                    Timber.i("Received igdb game from db with id: " + id);
+                    cachedIgdbGames.put(id, igdbGame);
+                });
     }
 
     private Maybe<IgdbGame> apiIgdbGame(long id, String query) {
         return igdbRequesterProvider.get().getGameInfo(id, query)
                 .doOnSuccess(igdbGame -> {
+                    Timber.i("Received igdb game from api with id: " + id);
+                    dbIgdbGameServiceProvider.get().addIgdbGame(igdbGame);
                     cachedIgdbGames.put(id, igdbGame);
                 })
                 .doOnError(Timber::e)

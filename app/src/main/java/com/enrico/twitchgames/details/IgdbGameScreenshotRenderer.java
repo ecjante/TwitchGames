@@ -56,7 +56,7 @@ public class IgdbGameScreenshotRenderer implements ItemRenderer<IgdbGameScreensh
             ButterKnife.bind(this, itemView);
             screenshotImage.setOnClickListener(v -> {
                 if (screenshot != null) {
-                    presenter.onScreenshotClicked(screenshot.big());
+                    presenter.onScreenshotClicked(screenshot.getLarge());
                 }
             });
         }
@@ -65,7 +65,7 @@ public class IgdbGameScreenshotRenderer implements ItemRenderer<IgdbGameScreensh
             if (this.screenshot == null || !this.screenshot.equals(screenshot)) {
                 this.screenshot = screenshot;
                 Glide.with(screenshotImage.getContext())
-                        .load(screenshot.medium())
+                        .load(screenshot.getSmall())
                         .into(screenshotImage);
             }
         }

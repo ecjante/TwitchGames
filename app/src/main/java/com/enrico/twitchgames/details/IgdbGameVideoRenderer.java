@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.enrico.poweradapter.item.ItemRenderer;
 import com.enrico.twitchgames.R;
@@ -45,33 +46,35 @@ public class IgdbGameVideoRenderer implements ItemRenderer<IgdbGameVideo> {
 
     @Override
     public void render(@NonNull View itemView, @NonNull IgdbGameVideo item) {
-        ((ViewBinder) itemView.getTag()).bind(item.videoId());
+        ((ViewBinder) itemView.getTag()).bind(item);
     }
 
     static class ViewBinder {
 
+        @BindView(R.id.tv_title) TextView titleText;
         @BindView(R.id.iv_video) YouTubeThumbnailView videoImage;
-        private String videoId;
+        private IgdbGameVideo video;
 
         ViewBinder(View itemView, GameDetailsPresenter presenter) {
             ButterKnife.bind(this, itemView);
             videoImage.setOnClickListener(v -> {
-                if (videoId != null) {
-                    presenter.onVideoClicked(videoId);
+                if (video != null) {
+                    presenter.onVideoClicked(video.videoId());
                 }
             });
         }
 
-        void bind(String youtubeId) {
-            if (this.videoId == null || !this.videoId.equals(youtubeId)) {
-                this.videoId = youtubeId;
+        void bind(IgdbGameVideo video) {
+            if (this.video == null || !this.video.equals(video)) {
+                this.video = video;
                 videoImage.initialize(videoImage.getContext().getString(R.string.google_api_key), new YouTubeThumbnailView.OnInitializedListener() {
                     @Override
                     public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
-                        youTubeThumbnailLoader.setVideo(videoId);
+                        youTubeThumbnailLoader.setVideo(video.videoId());
                         youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
                             @Override
                             public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s) {
+                                titleText.setText(video.name());
                                 youTubeThumbnailLoader.release();
                             }
 

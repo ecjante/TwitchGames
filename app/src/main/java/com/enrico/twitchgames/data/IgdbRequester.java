@@ -17,10 +17,6 @@ import io.reactivex.Single;
  */
 public class IgdbRequester {
 
-    private static final long IRL_ID = 494717;
-    private static final long CREATIVE_ID = 488191;
-    private static final String IRL = "IRL";
-
     private final IgdbService service;
     private final Moshi moshi;
     private final Context context;
@@ -33,19 +29,13 @@ public class IgdbRequester {
     }
 
     Single<IgdbGame> getGameInfo(long id, String query) {
-        if (id == IRL_ID) {
-            return Single.just(new IRLGame());
-        } else if (id == CREATIVE_ID) {
-            return Single.just(new CreativeGame());
-        } else {
-            return service.getGame(query)
-                    .map(list -> {
-                        if (list.isEmpty()) {
-                            return new NoInfoGame();
-                        } else {
-                            return list.get(0);
-                        }
-                    });
-        }
+        return service.getGame(query)
+                .map(list -> {
+                    if (list.isEmpty()) {
+                        return new NoInfoGame(id);
+                    } else {
+                        return list.get(0).withTwitchId(id);
+                    }
+                });
     }
 }

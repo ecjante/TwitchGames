@@ -80,7 +80,7 @@ public class GameDetailsController extends BaseController {
     @BindView(R.id.streams_loading_indicator) View streamsLoadingView;
     @BindView(R.id.tv_streams_error) TextView streamsErrorText;
 
-    @BindView(R.id.ib_favorite) ImageButton favoriteButton;
+    @BindView(R.id.toolbar_button) ImageButton favoriteButton;
 
 
     private Disposable favoriteDisposable;
@@ -114,9 +114,6 @@ public class GameDetailsController extends BaseController {
         summaryText.setOnClickListener(v -> {
             summaryText.toggle();
         });
-        showMoreOrLess.setOnClickListener(v -> {
-            summaryText.toggle();
-        });
         summaryText.addOnExpandListener(new ExpandableTextView.OnExpandListener() {
             @Override
             public void onExpand(@NonNull ExpandableTextView view) {
@@ -129,6 +126,7 @@ public class GameDetailsController extends BaseController {
             }
         });
 
+        favoriteButton.setVisibility(View.VISIBLE);
         RxView.attachEvents(favoriteButton)
                 .subscribe(event -> {
                     if (event.view().isAttachedToWindow()) {
@@ -142,7 +140,7 @@ public class GameDetailsController extends BaseController {
                 });
     }
 
-    @OnClick(R.id.ib_favorite)
+    @OnClick(R.id.toolbar_button)
     void toggleFavorite() {
         if (twitchGame != null) {
             favoriteTwitchGameService.toggleFavoriteTwitchGame(twitchGame);

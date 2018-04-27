@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 
 /**
  * Created by enrico on 3/14/18.
+ *
+ * Preferences for the debug drawer
  */
 
 @Singleton

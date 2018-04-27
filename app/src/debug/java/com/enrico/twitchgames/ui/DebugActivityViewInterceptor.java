@@ -22,6 +22,8 @@ import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by enrico on 3/14/18.
+ *
+ * Debug Implementation of the ActivityViewInterceptor
  */
 
 public class DebugActivityViewInterceptor implements ActivityViewInterceptor {

@@ -15,6 +15,8 @@ import timber.log.Timber;
 
 /**
  * Created by enrico on 3/14/18.
+ *
+ * Helper class for getting the correct mock response
  */
 
 class IgdbMockResourceLoader {

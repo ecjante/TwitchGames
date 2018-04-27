@@ -9,6 +9,8 @@ import okhttp3.Request;
 
 /**
  * Created by enrico on 3/14/18.
+ *
+ * Helper class for mocking responses
  */
 
 public class IgdbMockResponseFactory {

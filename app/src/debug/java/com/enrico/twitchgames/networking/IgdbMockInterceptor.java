@@ -14,6 +14,8 @@ import okhttp3.ResponseBody;
 
 /**
  * Created by enrico on 3/14/18.
+ *
+ * Intercepts responses to grab mock responses instead
  */
 
 public class IgdbMockInterceptor implements Interceptor {

@@ -5,6 +5,8 @@ import android.support.annotation.LayoutRes;
 
 /**
  * Created by enrico on 3/14/18.
+ *
+ * Used to intercept setContentView in order to wrap the view with a view that has a debug drawer
  */
 
 public interface ActivityViewInterceptor {

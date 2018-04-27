@@ -5,6 +5,8 @@ import dagger.Module;
 
 /**
  * Created by enrico on 3/14/18.
+ *
+ * Provides the ActivityViewInterceptor
  */
 
 @Module

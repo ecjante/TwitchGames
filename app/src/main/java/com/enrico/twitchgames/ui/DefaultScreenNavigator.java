@@ -15,9 +15,8 @@ import com.enrico.twitchgames.details.GameDetailsController;
 import com.enrico.twitchgames.di.ActivityScope;
 import com.enrico.twitchgames.lifecycle.ActivityLifecycleTask;
 import com.enrico.twitchgames.models.twitch.TwitchStream;
+import com.enrico.twitchgames.quickplay.QuickPlayActivity;
 import com.enrico.twitchgames.screenshot.ScreenshotController;
-import com.enrico.twitchgames.ui.changehandlers.ArcFadeMoveChangeHandlerCompat;
-import com.enrico.twitchgames.youtube.QuickPlayActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,8 @@ import javax.inject.Inject;
 
 /**
  * Created by enrico.
+ *
+ * Default screen navigator
  */
 @ActivityScope
 public class DefaultScreenNavigator extends ActivityLifecycleTask implements ScreenNavigator {
@@ -69,10 +70,14 @@ public class DefaultScreenNavigator extends ActivityLifecycleTask implements Scr
         }
     }
 
+    /**
+     * If twitch app is installed, open twitch app. otherwise open browser
+     * @param stream
+     */
     @Override
     public void openStream(TwitchStream stream) {
         Uri uri;
-        if (isPackageInstalled()) {
+        if (isTwitchInstalled()) {
             uri = Uri.parse(context.getString(R.string.twitch_app_uri) + stream.channel().name());
         } else {
             uri = Uri.parse(context.getString(R.string.twitch_browser_uri) + stream.channel().name());
@@ -81,7 +86,11 @@ public class DefaultScreenNavigator extends ActivityLifecycleTask implements Scr
         context.startActivity(intent);
     }
 
-    private boolean isPackageInstalled() {
+    /**
+     * helper to check if twitch is installed
+     * @return
+     */
+    private boolean isTwitchInstalled() {
         PackageManager pm = context.getPackageManager();
         try {
             pm.getPackageInfo(context.getString(R.string.twitch_package), PackageManager.GET_ACTIVITIES);
@@ -91,6 +100,10 @@ public class DefaultScreenNavigator extends ActivityLifecycleTask implements Scr
         }
     }
 
+    /**
+     * Opens QuickPlayActivity to play the video selected
+     * @param id
+     */
     @Override
     public void playVideo(String id) {
         Intent intent = new Intent(context, QuickPlayActivity.class);
@@ -98,6 +111,10 @@ public class DefaultScreenNavigator extends ActivityLifecycleTask implements Scr
         context.startActivity(intent);
     }
 
+    /**
+     * Opens the Screenshot screen when a screenshot is selected
+     * @param url
+     */
     @Override
     public void openScreenshot(String url) {
         if (router != null) {
@@ -106,8 +123,8 @@ public class DefaultScreenNavigator extends ActivityLifecycleTask implements Scr
             names.add(sharedName);
             router.pushController(
                     RouterTransaction.with(ScreenshotController.newInstance(url))
-                            .pushChangeHandler(new ArcFadeMoveChangeHandlerCompat(sharedName))
-                            .popChangeHandler(new ArcFadeMoveChangeHandlerCompat(sharedName))
+                            .pushChangeHandler(new FadeChangeHandler())
+                            .popChangeHandler(new FadeChangeHandler())
             );
         }
     }

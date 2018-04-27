@@ -19,6 +19,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by enrico.
+ *
+ * Item Renderer for the screenshots recycler view
  */
 public class IgdbGameScreenshotRenderer implements ItemRenderer<IgdbGameScreenshot> {
 
@@ -47,6 +49,9 @@ public class IgdbGameScreenshotRenderer implements ItemRenderer<IgdbGameScreensh
         ((ViewBinder) itemView.getTag()).bind(item);
     }
 
+    /**
+     * Bind data to the item view
+     */
     static class ViewBinder {
 
         @BindView(R.id.iv_screenshot) ImageView screenshotImage;
@@ -56,7 +61,7 @@ public class IgdbGameScreenshotRenderer implements ItemRenderer<IgdbGameScreensh
             ButterKnife.bind(this, itemView);
             screenshotImage.setOnClickListener(v -> {
                 if (screenshot != null) {
-                    presenter.onScreenshotClicked(screenshot.getLarge());
+                    presenter.onImageClicked(screenshot.getExtraLarge());
                 }
             });
         }

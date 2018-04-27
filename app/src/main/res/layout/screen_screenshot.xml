@@ -24,6 +24,15 @@
             android:transitionName="@string/screenshot_image"
             app:srcCompat="@drawable/screenshot_placeholder" />
 
+        <ProgressBar
+            android:id="@+id/loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_screenshot"
+            app:layout_constraintEnd_toEndOf="@+id/iv_screenshot"
+            app:layout_constraintStart_toStartOf="@+id/iv_screenshot"
+            app:layout_constraintTop_toTopOf="@+id/iv_screenshot" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>

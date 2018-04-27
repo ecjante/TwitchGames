@@ -122,7 +122,7 @@ public class GameDetailsPresenterTest {
     @Test
     public void onScreenshotClicked() {
         initPresenter();
-        presenter.onScreenshotClicked(anyString());
+        presenter.onImageClicked(anyString());
 
         verify(screenNavigator).openScreenshot(anyString());
     }

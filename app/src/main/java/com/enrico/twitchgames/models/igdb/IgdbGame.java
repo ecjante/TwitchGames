@@ -17,6 +17,8 @@ import java.util.List;
 
 /**
  * Created by enrico.
+ *
+ * Model to hold game info from IGDB
  */
 @AutoValue
 public abstract class IgdbGame {

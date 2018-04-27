@@ -1,6 +1,8 @@
 package com.enrico.twitchgames.data;
 
 import com.enrico.twitchgames.data.responses.TwitchTopGamesResponse;
+import com.enrico.twitchgames.database.favorites.FavoriteTwitchGameService;
+import com.enrico.twitchgames.database.igdb.DbIgdbGameService;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
 import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 import com.enrico.twitchgames.test.TestUtils;
@@ -11,16 +13,20 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Provider;
 
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -32,6 +38,10 @@ public class GameRepositoryTest {
     @Mock TwitchRequester twitchRequester;
     @Mock Provider<IgdbRequester> igdbRequesterProvider;
     @Mock IgdbRequester igdbRequester;
+    @Mock Provider<DbIgdbGameService> dbIgdbGameServiceProvider;
+    @Mock DbIgdbGameService dbIgdbGameService;
+    @Mock Provider<FavoriteTwitchGameService> favoriteTwitchGameServiceProvider;
+    @Mock FavoriteTwitchGameService favoriteTwitchGameService;
 
     private GameRepository repository;
     private TwitchTopGamesResponse twitchTopGamesResponse;
@@ -44,6 +54,8 @@ public class GameRepositoryTest {
 
         when(twitchRequesterProvider.get()).thenReturn(twitchRequester);
         when(igdbRequesterProvider.get()).thenReturn(igdbRequester);
+        when(dbIgdbGameServiceProvider.get()).thenReturn(dbIgdbGameService);
+        when(favoriteTwitchGameServiceProvider.get()).thenReturn(favoriteTwitchGameService);
 
         twitchTopGamesResponse = TestUtils.loadJson("mock/twitch/games/top/get_top_games.json", TwitchTopGamesResponse.class);
         when(twitchRequester.getTopGames()).thenReturn(Single.just(twitchTopGamesResponse.games()));
@@ -59,7 +71,9 @@ public class GameRepositoryTest {
         );
         fortniteGame = fortniteResponse.get(0);
 
-        repository = new GameRepository(twitchRequesterProvider, igdbRequesterProvider, Schedulers.trampoline());
+        repository = new GameRepository(twitchRequesterProvider, igdbRequesterProvider,
+                dbIgdbGameServiceProvider, favoriteTwitchGameServiceProvider,
+                Schedulers.trampoline());
     }
 
     @Test
@@ -79,6 +93,8 @@ public class GameRepositoryTest {
 
         TwitchTopGame twitchGodOfWarGame = twitchTopGamesResponse.games().get(0);
 
+        when(dbIgdbGameService.getIgdbGame(anyLong())).thenReturn(Maybe.empty());
+
         // Return God of war to add to cache
         when(igdbRequester.getGameInfo(twitchGodOfWarGame.game().id(), twitchGodOfWarGame.game().name())).thenReturn(Single.just(godOfWarGame));
 
@@ -97,5 +113,12 @@ public class GameRepositoryTest {
         repository.getGameInfo(1, "Any game")
                 .test().assertValue(fortniteGame);
 
+        // Clear igdb cache and check game retrieved from db
+        repository.clearIgdbCache();
+
+        when(dbIgdbGameService.getIgdbGame(twitchGodOfWarGame.game().id())).thenReturn(Maybe.just(godOfWarGame));
+
+        repository.getGameInfo(twitchGodOfWarGame.game().id(), twitchGodOfWarGame.game().name())
+                .test().assertValue(godOfWarGame);
     }
 }

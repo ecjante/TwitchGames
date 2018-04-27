@@ -5,6 +5,12 @@ import com.enrico.twitchgames.R;
 import com.enrico.twitchgames.base.BaseActivity;
 import com.enrico.twitchgames.topgames.TopGamesController;
 
+/**
+ * Created by enrico
+ *
+ * MainActivity that will essentially house each screen. The initial screen is the Twitch top games
+ * view
+ */
 public class MainActivity extends BaseActivity {
 
     @Override

@@ -20,6 +20,9 @@ import java.util.List;
 
 /**
  * Created by enrico.
+ *
+ * Text view that is expandable via a toggle method. Mainly used for game summaries on game details
+ * screen
  */
 public class ExpandableTextView extends android.support.v7.widget.AppCompatTextView {
 

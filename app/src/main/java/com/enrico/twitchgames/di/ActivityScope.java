@@ -7,6 +7,8 @@ import javax.inject.Scope;
 
 /**
  * Created by enrico.
+ *
+ * Activity level scope
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)

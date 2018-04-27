@@ -11,6 +11,8 @@ import retrofit2.Retrofit;
 
 /**
  * Created by enrico.
+ *
+ * Provides the Twitch service, IGDB service and Network scheduler
  */
 @Module
 public abstract class GameServiceModule {

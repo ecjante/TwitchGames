@@ -15,6 +15,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by enrico.
+ *
+ * Presenter for Game details screen
  */
 @ScreenScope
 public class GameDetailsPresenter {
@@ -34,6 +36,7 @@ public class GameDetailsPresenter {
             @Named("videos_datasource") RecyclerDataSource videosDataSource) {
         this.screenNavigator = screenNavigator;
         disposableManager.add(
+                // Make call to repository to get the specified twitch game
                 repository.getGameInfo(twitchGameId, gameName)
                         .doOnError(viewModel.detailsError())
                         .doOnSuccess(game -> {
@@ -43,6 +46,7 @@ public class GameDetailsPresenter {
                         .subscribe(viewModel.processIgdbGame(), throwable -> {
 
                         }),
+                // make call to repository to get the streams for the game
                 repository.getStreams(twitchGameId, gameName)
                         .doOnError(viewModel.streamsError())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -53,14 +57,26 @@ public class GameDetailsPresenter {
         );
     }
 
+    /**
+     * make call to screen navigator to handle opening a stream
+     * @param stream
+     */
     public void onStreamClicked(TwitchStream stream) {
         screenNavigator.openStream(stream);
     }
 
-    public void onScreenshotClicked(String url) {
+    /**
+     * make call to screen navigator to handle going to screenshot screen
+     * @param url
+     */
+    public void onImageClicked(String url) {
         screenNavigator.openScreenshot(url);
     }
 
+    /**
+     * make call to screen navigator to handle going to QuickPlay activity
+     * @param videoId
+     */
     public void onVideoClicked(String videoId) {
         screenNavigator.playVideo(videoId);
     }

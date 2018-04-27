@@ -16,6 +16,8 @@ import timber.log.Timber;
 
 /**
  * Created by enrico.
+ *
+ * View Model for Twitch top games
  */
 @ScreenScope
 class TopGamesViewModel {
@@ -29,6 +31,8 @@ class TopGamesViewModel {
 
     }
 
+    // Observables for the view
+
     Observable<Boolean> loading() {
         return loadingRelay;
     }
@@ -37,10 +41,11 @@ class TopGamesViewModel {
         return moreLoadingRelay;
     }
 
-
     Observable<Integer> error() {
         return errorRelay;
     }
+
+    // Consumers for updating
 
     Consumer<Boolean> loadingUpdated() {
         return loadingRelay;

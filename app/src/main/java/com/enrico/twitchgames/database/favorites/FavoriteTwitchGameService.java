@@ -25,10 +25,13 @@ import timber.log.Timber;
 
 /**
  * Created by enrico.
+ *
+ * Service to use call the FavoriteTwitchGameDao
  */
 @Singleton
 public class FavoriteTwitchGameService extends DbService {
 
+    // Relay for the favorited ids. Reactive for when a game is favorited and unfavorited
     private final BehaviorRelay<Set<Long>> favoritedTwitchGameIdsRelay = BehaviorRelay.createDefault(new HashSet<>());
     private final AppDatabase appDatabase;
 
@@ -36,16 +39,25 @@ public class FavoriteTwitchGameService extends DbService {
     @Inject
     FavoriteTwitchGameService(AppDatabase appDatabase) {
         this.appDatabase = appDatabase;
+        // Grab and store the favorited ids in the relay
         appDatabase.favoriteTwitchGameDao().getFavoritedTwitchGameIds()
                 .subscribeOn(Schedulers.io())
                 .map(HashSet::new)
                 .subscribe(favoritedTwitchGameIdsRelay, throwable -> Timber.e(throwable, "Error loading favorited twitch games from database"));
     }
 
+    /**
+     * Observable for the favorited ids
+     * @return
+     */
     public Observable<Set<Long>> favoritedTwitchGameIds() {
         return favoritedTwitchGameIdsRelay;
     }
 
+    /**
+     * Get the favorited twitch games to view the list of games
+     * @return
+     */
     public Single<List<TwitchTopGame>> favoritedTwitchGames() {
         return  appDatabase.favoriteTwitchGameDao().getFavoritedTwitchGames()
                 .subscribeOn(Schedulers.io())
@@ -58,6 +70,10 @@ public class FavoriteTwitchGameService extends DbService {
                 });
     }
 
+    /**
+     * adds or removes the favorited game
+     * @param game
+     */
     public void toggleFavoriteTwitchGame(TwitchGame game) {
         runDbOp(() -> {
             if (favoritedTwitchGameIdsRelay.getValue().contains(game.id())) {
@@ -68,10 +84,18 @@ public class FavoriteTwitchGameService extends DbService {
         });
     }
 
+    /**
+     * Delete favorited game
+     * @param game
+     */
     private void deleteFavoriteTwitchGame(TwitchGame game) {
         appDatabase.favoriteTwitchGameDao().deleteFavorite(FavoriteTwitchGame.build(game));
     }
 
+    /**
+     * Add favorited game
+     * @param game
+     */
     private void addFavoriteTwitchGame(TwitchGame game) {
         appDatabase.favoriteTwitchGameDao().addFavorite(FavoriteTwitchGame.build(game));
     }

@@ -25,6 +25,8 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by enrico.
+ *
+ * BaseController default behavior of controllers in activity
  */
 public abstract class BaseController extends Controller {
 
@@ -43,7 +45,8 @@ public abstract class BaseController extends Controller {
 
     @Override
     protected void onContextAvailable(@NonNull Context context) {
-        //
+        // Controller instances are retained across config changes, so this method can be called more
+        // than once. This makes sure we don't waste any time injecting more than once
         if (!injected) {
             Injector.inject(this);
             injected = true;

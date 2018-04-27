@@ -39,8 +39,8 @@ public class GameDetailsViewModelTest {
         viewModel.details().test().assertValue(
                 GameDetailState.builder()
                         .loading(false)
-                        .mainScreenShot("https://images.igdb.com/igdb/image/upload/t_screenshot_big/wklmdcc9vn93257yjg1c.jpg")
-                        .cover("https://images.igdb.com/igdb/image/upload/t_cover_big/j7lazlgtms7siqn7fn5y.jpg")
+                        .mainScreenShot("https://images.igdb.com/igdb/image/upload/t_screenshot_huge/wklmdcc9vn93257yjg1c.jpg")
+                        .cover("https://images.igdb.com/igdb/image/upload/t_cover_big_2x/j7lazlgtms7siqn7fn5y.jpg")
                         .name("Fortnite")
                         .summary("Fortnite is the living, action building game from the developer formerly known as Epic MegaGames. You and your friends will lead a group of Heroes to reclaim and rebuild a homeland that has been left empty by mysterious darkness only known as \"the Storm\". \n \nBand together online to build extravagant forts, find or build insane weapons and traps and protect your towns from the strange monsters that emerge during the Storm. In an action experience from the only company smart enough to attach chainsaws to guns, get out there to push back the Storm and save the world. And don't forget to loot all the things.")
                         .releaseDate("Jul 24, 2017")

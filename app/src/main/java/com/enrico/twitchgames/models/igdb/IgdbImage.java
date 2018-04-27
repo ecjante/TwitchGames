@@ -16,6 +16,7 @@ public abstract class IgdbImage {
     private String buildScreenshot(String size) {
         StringBuilder sb = new StringBuilder(URL_PREFIX);
         sb.append(size);
+        sb.append("/");
         sb.append(cloudinaryId());
         sb.append(URL_IMAGE_EXTENSION);
         return sb.toString();
@@ -24,14 +25,26 @@ public abstract class IgdbImage {
     protected String small() {
         return "";
     }
+    protected String medium() {
+        return "";
+    }
     protected String large() {
+        return "";
+    }
+    protected String extraLarge() {
         return "";
     }
 
     public String getSmall() {
         return buildScreenshot(small());
     }
+    public String getMedium() {
+        return buildScreenshot(medium());
+    }
     public String getLarge() {
         return buildScreenshot(large());
+    }
+    public String getExtraLarge() {
+        return buildScreenshot(extraLarge());
     }
 }

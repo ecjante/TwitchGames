@@ -25,6 +25,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by enrico.
+ *
+ * Item renderer for the streams recycler view
  */
 public class StreamRenderer implements ItemRenderer<TwitchStream> {
 
@@ -53,6 +55,9 @@ public class StreamRenderer implements ItemRenderer<TwitchStream> {
         ((ViewBinder) itemView.getTag()).bind(item);
     }
 
+    /**
+     * Bind stream data to the item view
+     */
     static class ViewBinder {
 
         private TwitchStream stream;

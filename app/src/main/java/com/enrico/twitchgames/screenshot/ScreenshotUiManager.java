@@ -16,6 +16,8 @@ import butterknife.Unbinder;
 
 /**
  * Created by enrico.
+ *
+ * UiManager for the Screenshot screen. Binds with ButterKnife. Sets up toolbar title and back button to pop
  */
 public class ScreenshotUiManager extends ScreenLifecycleTask {
 

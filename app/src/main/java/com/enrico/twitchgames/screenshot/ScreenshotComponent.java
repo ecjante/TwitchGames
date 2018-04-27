@@ -12,6 +12,8 @@ import dagger.android.AndroidInjector;
 
 /**
  * Created by enrico.
+ *
+ * Component for the Screenshot screen
  */
 @ScreenScope
 @Subcomponent(modules = {
@@ -23,6 +25,7 @@ public interface ScreenshotComponent extends ScreenComponent<ScreenshotControlle
     @Subcomponent.Builder
     abstract class Builder extends AndroidInjector.Builder<ScreenshotController> {
 
+        // Provides the screenshot url to the screenshot controller
         @BindsInstance
         public abstract void bindScreenshot(@Named("screenshot") String screenshot);
 

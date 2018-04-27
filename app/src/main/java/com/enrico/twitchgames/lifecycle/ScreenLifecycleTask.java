@@ -6,6 +6,8 @@ import com.enrico.twitchgames.di.ActivityScope;
 
 /**
  * Created by enrico.
+ *
+ * Lifecycle for the screens
  */
 public abstract class ScreenLifecycleTask {
 

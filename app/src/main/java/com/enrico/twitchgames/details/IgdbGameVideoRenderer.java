@@ -21,6 +21,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by enrico.
+ *
+ * Item Renderer for the videos recycler view
  */
 public class IgdbGameVideoRenderer implements ItemRenderer<IgdbGameVideo> {
 
@@ -49,6 +51,9 @@ public class IgdbGameVideoRenderer implements ItemRenderer<IgdbGameVideo> {
         ((ViewBinder) itemView.getTag()).bind(item);
     }
 
+    /**
+     * Bind video data to the item view
+     */
     static class ViewBinder {
 
         @BindView(R.id.tv_title) TextView titleText;

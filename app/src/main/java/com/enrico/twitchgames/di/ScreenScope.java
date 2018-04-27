@@ -7,6 +7,8 @@ import javax.inject.Scope;
 
 /**
  * Created by enrico.
+ *
+ * Screen level scope
  */
 @Scope
 @Retention(RetentionPolicy.RUNTIME)

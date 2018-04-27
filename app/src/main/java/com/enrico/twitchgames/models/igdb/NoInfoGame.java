@@ -1,7 +1,5 @@
 package com.enrico.twitchgames.models.igdb;
 
-import android.support.annotation.Nullable;
-
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collections;
@@ -9,8 +7,10 @@ import java.util.List;
 
 /**
  * Created by enrico.
+ *
+ * Model for when there is no info for the game
  */
-public class NoInfoGame extends IgdbGame {
+public final class NoInfoGame extends IgdbGame {
 
     private final long id;
 
@@ -23,7 +23,6 @@ public class NoInfoGame extends IgdbGame {
         return null;
     }
 
-    @Nullable
     @Override
     public Long twitchId() {
         return id;

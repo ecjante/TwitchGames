@@ -6,7 +6,6 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.enrico.twitchgames.database.favorites.FavoriteTwitchGame;
 import com.enrico.twitchgames.database.favorites.FavoriteTwitchGameDao;
-import com.enrico.twitchgames.database.igdb.Converters;
 import com.enrico.twitchgames.database.igdb.DbIgdbGame;
 import com.enrico.twitchgames.database.igdb.DbIgdbGameDao;
 

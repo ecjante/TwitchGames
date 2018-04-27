@@ -12,19 +12,37 @@ import io.reactivex.Single;
 
 /**
  * Created by enrico.
+ *
+ * DAO for favorited twitch games
  */
 @Dao
 public interface FavoriteTwitchGameDao {
 
+    /**
+     * Get twitch game ids
+     * @return
+     */
     @Query("SELECT id FROM favoritetwitchgame")
     Flowable<List<Long>> getFavoritedTwitchGameIds();
 
+    /**
+     * Get twitch game models
+     * @return
+     */
     @Query("SELECT * from favoritetwitchgame")
     Single<List<FavoriteTwitchGame>> getFavoritedTwitchGames();
 
+    /**
+     * Add a favorited game
+     * @param game
+     */
     @Insert
     void addFavorite(FavoriteTwitchGame game);
 
+    /**
+     * Remove a favorited game
+     * @param game
+     */
     @Delete
     void deleteFavorite(FavoriteTwitchGame game);
 }

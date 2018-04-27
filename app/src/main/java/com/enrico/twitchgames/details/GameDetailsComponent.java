@@ -12,6 +12,8 @@ import dagger.android.AndroidInjector;
 
 /**
  * Created by enrico.
+ *
+ * Component for Game details screen
  */
 @ScreenScope
 @Subcomponent(modules = {
@@ -23,6 +25,7 @@ public interface GameDetailsComponent extends ScreenComponent<GameDetailsControl
     @Subcomponent.Builder
     abstract class Builder extends AndroidInjector.Builder<GameDetailsController> {
 
+        // Provide id, name, and box template to the controller
         @BindsInstance
         public abstract void bindTwitchGameId(@Named("twitch_game_id") long twitchGameId);
 

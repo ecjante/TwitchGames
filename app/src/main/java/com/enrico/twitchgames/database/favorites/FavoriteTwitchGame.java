@@ -9,6 +9,8 @@ import com.enrico.twitchgames.models.twitch.TwitchTopGame;
 
 /**
  * Created by enrico.
+ *
+ * Database entity for favorited twitch games
  */
 @Entity
 public class FavoriteTwitchGame {
@@ -40,6 +42,11 @@ public class FavoriteTwitchGame {
         return boxTemplate;
     }
 
+    /**
+     * Build a model from a TwitchGame class
+     * @param game
+     * @return
+     */
     public static FavoriteTwitchGame build(TwitchGame game) {
         return new FavoriteTwitchGame(game.id(), game.name(), game.box().template());
     }

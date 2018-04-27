@@ -1,4 +1,4 @@
-package com.enrico.twitchgames.youtube;
+package com.enrico.twitchgames.quickplay;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,13 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Created by enrico.
+ *
+ * Activity to play the YouTube videos. Can't extend from BaseActivity because YouTubePlayer needs to
+ * extend from YouTubeBaseActivity. Just handles playing videos. Also implements YouTubePlayer.OnInitializedListener
+ * for handling the player
+ */
 public class QuickPlayActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     public static final String YOUTUBE_ID_KEY = "youtubeId";

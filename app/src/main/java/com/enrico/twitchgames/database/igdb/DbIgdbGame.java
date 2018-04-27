@@ -18,6 +18,8 @@ import java.util.List;
 
 /**
  * Created by enrico.
+ *
+ * Database entity for IGDB games
  */
 @Entity
 public class DbIgdbGame {
@@ -115,6 +117,11 @@ public class DbIgdbGame {
         return websites;
     }
 
+    /**
+     * Convert IgdbGame to model
+     * @param game
+     * @return
+     */
     public static DbIgdbGame build(IgdbGame game) {
         return new DbIgdbGame(game.twitchId(), game.id(), game.name(), game.summary(), game.firstReleaseDate(),
                 game.getScreenshots(), game.getVideos(), game.cover(), game.esrb(), game.pegi(),

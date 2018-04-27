@@ -10,6 +10,8 @@ import retrofit2.http.Query;
 
 /**
  * Created by enrico.
+ *
+ * IGDB service that gets game information
  */
 public interface IgdbService {
 

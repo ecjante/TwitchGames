@@ -20,6 +20,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 /**
  * Created by enrico.
+ *
+ * Provides moshi and Retrofit clients for Twitch and IGDB
  */
 @Module(includes = NetworkModule.class)
 public abstract class ServiceModule {

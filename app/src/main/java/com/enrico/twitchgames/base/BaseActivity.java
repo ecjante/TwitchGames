@@ -27,6 +27,7 @@ import javax.inject.Inject;
 
 /**
  * Created by enrico.
+ * BaseActivity default behavior of Activities in app
  */
 public abstract class BaseActivity extends AppCompatActivity implements RouterProvider {
 
@@ -47,13 +48,18 @@ public abstract class BaseActivity extends AppCompatActivity implements RouterPr
         } else {
             instanceId = UUID.randomUUID().toString();
         }
+        // Inject the activity
         Injector.inject(this);
+
+        // Set content view for activity with the layoutRes from subclass
         activityViewInterceptor.setContentView(this, layoutRes());
 
+        // Set up conductor
         ViewGroup screenContainer = findViewById(R.id.screen_container);
         if (screenContainer == null)
             throw new NullPointerException("Activity must have a view with id: screen_container");
 
+        // Initialize router
         router = Conductor.attachRouter(this, screenContainer, savedInstanceState);
         monitorBackStack();
         for (ActivityLifecycleTask task : activityLifecycleTasks) {
@@ -102,6 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity implements RouterPr
 
     @Override
     public void onBackPressed() {
+        // only call super if screen navigator did not pop
         if (!screenNavigator.pop()) {
             super.onBackPressed();
         }
@@ -115,6 +122,10 @@ public abstract class BaseActivity extends AppCompatActivity implements RouterPr
     @LayoutRes
     protected abstract int layoutRes();
 
+    /**
+     * Subclasses will provide it's root controller
+     * @return
+     */
     public abstract Controller initialScreen();
 
     public String getInstanceId() {
@@ -124,6 +135,7 @@ public abstract class BaseActivity extends AppCompatActivity implements RouterPr
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // Clear the activity from scope if finishing
         if (isFinishing()) {
             Injector.clearComponent(this);
         }
@@ -133,10 +145,18 @@ public abstract class BaseActivity extends AppCompatActivity implements RouterPr
         }
     }
 
+    /**
+     * Returns injected screen injector
+     * @return
+     */
     public ScreenInjector getScreenInjector() {
         return screenInjector;
     }
 
+    /**
+     * Monitors the back stack. Mainly used to call {@link Injector#clearComponent(Controller)} when
+     * controller won't be used anymore
+     */
     private void monitorBackStack() {
         router.addChangeListener(new ControllerChangeHandler.ControllerChangeListener() {
             @Override

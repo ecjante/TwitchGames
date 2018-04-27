@@ -27,18 +27,27 @@ public class App extends Application {
         appComponent = initComponent();
         appComponent.inject(this);
 
+
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
         AndroidThreeTen.init(this);
     }
 
+    /**
+     * Method to initialize the AppComponent. Convenience for testing and initialize with TestAppComponent
+     * @return
+     */
     protected AppComponent initComponent() {
         return DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
     }
 
+    /**
+     * Retrieve ActivityInjector
+     * @return
+     */
     public ActivityInjector getActivityInjector() {
         return activityInjector;
     }

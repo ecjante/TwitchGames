@@ -15,6 +15,8 @@ import okhttp3.Request;
 
 /**
  * Created by enrico.
+ *
+ * Provides debug build call factories and base urls for Twitch and IGDB
  */
 @Module
 public class NetworkModule {

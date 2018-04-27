@@ -1,6 +1,7 @@
 package com.enrico.twitchgames.data;
 
 import com.enrico.twitchgames.models.igdb.IgdbGame;
+import com.enrico.twitchgames.models.igdb.NoInfoGame;
 import com.enrico.twitchgames.test.TestUtils;
 import com.squareup.moshi.Types;
 
@@ -38,6 +39,8 @@ public class TestIgdbService extends TestService implements IgdbService {
             }
             return Single.just(response);
         }
-        return Single.error(new IOException());
+        List<IgdbGame> game = new ArrayList<>();
+        game.add(new NoInfoGame(-1));
+        return Single.just(game);
     }
 }

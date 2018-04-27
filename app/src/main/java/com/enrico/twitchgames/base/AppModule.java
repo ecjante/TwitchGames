@@ -10,6 +10,8 @@ import dagger.Provides;
 
 /**
  * Created by enrico.
+ *
+ * Top level module. Provides context
  */
 @Module
 public class AppModule {

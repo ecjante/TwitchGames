@@ -9,6 +9,8 @@ import timber.log.Timber;
 
 /**
  * Created by enrico.
+ *
+ * Common actions for the database services
  */
 public class DbService {
 

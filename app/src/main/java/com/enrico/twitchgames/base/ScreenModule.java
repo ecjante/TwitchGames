@@ -13,6 +13,8 @@ import dagger.multibindings.Multibinds;
 
 /**
  * Created by enrico.
+ *
+ * Provides DisposableManagers
  */
 @Module
 public abstract class ScreenModule {

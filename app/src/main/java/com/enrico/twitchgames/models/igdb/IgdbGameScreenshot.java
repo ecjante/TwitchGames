@@ -27,12 +27,22 @@ public abstract class IgdbGameScreenshot extends IgdbImage implements RecyclerIt
 
     @Override
     protected String small() {
-        return "t_screenshot_med/";
+        return medium();
+    }
+
+    @Override
+    protected String medium() {
+        return "t_screenshot_med";
     }
 
     @Override
     protected String large() {
-        return "t_screenshot_big/";
+        return "t_screenshot_big";
+    }
+
+    @Override
+    protected String extraLarge() {
+        return "t_screenshot_huge";
     }
 
     public static Builder builder() {

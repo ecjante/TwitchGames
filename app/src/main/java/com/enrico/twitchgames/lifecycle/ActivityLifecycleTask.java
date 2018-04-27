@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by enrico.
+ *
+ * Activity life cycle handlers screen navigator. These are called from the BaseActivity
  */
 public abstract class ActivityLifecycleTask {
 

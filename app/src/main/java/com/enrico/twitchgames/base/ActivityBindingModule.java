@@ -13,6 +13,7 @@ import dagger.multibindings.IntoMap;
 
 /**
  * Created by enrico.
+ * Module for binding and injecting multiple activities
  */
 @Module(subcomponents = {
         MainActivityComponent.class

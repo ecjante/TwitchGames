@@ -18,6 +18,8 @@ import butterknife.Unbinder;
 
 /**
  * Created by enrico.
+ *
+ * UI manager for the game details. Binds the views and sets up the toolbar
  */
 @ScreenScope
 public class GameDetailsUiManager extends ScreenLifecycleTask {

@@ -16,6 +16,9 @@ import dagger.android.AndroidInjector;
 
 /**
  * Created by enrico.
+ *
+ * Caches controller injectors
+ * Helps retains states of controllers
  */
 @ActivityScope
 public class ScreenInjector {
@@ -28,6 +31,11 @@ public class ScreenInjector {
         this.screenInjectors = screenInjectors;
     }
 
+    /**
+     * Inject controller. Checks cache if injector for instanceId already exists and uses that injector
+     * to inject the activity. Otherwise creates a new Injector and adds it to the cache
+     * @param controller
+     */
     void inject(Controller controller) {
         if (!(controller instanceof BaseController))
             throw new IllegalArgumentException("Controller must extend BaseController");
@@ -45,6 +53,10 @@ public class ScreenInjector {
         injector.inject(controller);
     }
 
+    /**
+     * Clear the injector from the cache
+     * @param controller
+     */
     void clear(Controller controller) {
         if (!(controller instanceof BaseController))
             throw new IllegalArgumentException("Controller must extend BaseController");
@@ -55,6 +67,11 @@ public class ScreenInjector {
         }
     }
 
+    /**
+     * Gets the screen injector
+     * @param activity
+     * @return
+     */
     static ScreenInjector get(Activity activity) {
         if (!(activity instanceof BaseActivity))
             throw new IllegalArgumentException("Activity must extend BaseActivity");

@@ -10,6 +10,8 @@ import dagger.Component;
 
 /**
  * Created by enrico.
+ *
+ * Top level component
  */
 @Singleton
 @Component(modules = {

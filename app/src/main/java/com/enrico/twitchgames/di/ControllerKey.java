@@ -9,6 +9,8 @@ import dagger.MapKey;
 
 /**
  * Created by enrico.
+ *
+ * Custom map key for controllers
  */
 @MapKey
 @Target(ElementType.METHOD)

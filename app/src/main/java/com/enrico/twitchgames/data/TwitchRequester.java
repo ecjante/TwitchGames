@@ -15,6 +15,8 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by enrico.
+ *
+ * Uses the Twitch service to return the wanted data
  */
 public class TwitchRequester {
 
@@ -32,12 +34,20 @@ public class TwitchRequester {
         this.service = service;
     }
 
+    /**
+     * Get top games and cache the response for paginating
+     * @return
+     */
     Single<List<TwitchTopGame>> getTopGames() {
         return service.getTopGames(DEFAULT_LIMIT, DEFAULT_OFFSET)
                 .doOnSuccess(response -> this.response = response)
                 .map(TwitchTopGamesResponse::games);
     }
 
+    /**
+     * Uses the cached response to get the next top games
+     * @return
+     */
     Single<List<TwitchTopGame>> getNextTopGames() {
         int offset = response != null && response.links().nextOffset() != null
                 ? response.links().nextOffset()
@@ -54,12 +64,22 @@ public class TwitchRequester {
         }
     }
 
+    /**
+     * Get the chosen games live streams and cache the response for paginating
+     * @param game
+     * @return
+     */
     Single<List<TwitchStream>> getStreams(String game) {
         return service.getStreams(game, DEFAULT_LIMIT, DEFAULT_OFFSET)
-                .doOnSuccess(response -> this.streamsResponse = response)
+                .doOnSuccess(response -> streamsResponse = response)
                 .map(TwitchStreamsResponse::streams);
     }
 
+    /**
+     *
+     * @param game
+     * @return
+     */
     Single<List<TwitchStream>> getNextStreams(String game) {
         int offset = streamsResponse != null && streamsResponse.links().nextOffset() != null
                 ? streamsResponse.links().nextOffset()
@@ -69,10 +89,16 @@ public class TwitchRequester {
                 .map(TwitchStreamsResponse::streams);
     }
 
+    /**
+     * method to clear the streams response
+     */
     void clearStreamsResponse() {
         streamsResponse = null;
     }
 
+    /**
+     * clear top games call counts
+     */
     void clearCallCounts() {
         nextTopGamesCallCount = 0;
     }

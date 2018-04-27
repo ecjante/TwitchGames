@@ -17,6 +17,9 @@ import dagger.multibindings.IntoSet;
 
 /**
  * Created by enrico.
+ *
+ * Provides the TopGamesUiManager
+ * Provides the ItemRenderer and RecyclerDataSource for the recycler view
  */
 @Module
 public abstract class TopGamesScreenModule {

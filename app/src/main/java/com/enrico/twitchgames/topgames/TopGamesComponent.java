@@ -9,6 +9,8 @@ import dagger.android.AndroidInjector;
 
 /**
  * Created by enrico.
+ *
+ * Screen level component for Top Games
  */
 @ScreenScope
 @Subcomponent(modules = {

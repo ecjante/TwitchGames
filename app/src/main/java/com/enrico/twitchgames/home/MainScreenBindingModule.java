@@ -17,6 +17,8 @@ import dagger.multibindings.IntoMap;
 
 /**
  * Created by enrico.
+ *
+ * Holds screen components and provides controller injectors
  */
 @Module(subcomponents = {
         TopGamesComponent.class,

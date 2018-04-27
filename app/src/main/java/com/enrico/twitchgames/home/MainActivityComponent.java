@@ -10,6 +10,8 @@ import dagger.android.AndroidInjector;
 
 /**
  * Created by enrico.
+ * Activity level component
+ * Uses AndroidInjector for the MainActivity
  */
 @ActivityScope
 @Subcomponent(modules = {

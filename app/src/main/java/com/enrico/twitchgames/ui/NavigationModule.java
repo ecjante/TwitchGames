@@ -8,6 +8,8 @@ import dagger.multibindings.IntoSet;
 
 /**
  * Created by enrico.
+ *
+ * Module to provide ScreenNavigator and ActivityLifecycleTask
  */
 @Module
 public abstract class NavigationModule {

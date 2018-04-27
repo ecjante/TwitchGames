@@ -19,6 +19,8 @@ import dagger.multibindings.IntoSet;
 
 /**
  * Created by enrico.
+ *
+ * Provides UiManager, ItemRenderers for the recycler views, and DataSources for the recycerl views
  */
 @Module
 public abstract class GameDetailsScreenModule {

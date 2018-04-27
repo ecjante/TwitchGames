@@ -35,8 +35,10 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by enrico.
+ *
+ * Controller for game details
  */
-public class GameDetailsController extends BaseController {
+public class GameDetailsController extends BaseController implements ExpandableTextView.OnExpandListener {
 
     static final String TWITCH_GAME_ID_KEY = "twitch_game_id";
     static final String GAME_NAME_KEY = "game_name";
@@ -85,6 +87,8 @@ public class GameDetailsController extends BaseController {
 
     private Disposable favoriteDisposable;
     private TwitchGame twitchGame;
+    private String mainScreenshot;
+    private String cover;
 
     public GameDetailsController(Bundle bundle) {
         super(bundle);
@@ -100,32 +104,24 @@ public class GameDetailsController extends BaseController {
     @SuppressLint("CheckResult")
     @Override
     protected void onViewBound(View view) {
+        // set up screenshots recycler view
         screenshotList.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         screenshotList.setAdapter(new RecyclerAdapter(screenshotsDataSource, false));
 
+        // set up videos recycler view
         videoList.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
         videoList.setAdapter(new RecyclerAdapter(videosDataSource, false));
 
+        // set up twitch streams recycler view
         LinearLayoutManager streamsLayoutManager = new LinearLayoutManager(view.getContext());
         streamsList.setLayoutManager(streamsLayoutManager);
         streamsList.setAdapter(new RecyclerAdapter(streamsDataSource, true));
 
+        // set up summary text expander
         summaryText.setInterpolator(new AccelerateDecelerateInterpolator());
-        summaryText.setOnClickListener(v -> {
-            summaryText.toggle();
-        });
-        summaryText.addOnExpandListener(new ExpandableTextView.OnExpandListener() {
-            @Override
-            public void onExpand(@NonNull ExpandableTextView view) {
-                showMoreOrLess.setText(R.string.show_less);
-            }
+        summaryText.addOnExpandListener(this);
 
-            @Override
-            public void onCollapse(@NonNull ExpandableTextView view) {
-                showMoreOrLess.setText(R.string.show_more);
-            }
-        });
-
+        // set up favorite button RxBindings
         favoriteButton.setVisibility(View.VISIBLE);
         RxView.attachEvents(favoriteButton)
                 .subscribe(event -> {
@@ -140,6 +136,57 @@ public class GameDetailsController extends BaseController {
                 });
     }
 
+    @OnClick(R.id.iv_main_screenshot)
+    void mainScreenShotOnClick() {
+        if (mainScreenshot != null) {
+            presenter.onImageClicked(mainScreenshot);
+        }
+    }
+
+    @OnClick(R.id.iv_game_cover)
+    void gameCoverOnClick() {
+        if (cover != null) {
+            presenter.onImageClicked(cover);
+        }
+    }
+
+    /**
+     * Click handler for summary text view to toggle expand or collapse
+     */
+    @OnClick(R.id.tv_summary)
+    void summaryOnClick() {
+        summaryText.toggle();
+    }
+
+    /**
+     * Click handler for show more or less text view to toggle expand or collapse
+     */
+    @OnClick(R.id.show_more_or_less)
+    void showMoreOrLessOnClick() {
+        summaryText.toggle();
+    }
+
+    /**
+     * ExpandableTextView on expand call to change showMoreOrLess text
+     * @param view the textview
+     */
+    @Override
+    public void onExpand(@NonNull ExpandableTextView view) {
+        showMoreOrLess.setText(R.string.show_less);
+    }
+
+    /**
+     * ExpandableTextView on collapse call to change showMoreOrLess text
+     * @param view the textview
+     */
+    @Override
+    public void onCollapse(@NonNull ExpandableTextView view) {
+        showMoreOrLess.setText(R.string.show_more);
+    }
+
+    /**
+     * Favorite button click handler to toggle favorite
+     */
     @OnClick(R.id.toolbar_button)
     void toggleFavorite() {
         if (twitchGame != null) {
@@ -147,6 +194,9 @@ public class GameDetailsController extends BaseController {
         }
     }
 
+    /**
+     * Helper method to listen for changes when favorite button is toggled
+     */
     private void listenForFavoriteChanges() {
         favoriteDisposable = favoriteTwitchGameService.favoritedTwitchGameIds()
                 .map(favoriteIds -> favoriteIds.contains(twitchGameId))
@@ -161,59 +211,70 @@ public class GameDetailsController extends BaseController {
     @Override
     protected Disposable[] subscriptions() {
         return new Disposable[] {
-            viewModel.details()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(details -> {
-                    if (details.loading()) {
-                        detailsLoadingView.setVisibility(View.VISIBLE);
-                        errorText.setVisibility(View.GONE);
-                        errorText.setText(null);
-                    } else {
-                        if (details.isSuccess()) {
+                // details handler
+                viewModel.details()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(details -> {
+                        if (details.loading()) {
+                            // handle when loading
+                            detailsLoadingView.setVisibility(View.VISIBLE);
+                            errorText.setVisibility(View.GONE);
                             errorText.setText(null);
-                            Glide.with(mainScreenshotImage.getContext())
-                                    .load(details.mainScreenShot())
-                                    .apply(new RequestOptions().placeholder(R.drawable.screenshot_placeholder))
-                                    .into(mainScreenshotImage);
-                            Glide.with(gameCoverImage.getContext())
-                                    .load(details.cover() != null ? details.cover() : twitchGame.box().getLarge())
-                                    .apply(new RequestOptions().placeholder(R.drawable.game_placeholder))
-                                    .into(gameCoverImage);
                         } else {
-                            //noinspection ConstantConditions
-                            errorText.setText(details.errorRes());
+                            mainScreenshot = null;
+                            cover = null;
+                            if (details.isSuccess()) {
+                                // handle when details success
+                                errorText.setText(null);
+                                mainScreenshot = details.mainScreenShot();
+                                Glide.with(mainScreenshotImage.getContext())
+                                        .load(mainScreenshot)
+                                        .apply(new RequestOptions().placeholder(R.drawable.screenshot_placeholder))
+                                        .into(mainScreenshotImage);
+                                cover = details.cover() != null ? details.cover() : twitchGame.box().getExtraLarge();
+                                Glide.with(gameCoverImage.getContext())
+                                        .load(cover)
+                                        .apply(new RequestOptions().placeholder(R.drawable.game_placeholder))
+                                        .into(gameCoverImage);
+                            } else {
+                                //noinspection ConstantConditions
+                                errorText.setText(details.errorRes());
+                            }
+                            // update data
+                            detailsLoadingView.setVisibility(View.GONE);
+                            errorText.setVisibility(details.isSuccess() ? View.GONE : View.VISIBLE);
+                            releaseDateText.setText(details.releaseDate());
+                            summaryText.setText(details.summary());
+                            summaryText.setVisibility(details.isSuccess() ? View.VISIBLE : View.GONE);
+                            gameNameText.setText(details.name() != null ? details.name() : twitchGame.name());
+                            showMoreOrLess.setVisibility(details.isSuccess() && summaryIsEllipsized() ? View.VISIBLE : View.GONE);
+                            screenshots.setVisibility(details.hasScreenshots() ? View.VISIBLE : View.GONE);
+                            videos.setVisibility(details.hasVideos() ? View.VISIBLE : View.GONE);
                         }
-                        detailsLoadingView.setVisibility(View.GONE);
-                        errorText.setVisibility(details.isSuccess() ? View.GONE : View.VISIBLE);
-                        releaseDateText.setText(details.releaseDate());
-                        summaryText.setText(details.summary());
-                        summaryText.setVisibility(details.isSuccess() ? View.VISIBLE : View.GONE);
-                        gameNameText.setText(details.name() != null ? details.name() : twitchGame.name());
-                        showMoreOrLess.setVisibility(details.isSuccess() && summaryIsEllipsized() ? View.VISIBLE : View.GONE);
-                        screenshots.setVisibility(details.hasScreenshots() ? View.VISIBLE : View.GONE);
-                        videos.setVisibility(details.hasVideos() ? View.VISIBLE : View.GONE);
-                    }
-            }),
-            viewModel.streams()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(streamsDetails -> {
-                    if (streamsDetails.loading()) {
-                        streamsLoadingView.setVisibility(View.VISIBLE);
-                        streamsList.setVisibility(View.GONE);
-                        streamsErrorText.setVisibility(View.GONE);
-                        streamsErrorText.setText(null);
-                    } else {
-                        streamsLoadingView.setVisibility(View.GONE);
-                        streamsList.setVisibility(streamsDetails.isSuccess() ? View.VISIBLE : View.GONE);
-                        streamsErrorText.setVisibility(streamsDetails.isSuccess() ? View.GONE : View.VISIBLE);
-                        if (streamsDetails.isSuccess()) {
+                }),
+                // streams handler
+                viewModel.streams()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(streamsDetails -> {
+                        if (streamsDetails.loading()) {
+                            // handle visibilities when streams loading
+                            streamsLoadingView.setVisibility(View.VISIBLE);
+                            streamsList.setVisibility(View.GONE);
+                            streamsErrorText.setVisibility(View.GONE);
                             streamsErrorText.setText(null);
                         } else {
-                            //noinspection ConstantConditions
-                            streamsErrorText.setText(streamsDetails.errorRes());
+                            // handle visibilities when not loading
+                            streamsLoadingView.setVisibility(View.GONE);
+                            streamsList.setVisibility(streamsDetails.isSuccess() ? View.VISIBLE : View.GONE);
+                            streamsErrorText.setVisibility(streamsDetails.isSuccess() ? View.GONE : View.VISIBLE);
+                            if (streamsDetails.isSuccess()) {
+                                streamsErrorText.setText(null);
+                            } else {
+                                //noinspection ConstantConditions
+                                streamsErrorText.setText(streamsDetails.errorRes());
+                            }
                         }
-                    }
-            })
+                })
         };
     }
 

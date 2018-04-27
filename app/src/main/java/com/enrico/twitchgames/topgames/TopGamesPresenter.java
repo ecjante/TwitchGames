@@ -18,6 +18,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by enrico.
+ *
+ * Presenter for Twitch top games
  */
 @ScreenScope
 class TopGamesPresenter {
@@ -43,6 +45,9 @@ class TopGamesPresenter {
         loadTopGames();
     }
 
+    /**
+     * Makes a call to the repository to get top games
+     */
     public void loadTopGames() {
         disposableManager.add(
                 gameRepository.getTopGames()
@@ -54,6 +59,9 @@ class TopGamesPresenter {
         );
     }
 
+    /**
+     * Makes a call to the repository to load more games
+     */
     public void loadNextTopGames() {
         disposableManager.add(
                 gameRepository.getNextTopGames()
@@ -65,6 +73,9 @@ class TopGamesPresenter {
         );
     }
 
+    /**
+     * Makes a call to the repository that gets favorited games and swaps out the top games
+     */
     public void loadFavoriteGames() {
         disposableManager.add(
                 gameRepository.getFavoriteGames()
@@ -76,6 +87,10 @@ class TopGamesPresenter {
         );
     }
 
+    /**
+     * Makes a call to screen navigator to go to game details
+     * @param game
+     */
     void onTopGameClicked(TwitchGame game) {
         screenNavigator.goToGameDetails(game.id(), game.name(), game.box().template());
     }

@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * Created by enrico.
+ *
+ * Model to hold the streams state
  */
 @AutoValue
 abstract class StreamsState {

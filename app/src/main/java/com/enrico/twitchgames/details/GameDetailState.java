@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * Created by enrico.
+ *
+ * Model to hold the state of the game details
  */
 @AutoValue
 abstract class GameDetailState {

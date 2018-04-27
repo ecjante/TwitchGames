@@ -1,4 +1,4 @@
-package com.enrico.twitchgames.database.igdb;
+package com.enrico.twitchgames.database;
 
 import android.arch.persistence.room.TypeConverter;
 
@@ -26,6 +26,8 @@ import timber.log.Timber;
 
 /**
  * Created by enrico.
+ *
+ * Type converters for the database
  */
 public class Converters {
 

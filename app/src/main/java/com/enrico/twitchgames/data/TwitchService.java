@@ -9,6 +9,8 @@ import retrofit2.http.Query;
 
 /**
  * Created by enrico.
+ *
+ * Twitch service. Gets top games and streams given a game
  */
 public interface TwitchService {
 

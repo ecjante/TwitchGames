@@ -1,7 +1,5 @@
 package com.enrico.twitchgames.models.igdb.twitchonlygames;
 
-import android.support.annotation.Nullable;
-
 import com.enrico.twitchgames.models.igdb.IgdbEsrb;
 import com.enrico.twitchgames.models.igdb.IgdbGame;
 import com.enrico.twitchgames.models.igdb.IgdbGameCover;
@@ -17,14 +15,15 @@ import java.util.List;
 
 /**
  * Created by enrico.
+ *
+ * Basic game info for the Twitch IRL channel
  */
-public class IRLGame extends IgdbGame {
+public final class IRLGame extends IgdbGame {
     @Override
     public Long id() {
         return 494717L;
     }
 
-    @Nullable
     @Override
     public Long twitchId() {
         return 494717L;

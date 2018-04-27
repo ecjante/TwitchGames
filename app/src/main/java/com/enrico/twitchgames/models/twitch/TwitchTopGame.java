@@ -10,6 +10,8 @@ import com.squareup.moshi.Moshi;
 
 /**
  * Created by enrico.
+ *
+ * Model to hold top game information from Twitch
  */
 @AutoValue
 public abstract class TwitchTopGame implements RecyclerItem {
@@ -28,10 +30,6 @@ public abstract class TwitchTopGame implements RecyclerItem {
         return game().id();
     }
 
-    public TwitchTopGame withViewers(int viewers) {
-        return toBuilder().viewers(viewers).build();
-    }
-
     public static TwitchTopGame buildFromDb(FavoriteTwitchGame game) {
         return builder()
                 .game(TwitchGame.buildGame(game.getId(), game.getName(), game.getBoxTemplate()))
@@ -41,8 +39,6 @@ public abstract class TwitchTopGame implements RecyclerItem {
     public static JsonAdapter<TwitchTopGame> jsonAdapter(Moshi moshi) {
         return new AutoValue_TwitchTopGame.MoshiJsonAdapter(moshi);
     }
-
-    abstract Builder toBuilder();
 
     public static Builder builder() {
         return new AutoValue_TwitchTopGame.Builder();

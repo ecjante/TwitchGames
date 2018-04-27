@@ -22,6 +22,8 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by enrico.
+ *
+ * Controller for Twitch top games
  */
 public class TopGamesController extends BaseController {
 
@@ -43,12 +45,13 @@ public class TopGamesController extends BaseController {
 
     @Override
     protected void onViewBound(View view) {
+        // set up recycler view
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         topGamesList.setLayoutManager(layoutManager);
         topGamesList.setAdapter(new RecyclerAdapter(dataSource, true));
 
+        // scroll listener to load more top games when scrolling
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
-
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if (isTopGames) {
@@ -56,15 +59,24 @@ public class TopGamesController extends BaseController {
                 }
             }
         };
-
         topGamesList.addOnScrollListener(scrollListener);
 
-        toolbar.setOnClickListener(v -> topGamesList.smoothScrollToPosition(0));
-
+        // favorites button to view favorited twitch games
         favoritesButton.setVisibility(View.VISIBLE);
         favoritesButton.setImageResource(R.drawable.ic_favorite);
     }
 
+    /**
+     * Click handler on toolbar. Scroll to top when click
+     */
+    @OnClick(R.id.toolbar)
+    void scrollToTop() {
+        topGamesList.smoothScrollToPosition(0);
+    }
+
+    /**
+     * Click handler for the toolbar button. Toggle between top games and favorited games
+     */
     @OnClick(R.id.toolbar_button)
     void showTopGames() {
         if (isTopGames) {
@@ -82,6 +94,7 @@ public class TopGamesController extends BaseController {
     @Override
     protected Disposable[] subscriptions() {
         return new Disposable[] {
+                // update loading when loading updated
                 viewModel.loading()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(loading ->  {
@@ -89,11 +102,13 @@ public class TopGamesController extends BaseController {
                             topGamesList.setVisibility(loading ? View.GONE : View.VISIBLE);
                             errorText.setVisibility(loading ? View.GONE : errorText.getVisibility());
                 }),
+                // update more loading when updated
                 viewModel.moreLoading()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(loading ->  {
                             moreLoadingView.setVisibility(loading ? View.VISIBLE : View.GONE);
                 }),
+                // update view when errors updated
                 viewModel.error()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(errorRes -> {

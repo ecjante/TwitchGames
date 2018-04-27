@@ -10,15 +10,15 @@ import dagger.Provides;
 
 /**
  * Created by enrico.
- *
- * Provides the database
  */
 @Module
-public abstract class DatabaseModule {
+public abstract class TestDatabaseModule {
 
     @Provides
     @Singleton
     static AppDatabase provideDatabase(Context context) {
-        return Room.databaseBuilder(context, AppDatabase.class, "twitchgames-database").build();
+        return Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
+                .allowMainThreadQueries()
+                .build();
     }
 }

@@ -31,6 +31,8 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * Created by enrico.
+ *
+ * Renderer for the top games rows
  */
 public class TopGamesRenderer implements ItemRenderer<TwitchTopGame> {
 
@@ -63,6 +65,9 @@ public class TopGamesRenderer implements ItemRenderer<TwitchTopGame> {
         ((ViewBinder) itemView.getTag()).bind(item);
     }
 
+    /**
+     * Binds the data to the view
+     */
     static class ViewBinder {
 
         @BindView(R.id.iv_box_art) ImageView boxArtImage;

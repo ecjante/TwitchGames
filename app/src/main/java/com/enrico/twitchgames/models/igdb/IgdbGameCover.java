@@ -12,12 +12,22 @@ public abstract class IgdbGameCover extends IgdbImage {
 
     @Override
     protected String small() {
-        return "t_cover_small/";
+        return "t_cover_small";
+    }
+
+    @Override
+    protected String medium() {
+        return small() + "_2x";
     }
 
     @Override
     protected String large() {
-        return "t_cover_big/";
+        return "t_cover_big";
+    }
+
+    @Override
+    protected String extraLarge() {
+        return large() + "_2x";
     }
 
     public static JsonAdapter<IgdbGameCover> jsonAdapter(Moshi moshi) {

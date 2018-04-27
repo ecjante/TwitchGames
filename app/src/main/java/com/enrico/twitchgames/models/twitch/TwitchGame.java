@@ -10,6 +10,8 @@ import com.squareup.moshi.Moshi;
 
 /**
  * Created by enrico.
+ *
+ * Model to hold twitch game information
  */
 @AutoValue
 public abstract class TwitchGame {

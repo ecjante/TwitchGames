@@ -25,6 +25,7 @@ import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -97,6 +98,17 @@ public class TopGamesPresenterTest {
     }
 
     @Test
+    public void loadFavoriteGames() {
+        List<TwitchTopGame> games = setUpSuccess();
+        initializePresenter();
+
+        presenter.loadFavoriteGames();
+        verify(gameRepository).getFavoriteGames();
+        verify(dataSource, times(2)).setData(games);
+        verifyZeroInteractions(onErrorConsumer);
+    }
+
+    @Test
     public void onTopGameClicked() {
         TwitchTopGame topGame = TestUtils.loadJson("mock/twitch/games/top/get_top_games.json", TwitchTopGamesResponse.class)
                 .games().get(1);
@@ -113,6 +125,7 @@ public class TopGamesPresenterTest {
         List<TwitchTopGame> games = response.games();
 
         when(gameRepository.getTopGames()).thenReturn(Single.just(games));
+        when(gameRepository.getFavoriteGames()).thenReturn(Single.just(games));
 
         return games;
     }

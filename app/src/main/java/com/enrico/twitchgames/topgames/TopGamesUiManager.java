@@ -16,6 +16,8 @@ import butterknife.Unbinder;
 
 /**
  * Created by enrico.
+ *
+ * UiManager for the Twitch top games view. Binds the views with ButterKnife and set the toolbar title
  */
 @ScreenScope
 public class TopGamesUiManager extends ScreenLifecycleTask {

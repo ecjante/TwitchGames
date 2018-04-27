@@ -49,8 +49,7 @@ public class GameDetailsControllerTest extends ControllerTest {
         launch();
 
         GameDetailsRobot.init()
-                .verifyLoadingVisibility(ViewMatchers.Visibility.GONE)
-                .verifyErrorText(R.string.api_error_igdb_game);
+                .verifyLoadingVisibility(ViewMatchers.Visibility.GONE);
     }
 
     @Test
@@ -99,7 +98,6 @@ public class GameDetailsControllerTest extends ControllerTest {
 
         GameDetailsRobot.init()
                 .verifyLoadingVisibility(ViewMatchers.Visibility.GONE)
-                .verifyErrorText(R.string.api_error_igdb_game)
                 .verifyStreamsLoadingVisibility(ViewMatchers.Visibility.GONE)
                 .verifyStreamsErrorVisibility(ViewMatchers.Visibility.GONE)
                 .verifyStreamsShown("DrLupo");
@@ -110,8 +108,9 @@ public class GameDetailsControllerTest extends ControllerTest {
         igdbService.setHoldFlags(TestIgdbService.FLAG_GET_GAME);
         launch();
 
+        // Game loaded from database so loading doesn't occur
         GameDetailsRobot.init()
-                .verifyLoadingVisibility(ViewMatchers.Visibility.VISIBLE);
+                .verifyLoadingVisibility(ViewMatchers.Visibility.GONE);
     }
 
     @Test

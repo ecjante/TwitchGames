@@ -17,6 +17,10 @@ import dagger.android.AndroidInjector;
 
 /**
  * Created by enrico.
+ *
+ * Mimics DispatchingAndroidInjector
+ * Caches injectors
+ * Helps retain states across configuration change
  */
 public class ActivityInjector {
 
@@ -28,6 +32,11 @@ public class ActivityInjector {
         this.activityInjectors = activityInjectors;
     }
 
+    /**
+     * Inject activity. Checks cache if injector for instanceId already exists and uses that injector
+     * to inject the activity. Otherwise creates a new Injector and adds it to the cache
+     * @param activity
+     */
     void inject(Activity activity) {
         if (!(activity instanceof BaseActivity))
             throw new IllegalArgumentException("Activity must extend BaseActivity");
@@ -46,6 +55,10 @@ public class ActivityInjector {
         injector.inject(activity);
     }
 
+    /**
+     * Clears the injector from the cache
+     * @param activity
+     */
     void clear(Activity activity) {
         if (!(activity instanceof BaseActivity))
             throw new IllegalArgumentException("Activity must extend BaseActivity");
@@ -53,6 +66,11 @@ public class ActivityInjector {
         cache.remove(((BaseActivity) activity).getInstanceId());
     }
 
+    /**
+     * Get the ActivityInjector from outside
+     * @param context
+     * @return
+     */
     static ActivityInjector get(Context context) {
         return ((App) context.getApplicationContext()).getActivityInjector();
     }
